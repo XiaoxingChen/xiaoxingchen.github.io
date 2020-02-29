@@ -1,0 +1,23 @@
+---
+title: Why Here
+date: 2020-02-29 16:27:00
+tags: 
+categories: 
+mathjax: true
+---
+
+<p>
+The original blog locates at 
+<a href="https://blog.csdn.net/buchunjiedexin">CSDN XiaoxingChen's Blog</a>.
+Due to its terrible support of mathematical equation and lacking of version control, I turned to 
+log my daily thinkings and notes in private git repo.
+So far I start to make some of the contents into public.
+Therefore, here is the new site for them.
+</p>
+
+
+\\[
+f_X(x_1, x_2, \dots, x_k) = 
+\frac{1}{\sqrt{(2\pi)^k |\Sigma|}} 
+\text{exp}(-\frac{1}{2}(X - \mu)^\top \Sigma^{-1} (X - \mu))
+\\]
