@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="The original blog locates at  CSDN XiaoxingChen&#39;s Blog. Due to its terrible support of mathematical equation and lacking of version control, I turned to  log my daily thinkings and notes in private">
+<meta name="description" content="Essential matrix is not new to anybody being familiar with Epipolar Geometry. Here is the famous epipolar constraint:  \[     x_2^\top E x_1 &#x3D; 0 \]      Recall that when the essen">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Why Here">
-<meta property="og:url" content="http://yoursite.com/2020/02/29/why_here/index.html">
+<meta property="og:title" content="Singular Values of Essential Matrix">
+<meta property="og:url" content="http://yoursite.com/2020/01/20/essential_mat_sig_val/index.html">
 <meta property="og:site_name" content="Xiaoxing Chen&#39;s Space">
-<meta property="og:description" content="The original blog locates at  CSDN XiaoxingChen&#39;s Blog. Due to its terrible support of mathematical equation and lacking of version control, I turned to  log my daily thinkings and notes in private">
+<meta property="og:description" content="Essential matrix is not new to anybody being familiar with Epipolar Geometry. Here is the famous epipolar constraint:  \[     x_2^\top E x_1 &#x3D; 0 \]      Recall that when the essen">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-02-29T08:27:00.000Z">
-<meta property="article:modified_time" content="2020-02-29T09:11:49.597Z">
+<meta property="article:published_time" content="2020-01-20T09:13:14.000Z">
+<meta property="article:modified_time" content="2020-02-29T10:28:00.501Z">
 <meta property="article:author" content="Xiaoxing">
 <meta name="twitter:card" content="summary">
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/02/29/why_here/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/01/20/essential_mat_sig_val/"/>
 
 
 
 
 
-  <title>Why Here | Xiaoxing Chen's Space</title>
+  <title>Singular Values of Essential Matrix | Xiaoxing Chen's Space</title>
   
 
 
@@ -135,7 +135,7 @@
 
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+</head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
 
@@ -232,7 +232,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/29/why_here/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/20/essential_mat_sig_val/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Xiaoxing">
@@ -249,7 +249,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Why Here</h1>
+          <h1 class="post-title" itemprop="name headline">Singular Values of Essential Matrix</h1>
         
 
         <div class="post-meta">
@@ -261,8 +261,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-29T16:27:00+08:00">
-                2020-02-29
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-01-20T17:13:14+08:00">
+                2020-01-20
               </time>
             
 
@@ -299,23 +299,70 @@
       
 
       
-        
+        <head>
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+
+
+
+<p>Essential matrix is not new to anybody being familiar with Epipolar Geometry. Here is the famous epipolar constraint: </p>
+\[
+    x_2^\top E x_1 = 0
+\]
 <p>
-The original blog locates at 
-<a href="https://blog.csdn.net/buchunjiedexin" target="_blank" rel="noopener">CSDN XiaoxingChen's Blog</a>.
-Due to its terrible support of mathematical equation and lacking of version control, I turned to 
-log my daily thinkings and notes in private git repo.
-So far I start to make some of the contents into public.
-Therefore, here is the new site for them.
+    Recall that when the essential matrix is obtained by 8-point algorithm, 
+    one has to decompose the result with SVD to make its third singular value 0 and the other 
+    two singular values equal. Here is a short derivation of this property of essential matrix.
 </p>
 
-
+<p>According to the definition of essential matrix: </p>
 \[
-f_X(x_1, x_2, \dots, x_k) = 
-\frac{1}{\sqrt{(2\pi)^k |\Sigma|}} 
-\text{exp}(-\frac{1}{2}(X - \mu)^\top \Sigma^{-1} (X - \mu))
-\]
+ E = \{ S R | S = t^\wedge \in \mathfrak{so}(3), R \in SO(3)\} \tag{1-1}
+\] 
 
+<p>
+    According to the definition of SVD, a singular value \(\sigma\) of a matrix A, 
+    equals to the square root of correspondent eigenvalue \(\lambda\) of matrix \(A^\top A\):
+</p>
+\[
+   \sigma_{A,i} = \sqrt{\lambda_{A^\top A,i}} \tag{1-3}
+ \]
+<p>Meanwhile,</p>
+ \[
+    E^\top E = R^\top S^\top S R = -R^\top (t^\wedge)^2 R \tag{1-3}
+ \]
+ <p>According to the property of askew-symmetric matrix:</p>
+ \[
+    (t^\wedge)^2 = \|t\|^2 I - t t^\top \tag{1-4}
+ \]
+ <p>The first term is a scalar matrix with three equal eigenvalues \(\|t\|^2\)</p>
+ <p>The second term \(t t^\top\) is a symmetric matrix, which is therefore semi-positive definite.
+    It can be diagonalized:
+ </p>
+ \[
+    t t^\top = \|t\|^2 R_t^\top diag(1, 0, 0) R_t \tag{1-5}
+ \]
+
+ <p>Thus, equation (1-3) becomes:</p>
+ \[
+    E^\top E = \|t\|^2 R^\top R_t^\top ( I - diag(1, 0, 0)) R_t R 
+    
+ \]
+ \[
+    = \|t\|^2 (R_t R )^\top diag(1, 1, 0) (R_t R) 
+    \tag{1-6}
+ \]
+
+ <p>Therefore, eigenvalues of \(E^\top E\) are: \(\|t\|^2 (1, 1, 0)\).</p>
+ <p>Finally, according to (1-3), singular values of essential matrix \(E\) are: \(\|t\|(1, 1, 0)\).</p>
+
+ <br>
+
+</body>
       
     </div>
     
@@ -339,15 +386,15 @@ f_X(x_1, x_2, \dots, x_k) =
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/01/20/essential_mat_sig_val/" rel="next" title="Singular Values of Essential Matrix">
-                <i class="fa fa-chevron-left"></i> Singular Values of Essential Matrix
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/29/why_here/" rel="prev" title="Why Here">
+                Why Here <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
