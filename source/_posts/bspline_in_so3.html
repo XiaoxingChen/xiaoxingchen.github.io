@@ -1,0 +1,95 @@
+---
+title: B-Spline in SO3
+date: 2020-03-2 
+mathjax: true
+tags:
+---
+<head>
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+        <style>
+            .bib ol { counter-reset: item }
+            .bib li { display: block ; counter-increment: item; }
+            .bib li:before { content: " ["counter(item)"] "; }
+        </style>
+</head>
+
+<body>
+    <h2>Motivation</h2>
+    <p>SO3.</p>
+    <h2>Introduction to B-Spline in Euclidean Space</h2>
+    <table style="min-width: 6in;">
+        <col width="20%">
+        <col width="15%">
+        <col width="65%">
+        <tr>
+            <th>Terminologies</th>
+            <th>Notation</th>
+            <th>Explanation</th>
+        </tr>
+        <tr>
+            <td>Independent Variable</td>
+            <td>\(t\)</td>
+            <td>In state estimation, the independent variable is time \(t\).</td>
+        </tr>
+        <tr>
+            <td>Order</td>
+            <td>\(n\)</td>
+            <td>Same as the order of final polynomial, the highest exponent.For instance, \(3x^3\) has an order of 4.</td>
+        </tr>
+        <tr>
+            <td>Degree</td>
+            <td>\(n-1\)</td>
+            <td>Same as the degree of final polynomial, the highest exponent.For instance, \(3x^3\) has a degree of 3.</td>
+        </tr>
+        <tr>
+            <td>Segment Index</td>
+            <td>\(i\)</td>
+            <td>A B-Spline is combined with piecewise polynomial, each piece is a segment.</td>
+        </tr>
+        <tr>
+            <td>Knot Vector</td>
+            <td>\(k\)</td>
+            <td>
+                The connect knot, or joint, between every piece of polynomial segment.
+                Knot vector lies in the axis of independent variable \(t\).
+            </td>
+        </tr>
+        <tr>
+            <td>Basis Function</td>
+            <td>\(B_{i,n}(t)\)</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Control Points</td>
+            <td>\(C_i\)</td>
+            <td>Also named as coefficients. Control points are used to describe the weight of each piece of polynomial segment.</td>
+        </tr>
+    </table>
+
+    <h2>IMG</h2>
+    <!-- <img src="viz_bspline.svg"/> -->
+    {% asset_img "viz_bspline.svg" "Combination of Basis Function" %}
+    
+    <h2>References</h2>
+    <ol class="bib">
+        <li>Kim, M.J., Kim, M.S. and Shin, S.Y., 1995, September.
+            <cite>
+                A general construction scheme for unit quaternion curves with simple high order derivatives.        
+            </cite>
+            In Proceedings of the 22nd annual conference on Computer graphics and interactive techniques (pp. 369-376).
+        </li>
+        <li>
+            Qin, Kaihuai, 
+            <cite>
+                <a href="/2020/03/02/bspline_in_so3/general_matrix_representation_for_bsplines.pdf">
+                    General matrix representations for B-splines
+                </a>
+            </cite>
+                , The Visual Computer (2000) 16:177–186
+        </li>
+    </ol>
+
+      
+</body>
