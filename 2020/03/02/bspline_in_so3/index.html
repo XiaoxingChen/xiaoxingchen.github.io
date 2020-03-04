@@ -79,13 +79,20 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Xiaoxing Chen&#39;s Space">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content=".bib ol { counter-reset: item }             .bib li { display: block ; counter-increment: item; }             .bib li:before { content: &quot; [&quot;counter(item)&quot;] &quot;; }">
+<meta property="og:type" content="article">
+<meta property="og:title" content="B-Spline in Space">
+<meta property="og:url" content="http://yoursite.com/2020/03/02/bspline_in_so3/index.html">
 <meta property="og:site_name" content="Xiaoxing Chen&#39;s Space">
+<meta property="og:description" content=".bib ol { counter-reset: item }             .bib li { display: block ; counter-increment: item; }             .bib li:before { content: &quot; [&quot;counter(item)&quot;] &quot;; }">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2020/03/02/bspline_in_so3/viz_bspline.svg">
+<meta property="og:image" content="http://yoursite.com/2020/03/02/bspline_in_so3/viz_ctrlpt.svg">
+<meta property="article:published_time" content="2020-03-01T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-04T15:38:46.622Z">
 <meta property="article:author" content="Xiaoxing">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/03/02/bspline_in_so3/viz_bspline.svg">
 
 
 
@@ -115,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/03/02/bspline_in_so3/"/>
 
 
 
 
 
-  <title>Xiaoxing Chen's Space</title>
+  <title>B-Spline in Space | Xiaoxing Chen's Space</title>
   
 
 
@@ -140,8 +147,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -214,9 +220,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -246,9 +252,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/02/bspline_in_so3/" itemprop="url">B-Spline in Space</a></h1>
+          <h1 class="post-title" itemprop="name headline">B-Spline in Space</h1>
         
 
         <div class="post-meta">
@@ -298,9 +302,7 @@
       
 
       
-        
-          
-            <head>
+        <head>
     <script type="text/javascript" async
             src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
         </script>
@@ -454,8 +456,6 @@
       
 </body>
 
-          
-        
       
     </div>
     
@@ -472,140 +472,28 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/29/why_here/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Xiaoxing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xiaoxing Chen's Space">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/02/29/why_here/" itemprop="url">Why Here</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-29T16:27:00+08:00">
-                2020-02-29
-              </time>
+              <a href="/2020/02/29/why_here/" rel="next" title="Why Here">
+                <i class="fa fa-chevron-left"></i> Why Here
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            
-<p>
-The original blog locates at 
-<a href="https://blog.csdn.net/buchunjiedexin" target="_blank" rel="noopener">CSDN XiaoxingChen's Blog</a>.
-Due to its terrible support to mathematical equation and version control, I turned to 
-log my daily thinkings and notes in private git repositories.
-So far I start to make some of the contents public, here is the new site for them.
-</p>
-
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -615,201 +503,11 @@ So far I start to make some of the contents public, here is the new site for the
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/20/essential_mat_sig_val/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Xiaoxing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xiaoxing Chen's Space">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/01/20/essential_mat_sig_val/" itemprop="url">Singular Values of Essential Matrix</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-01-20T17:13:14+08:00">
-                2020-01-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <head>
-    <script type="text/javascript" async
-            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
-        </script>
-        <style>
-            .bib ol { counter-reset: item }
-            .bib li { display: block ; counter-increment: item; }
-            .bib li:before { content: " ["counter(item)"] "; }
-        </style>
-<meta name="generator" content="Hexo 4.2.0"></head>
-
-<body>
-
-
-
-<p>Essential matrix is not new to anybody being familiar with Epipolar Geometry. Here is the famous epipolar constraint: </p>
-\[
-    x_2^\top E x_1 = 0 
-\]
-<p>
-    Recall that when the essential matrix is obtained by 8-point algorithm, 
-    one has to decompose the result with SVD to make its third singular value 0 and the other 
-    two singular values equal. Here is a short derivation of this property of essential matrix.
-</p>
-
-<p>According to the definition of essential matrix: </p>
-\[
- E = \{ S R | S = t^\wedge \in \mathfrak{so}(3), R \in SO(3)\} \tag{1-1}
-\] 
-
-<p>
-    According to the definition of SVD, a singular value \(\sigma\) of a matrix A, 
-    equals to the square root of correspondent eigenvalue \(\lambda\) of matrix \(A^\top A\):
-</p>
-\[
-   \sigma_{A,i} = \sqrt{\lambda_{A^\top A,i}} \tag{1-2}
- \]
-<p>Meanwhile,</p>
- \[
-    E^\top E = R^\top S^\top S R = -R^\top (t^\wedge)^2 R \tag{1-3}
- \]
- <p>According to the property of askew-symmetric matrix:</p>
- \[
-    (t^\wedge)^2 = \|t\|^2 I - t t^\top \tag{1-4}
- \]
- <p>The first term is a scalar matrix with three equal eigenvalues \(\|t\|^2\)</p>
- <p>The second term \(t t^\top\) is a symmetric matrix, which is therefore semi-positive definite.
-    It can be diagonalized<sup><a href="2020/01/20/mat_generated_by_outer_product">[1]</a></sup>:
- </p>
- \[
-    t t^\top = \|t\|^2 R_t^\top diag(1, 0, 0) R_t \tag{1-5}
- \]
-
- <p>Thus, equation (1-3) becomes:</p>
- \[
-    E^\top E = \|t\|^2 R^\top R_t^\top ( I - diag(1, 0, 0)) R_t R 
-    
- \]
- \[
-    = \|t\|^2 (R_t R )^\top diag(1, 1, 0) (R_t R) 
-    \tag{1-6}
- \]
-
- <p>Therefore, eigenvalues of \(E^\top E\) are: \(\|t\|^2 (1, 1, 0)\).</p>
- <p>Finally, according to (1-3), singular values of essential matrix \(E\) are: \(\|t\|(1, 1, 0)\).</p>
-
- <br>
-
- <h2>References</h2>
- <ol class="bib">
-    <li>Xiaoxing. <a href="2020/01/20/mat_generated_by_outer_product"><cite>Property of Matrix Generated by Outer Product</cite></a></li>
- </ol>
-</body>
-          
-        
+    <div class="post-spread">
       
     </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
   </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
 
 
           </div>
@@ -817,6 +515,10 @@ So far I start to make some of the contents public, here is the new site for the
 
 
           
+
+  
+
+
 
         </div>
         
@@ -837,8 +539,17 @@ So far I start to make some of the contents public, here is the new site for the
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -896,6 +607,22 @@ So far I start to make some of the contents public, here is the new site for the
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">1.</span> <span class="nav-text">Motivation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">2.</span> <span class="nav-text">B-Spline in Euclidean Space</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#null"><span class="nav-number">2.1.</span> <span class="nav-text">Intuitive Understanding from Figures</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#null"><span class="nav-number">2.2.</span> <span class="nav-text">Cox-de Boor Recursion Formula</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">3.</span> <span class="nav-text">References</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1029,6 +756,10 @@ So far I start to make some of the contents public, here is the new site for the
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
