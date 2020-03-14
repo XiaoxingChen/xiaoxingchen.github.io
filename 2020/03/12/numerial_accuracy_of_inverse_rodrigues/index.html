@@ -79,21 +79,17 @@
 
 
 
-<meta name="description" content=".bib ol { counter-reset: item }             .bib li { display: block ; counter-increment: item; }             .bib li:before { content: &quot; [&quot;counter(item)&quot;] &quot;; }">
+<meta name="description" content=".bib ol {             counter-reset: item         }          .bib li {             display: block;             counter-increment: item;         }          .bib li:before {">
 <meta property="og:type" content="article">
-<meta property="og:title" content="B-Spline in Space I - Euclidean Space">
-<meta property="og:url" content="http://yoursite.com/2020/03/02/bspline_in_so3/index.html">
+<meta property="og:title" content="Numerical Accuracy of Inverse Rodrigues Implementation">
+<meta property="og:url" content="http://yoursite.com/2020/03/12/numerial_accuracy_of_inverse_rodrigues/index.html">
 <meta property="og:site_name" content="Xiaoxing Chen&#39;s Space">
-<meta property="og:description" content=".bib ol { counter-reset: item }             .bib li { display: block ; counter-increment: item; }             .bib li:before { content: &quot; [&quot;counter(item)&quot;] &quot;; }">
+<meta property="og:description" content=".bib ol {             counter-reset: item         }          .bib li {             display: block;             counter-increment: item;         }          .bib li:before {">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://yoursite.com/2020/03/02/bspline_in_so3/viz_basis_function.svg">
-<meta property="og:image" content="http://yoursite.com/2020/03/02/bspline_in_so3/viz_bspline.svg">
-<meta property="og:image" content="http://yoursite.com/2020/03/02/bspline_in_so3/viz_ctrlpt.svg">
-<meta property="article:published_time" content="2020-03-01T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-03-05T04:52:12.453Z">
+<meta property="article:published_time" content="2020-03-11T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-14T07:08:30.206Z">
 <meta property="article:author" content="Xiaoxing">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2020/03/02/bspline_in_so3/viz_basis_function.svg">
 
 
 
@@ -123,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/03/02/bspline_in_so3/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/03/12/numerial_accuracy_of_inverse_rodrigues/"/>
 
 
 
 
 
-  <title>B-Spline in Space I - Euclidean Space | Xiaoxing Chen's Space</title>
+  <title>Numerical Accuracy of Inverse Rodrigues Implementation | Xiaoxing Chen's Space</title><meta name="robots" content="noindex">
   
 
 
@@ -236,7 +232,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/02/bspline_in_so3/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/12/numerial_accuracy_of_inverse_rodrigues/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Xiaoxing">
@@ -253,7 +249,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">B-Spline in Space I - Euclidean Space</h1>
+          <h1 class="post-title" itemprop="name headline">Numerical Accuracy of Inverse Rodrigues Implementation</h1>
         
 
         <div class="post-meta">
@@ -265,8 +261,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-02T00:00:00+08:00">
-                2020-03-02
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T00:00:00+08:00">
+                2020-03-12
               </time>
             
 
@@ -305,173 +301,84 @@
       
         <head>
     <script type="text/javascript" async
-            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
         </script>
-        <style>
-            .bib ol { counter-reset: item }
-            .bib li { display: block ; counter-increment: item; }
-            .bib li:before { content: " ["counter(item)"] "; }
-        </style>
+    <style>
+        .bib ol {
+            counter-reset: item
+        }
+
+        .bib li {
+            display: block;
+            counter-increment: item;
+        }
+
+        .bib li:before {
+            content: " ["counter(item)"] ";
+        }
+    </style>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
 <meta name="generator" content="Hexo 4.2.0"></head>
-
 <body>
-    <h2>Motivation</h2>
-    <p>In a robot system, tens of sensors collecting data in different frequencies and phases.
-        When intermediate values between samples are required, linear interpolation can be used to approximate these values according
-        to their surrounding samples. In some cases, however, linear interpolation is not qualified due to its 
-        lack of continuity in high order derivatives. 
-    </p>
-    <p>
-        Moreover, in robotics, computer graphics and computer vision, physical values are not only expressed in Euclidean Space.
-        The orientation of a digital object, the pose of a automatic robot, are described by Quaternion or Lie Group. 
-        Some of the readers may have heard about Quaternion SLERP (Spherical Linear Interpolation), which is a general 
-        method used in Quaternion interpolation. But SLERP only keeps the intermediate quaternion unit, 
-        the derivative continuity before and after a knot is not guaranteed. 
-    </p>
-    <p>
-        With but not limited to the reasons above, B-Spline is widely used in industry and research. 
-        Here is a introduction to the principle of B-Spline, both in Euclidean Space and Lie Group.
-    </p>
-    <h2>Terminologies of B-Spline</h2>
-    <table style="min-width: 6in;">
-        <col width="20%">
-        <col width="15%">
-        <col width="65%">
-        <tr>
-            <th>Terminologies</th>
-            <th>Notation</th>
-            <th>Explanation</th>
-        </tr>
-        <tr>
-            <td>Independent Variable</td>
-            <td>\(t\)</td>
-            <td>In state estimation, the independent variable is time \(t\).</td>
-        </tr>
-        <tr>
-            <td>Order</td>
-            <td>\(n\)</td>
-            <td>Same as the order of final polynomial, the highest exponent.For instance, \(f(x) = 3x^3\) has an order of 4.</td>
-        </tr>
-        <tr>
-            <td>Degree</td>
-            <td>\(p\)</td>
-            <td>Same as the degree of final polynomial, the highest exponent.For instance, \(f(x) = 3x^3\) has a degree of 3.</td>
-        </tr>
-        <tr>
-            <td>Segment Index</td>
-            <td>\(i\)</td>
-            <td>A B-Spline is combined with piecewise polynomial, each piece is a segment.</td>
-        </tr>
-        <tr>
-            <td>Knot Vector</td>
-            <td>\(k\)</td>
-            <td>
-                The connect knot, or joint, between every piece of polynomial segment.
-                Knot vector lies in the axis of independent variable \(t\).
-            </td>
-        </tr>
-        <tr>
-            <td>Basis Function</td>
-            <td>\(B_{i,p}(t)\)</td>
-            <td>In the expression, \(i\) is the index of polynomial segment, \(p\) is the degree of the basis function.</td>
-        </tr>
-        <tr>
-            <td>Control Points</td>
-            <td>\(C_i\)</td>
-            <td>Also named as coefficients. Control points are used to describe the weight of each piece of polynomial segment.</td>
-        </tr>
-    </table>
-    <h2>Intuitive Understanding from Figures</h2>
-
-    <figure>
-        <img src="/2020/03/02/bspline_in_so3/viz_basis_function.svg" style="width:100%">
-        <figcaption>
-            Fig.1 - Iterative composition of basis functions. Each segment of basis function \(B_{i,p}(t)\) is composed 
-            by its adjacent basis functions in lower degree, which are \(B_{i,p-1}(t)\) and \(B_{i + 1,p-1}(t)\). 
-            While basis functions in degree 0 are unit square wave signals.
-            <a href="https://github.com/XiaoxingChen/pyproj/blob/master/bspline_manual/viz_basis_function.py" target="_blank" rel="noopener">
-            [source code]</a>
-        </figcaption>
-    </figure>
-
-    <figure>
-        <img src="/2020/03/02/bspline_in_so3/viz_bspline.svg" style="width:100%">
-        <figcaption>
-            Fig.2 - The point \(P_{0,2}\) of basis function \(B_{0,2}(t)\) (degree 2 and segment 0), is evaluated by 
-            the weighted combination of \(B_{0,1}(t)\) and \(B_{1,1}(t)\). The <b>weight</b> of each component is 
-            defined by the distance between \(P_{0,2}\) and its correspondent knot points. 
-            As shown in the figure, the knot vector is \([0, 3, 6, 9]^\top\).
-            <a href="https://github.com/XiaoxingChen/pyproj/blob/master/bspline_manual/viz_bspline.py" target="_blank" rel="noopener">
-            [source code]</a>
-        </figcaption>
-    </figure>
-
-    <figure>
-        <img src="/2020/03/02/bspline_in_so3/viz_ctrlpt.svg" style="width:100%">
-        <figcaption>
-            Fig.3 - A B-Spline with degree 2, named \(S_2(t)\) is generated by weighted combinations of all its 
-            basis functions. The weight comes from control points, which are \([1.2, 0.8, 1.1, 1.2, 1.1]\) in the figure.
-            The brown dash lines show how control point affect the weight of basis function,
-            these lines finally compose the brown spline.
-            The knot vector is \([0, 1, 2, 3, 4, 5, 6, 7]^\top\).
-            <a href="https://github.com/XiaoxingChen/pyproj/blob/master/bspline_manual/viz_ctrlpt.py" target="_blank" rel="noopener">
-            [source code]</a>
-        </figcaption>
-    </figure>
-    <h2>Cox-de Boor Recursion Formula</h2>
-    <p>A mathematical representation of B-Spline is necessary after the intuitive concept.</p>
-    <p>
-        Let \(K\) be a set of \(m\) non-decreasing numbers, \(k_0 \le k_1 \le \cdots \le k_{m-1} \). 
-        The \(k_i\)s are called knots, the set \(K\) the knot vector, 
-        and the half-open interval \([k_i, k_{i+1})\) the i-th knot span. 
-        Note that since some \(k_i\)s may be equal, some knot spans may not exist. 
-        If the knots are equally spaced (i.e., \(k_{i+1} - k_i\) is a constant for \((0 \le i \le m - 1)\), 
-        the knot vector or the knot sequence is said uniform; otherwise, it is non-uniform<sup>[1]</sup>.
-    </p>
-    <p>
-        The i-th B-spline basis function of degree \(p\), written as \(B_{i,p}(t)\), is defined recursively as follows:
+    <h2>Background</h2>
+    <p>The famous Rodrigues Formula describes the transform between rotation matrix and rotation vector. 
+        It is also the exponential map from \(\mathfrak{so}(3)\) to \(SO(3)\).
     </p>
     \[
-        B_{i,0}(t) = 
-        \begin{cases}
-        1 & \text{if} \ \ t_i \le t < t_{i+1} \\
-        0 & \text{otherwise}
-        \end{cases}
-        \tag{2-1}
+        R = cos\theta I + (1 - cos\theta) \omega \omega^\top + sin\theta \omega^\wedge
+        \tag{1-1}
+    \]
+    <p>
+        The transform rotation matrix back to rotation vector can be obtained by expanding matrix \(R\) in formulate (1-1).
+        Defining \(v_\theta = 1 - cos\theta\),\(c_\theta = cos\theta\), and \(s_\theta = sin\theta\)
+    </p>
+    \[
+        R = 
+        \left[
+        \begin{matrix}
+
+        \end{matrix}
+        \right]
+        \tag{1-2}
+    \]
+    <p>Therefore</p>
+    \[
+        \theta = \text{cos}^{-1} 
+        \left(
+            \frac{\text{trace}(R)}{2}
+        \right) 
+        \tag{1-3}
     \]
 
     \[
-        B_{i,p}(t) = 
-        \frac{t - t_i}{t_{i+p} - t_i} B_{i,p-1}(t) + 
-        \frac{t_{i+p+1} - t}{t_{i+p+1} - t_{i+1}} B_{i+1,p-1}(t)
-        \tag{2-2}
+        \omega = \frac{1}{2 \text{sin}\theta}
+        \left[\begin{matrix}
+        r_{32} - r_{23} \\ r_{13} - r_{31} \\ r_{21} - r_{12}
+        \end{matrix}\right]
+        \tag{1-4}
     \]
+
+    <p>Here are several problems need to be considered in real engineering problem.
+        For example, when \(\text{sin}\theta \rightarrow 0\), \(\omega\) goes to singularity.
+        And the matrix \(R\) may not be strictly unit orthogonal. 
+        Therefore, we take the code of <b>opencv</b> as example.
+        <a href="https://github.com/opencv/opencv/blob/master/modules/calib3d/src/calibration.cpp#L362" target="_blank" rel="noopener">
+            opencv/modules/calib3d/src/calibration.cpp
+        </a>
+    </p>
     
-    <h2>References</h2>
-    <ol class="bib">
-        <li>Shene,<a href="https://pages.mtu.edu/~shene/COURSES/cs3621/NOTES/spline/B-spline/bspline-basis.html" target="_blank" rel="noopener">
-            B-spline Basis Functions: Definition</a>
-        </li>
-        <li>Kim, M.J., Kim, M.S. and Shin, S.Y., 1995, September.
-            <cite>
-                A general construction scheme for unit quaternion curves with simple high order derivatives.        
-            </cite>
-            In Proceedings of the 22nd annual conference on Computer graphics and interactive techniques (pp. 369-376).
-        </li>
-        <li>
-            Qin, Kaihuai, 
-            <cite>
-                <a href="/2020/03/02/bspline_in_so3/general_matrix_representation_for_bsplines.pdf">
-                    General matrix representations for B-splines
-                </a>
-            </cite>
-                , The Visual Computer (2000) 16:177–186
-        </li>
-    </ol>
+    <h3>1.  Singular Value Decomposition</h3>
+    <p>Use SVD to make matrix \(R\) strictly unit orthogonal.</p>
+    <pre><code class="language-cpp">
+        Matx33d U, Vt;
 
-      
-</body>
-
+        SVD::compute(R, W, U, Vt);
+        R = U*Vt;
+    <code></pre>
+</body><!-- flag of hidden posts -->
       
     </div>
     
@@ -491,22 +398,6 @@
       
       
 
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2020/02/29/why_here/" rel="next" title="Why Here">
-                <i class="fa fa-chevron-left"></i> Why Here
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-          </div>
-        </div>
       
 
       
@@ -633,7 +524,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">1.</span> <span class="nav-text">Motivation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">2.</span> <span class="nav-text">Terminologies of B-Spline</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">3.</span> <span class="nav-text">Intuitive Understanding from Figures</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">4.</span> <span class="nav-text">Cox-de Boor Recursion Formula</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">5.</span> <span class="nav-text">References</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">1.</span> <span class="nav-text">Background</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#null"><span class="nav-number">1.1.</span> <span class="nav-text">1.  Singular Value Decomposition</span></a></li></ol></li></ol></div>
             
 
           </div>
