@@ -100,7 +100,7 @@ theme: next
 deploy:
   type: git
   repository: https://github.com/XiaoxingChen/xiaoxingchen.github.io
-  branch: master
+  branch: deploy
 
 # hexo-hide-posts
 hide_posts:
