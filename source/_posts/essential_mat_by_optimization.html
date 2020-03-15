@@ -1,0 +1,183 @@
+---
+title: Solve Epipolar Constraint by Optimization over Unit Sphere Manifold
+date: 2020-03-14 
+mathjax: true
+tags:
+---
+<head>
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+        <style>
+            .bib ol { counter-reset: item }
+            .bib li { display: block ; counter-increment: item; }
+            .bib li:before { content: " ["counter(item)"] "; }
+        </style>
+</head>
+<body>
+    <h1>Motivation</h1>
+    <p>
+        While estimating the transform between two images, one has to solve the Essential Matrix according to Epipolar Constraint:
+    </p>
+    \[
+        x_2^\top E x_1 = 0 
+        \tag{1-1}
+    \]
+    <p>Five-point-algorithm and eight-point-algorithm are both applicable. 
+        Here I take eight-point algorithm as example. The essential matrix is vectorized,
+        and equation (1-1) is transformed to a homogeneous equation in form \(Ax = 0\). 
+        The homogeneous equation can be solved by SVD, and the essential matrix will be recovered from vector \(x\).
+    </p>
+    <p>
+        However, according to the definition of essential matrix:
+    </p>
+    \[
+    E = \{ S R | S = t^\wedge \in \mathfrak{so}(3), R \in SO(3)\} \tag{1-2}
+    \]
+    <p>
+        Singular values of a essential matrix are \([1,1,0]\) <sup><a href="/2020/01/20/essential_mat_sig_val">[1]</a></sup>.
+        In order to make the solution "essential", a general solution<sup>[2]</sup> is to SVD the result and replace its singular value with \([1,1,0]\).
+        The matrix \(\hat E\) is the projection of matrix \(E\) on essential manifold. 
+        Then, the rotation matrix and translation vector can be recovered.
+    </p>
+    \[
+        \hat E = U_E \text{diag}(1,1,0)  V_E^\top
+        \tag{1-3}
+    \]
+    <p>
+        In this article, I am going to implement an optimization based method to find the essential matrix. 
+    </p>
+    <h1>Problem Formulation</h1>
+    <h2>Parameterize</h2>
+    <p>
+        There are few papers talking about the properties of essential manifold.
+        Let's see what will happen if I solve the problem with only constraint the rotation matrix.
+        I parameterize the essential matrix to a 6-dimensional vector: 3-dimensional translation vector and 3-dimension rotation.
+        But it was denied after I found the equation will always converge at the point where translation vector \(t = [0,  0,  0]^\top\).
+        This is where "pure rotation" happens, the constraint "degenerated". 
+        Therefore, I finally added a constraint \(\|t\| = 1\), to restrict the translation vector on a unit sphere.
+        If I can turn the unit sphere manifold to a Lie Group, the the solution can be solve as what one do to the rotation part.
+        Unluckily, the answer was "NO": 
+        <a href="https://math.stackexchange.com/questions/3481290/can-every-manifold-be-turned-into-a-lie-group">
+            \(S^2\) manifold cannot be given a Lie Group structure</a>.
+    </p>
+    <p>
+        Anyway, the idea of constrained optimization is to iterate the state vector without breaking the constraint.
+        The translation vector on unit sphere has degree of 2, the essential matrix was then vectorized to \(E = [\tau_x, \tau_y, \psi_x, \psi_y, \psi_z]^\top\). 
+        Every step I calculate the jacobian of the translation vector in two orthogonal directions. 
+        In order to preserve the incremental direction, the translation vector is stored in a orthonormal matrix \(T = [t_x, t_y, t_z], T \in SO(3)\).
+        The first two columns of the matrix \(t_x, t_y\) indicates the incremental directions, the last column \(t_z\) is the vector itself.
+    </p>
+    <h2>Cost Function</h2>
+    <p>Residual: </p>
+    \[
+        f(x) = x_1^\top t_z^\wedge R x_2 \tag{2-1}
+    \]
+
+    <p>The problem then comes to:</p>
+    \[
+        \text{arg}\ \text{min} F(t_z, R) = \frac{1}{2} \sum_{i = 1} ^ n \|f(t_z, R)\|^2 
+        = \frac{1}{2} \sum_{i = 1} ^ n 
+        \left( 
+            (x_{1,i}^\top t_z^\wedge R x_{2,i})^\top (x_{1,i}^\top t_z^\wedge R x_{2,i}) 
+        \right)
+        \tag{2-2}
+    \]
+
+    <h2>Jacobian</h2>
+    <p>I use numerical method to calculate the jacobian.</p>
+    \[
+        J = 
+        \left[
+        \begin{matrix}
+        \frac{\partial f}{\partial \tau_x} &
+        \frac{\partial f}{\partial \tau_y} &
+        \frac{\partial f}{\partial \psi_x} &
+        \frac{\partial f}{\partial \psi_y} &
+        \frac{\partial f}{\partial \psi_z}
+        \end{matrix}
+        \right]
+        \tag{2-3}
+    \]
+    <h2>Update</h2>
+    \[
+        \begin{cases}
+            \Delta \tau = [\Delta \tau_x, \Delta \tau_y, 0]^\top\\
+            T_k = \text{exp} (\Delta \tau ^ \wedge) T_{k-1} \\
+            t_{z,k} = T_{k[:,3]} \\ 
+            R_k = \text{exp} (\Delta \psi ^ \wedge) R_{k-1}
+        \end{cases}
+        \tag{2-4}
+    \]
+
+    <h1>Simulation</h1>
+    <p>
+        Two cameras were set at position \((0.5, -0.8, 0.5)m\) and \((0.6, -0.8, 0.5)m\), 
+        their orientations were presented in rotation vectors: \((-\frac{\pi}{2}, 0, 0)rad\), \((-\frac{\pi}{2}, 0.1, 0)rad\).
+        Totally 60 points were generated.
+    </p>
+
+    <figure>
+        <img src="/2020/03/14/essential_mat_by_optimization/3d_view.svg" style="width:70%">
+        <figcaption>
+            Fig.1 - Generate point cloud in 3D space, the red arrows indicate the pose of cameras. 
+        </figcaption>
+        
+    </figure>
+        
+    <figure>
+        <img src="/2020/03/14/essential_mat_by_optimization/essential_by_gn.svg" style="width:100%">
+        <figcaption>
+            Fig.2 - Project points to normalized camera coordinate. 
+            The point IDs are known to algorithm so that there is no outliers in matching.
+            <a href="https://github.com/XiaoxingChen/pyproj/blob/master/epipolar_geometry/essential_by_gn.py">
+            [source code]</a>
+        </figcaption>
+    </figure>
+
+    <p>The Gauss-Newton method was used to calculate the update. 
+        Given initial value \(t = (\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}, 0)\), \(\psi = (0, -0.1, 0)\)
+        The cost converged within 10 iterations.
+    </p>
+    <pre><code class="language-log">
+        it: 0, cost: 32027813.76362674
+        it: 1, cost: 77838.5880822376
+        it: 2, cost: 6281.828095169881
+        it: 3, cost: 112.93046933952343
+        it: 4, cost: 6.927671506086043
+        it: 5, cost: 1.0246290629301655e-07
+        it: 6, cost: 1.2263197696799394e-15
+        it: 7, cost: 3.9916308419887783e-25
+        it: 8, cost: 4.27369517787316e-25
+        it: 9, cost: 2.6192914664154937e-25
+        t: [ 9.9984608e-01 -7.6998377e-17 -1.7341515e-16], r: [-0.0011568  0.0636558  0.0636558]
+        groundtruth: t01: [0.1 0.  0. ], r01: [-0.0011568  0.0636558  0.0636558]
+    </code></pre>
+
+    <figure>
+        <img src="/2020/03/14/essential_mat_by_optimization/viz_iteration.svg" style="width:70%">
+        <figcaption align='center'>
+            Fig.3 - Cost in iteration.
+        </figcaption>
+    </figure>
+
+    <h1>References</h1>
+    <ol class="bib">
+        <li>
+            Xiaoxing.
+            <cite>
+                <a href="/2020/01/20/essential_mat_sig_val">
+                    Singular Values of Essential Matrix
+                </a>
+            </cite>
+        </li>
+        <li>
+            Zhang, Zhengyou. 
+            <cite>
+                "Determining the epipolar geometry and its uncertainty: A review."
+            </cite>
+            International journal of computer vision 27.2 (1998): 161-195.
+        </li>
+    </ol>
+    
+</body>
