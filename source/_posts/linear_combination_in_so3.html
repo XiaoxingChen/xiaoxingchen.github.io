@@ -255,7 +255,11 @@ tags:
     <h3>Example: Average of Four Rotations</h3>
     <p>Given four rotations \(R_1\), \(R_2\), \(R_3\) and \(R_4\), the midpoint of them is:</p>
     \[
-        R_m = R_1 (R_2 R_1^\top)^{\frac{3}{4}} (R_3 R_2^\top)^{\frac{2}{4}} (R_4 R_3^\top)^{\frac{1}{4}}
+        R_m =  
+        (R_4 R_3^\top)^{\frac{1}{4}}
+        (R_3 R_2^\top)^{\frac{2}{4}}
+        (R_2 R_1^\top)^{\frac{3}{4}}
+        R_1  
         \tag{3-4}
     \]
     <h2>References</h2>
