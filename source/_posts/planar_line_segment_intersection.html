@@ -1,0 +1,39 @@
+---
+title: Planar Line Segment Intersection
+date: 2018-10-13
+hidden: true 
+mathjax: true
+tags:
+---
+<head>
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+        <style>
+            .bib ol { counter-reset: item }
+            .bib li { display: block ; counter-increment: item; }
+            .bib li:before { content: " ["counter(item)"] "; }
+        </style>
+</head>
+<body>
+    <h2>Problem</h2>
+    <p>Given two line segments defined by points: \(P_1, P_2, O, A\), check whether two segments intersect.</p>
+
+    <h2>Lemma 1. Check two points at the same side of a segment</h2>
+    <p>Given line Segment \(OA\) and points \(P_1, P_2\), whether the points locate at the same side of the vector can be judged by:</p>
+    \[
+        (\overrightarrow{OA} \times \overrightarrow{OP_1}) \cdot (\overrightarrow{OA} \times \overrightarrow{OP_2}) > 0
+    \]
+
+    <h2>Lemma 2. If both of the segments' end points locate at the different sides of each other, the two segments intersect.</h2>
+
+    <h2>Conclusion</h2>
+    <p>The necessary and sufficient conditions of two line segment intersect is: </p>
+    \[
+        (\overrightarrow{OA} \times \overrightarrow{OP_1}) \cdot (\overrightarrow{OA} \times \overrightarrow{OP_2}) > 0
+    \]
+    <p>and</p>
+    \[
+        (\overrightarrow{P_1 P_2} \times \overrightarrow{P_1 O}) \cdot (\overrightarrow{P_1 P_2} \times \overrightarrow{P_1 A}) > 0
+    \]
+</body>
