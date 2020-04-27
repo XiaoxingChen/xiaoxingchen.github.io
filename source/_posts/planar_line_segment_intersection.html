@@ -16,34 +16,55 @@ tags:
         </style>
 </head>
 <body>
-    <h2>Problem</h2>
+    <h2>Background</h2>
+    <p>
+        While implementing a 2D LiDAR simulator, the calculation of the LiDAR measurement was a bottleneck for performance improvement.
+        For example, in a particle filter with 1024 particles and each particle represents a 256-line LiDAR,
+        running in a map was represented by line segments. For a map with 16 line segments, the estimator have to calculate intersection 
+        for \(1024 \times 256 \times 16 = 4194304\) times each update. 
+        Therefore, an effective method which determines the intersection of line segments is necessary.
+    </p>
+    <figure>
+        <img src="/2018/10/13/planar_line_segment_intersection/loc_vibration.gif" style="width:80%">
+        <figcaption>
+            Fig.1 - Particle filter localization with LiDAR.
+        </figcaption>
+    </figure>
+    <h2>Statement of Problem</h2>
     <p>Given two line segments defined by points: \(AB\) and \(CD\), check whether two segments intersect.</p>
 
-    <h2>1. Intersection of a line and line segment</h2>
+    <h2>Intersection of a line and line segment</h2>
     <p>
-        Given line \(L\), line segment \(AB\) and its correspondent line \(L_{AB}\). The intersection \(K\) of \(L\) and \(L_{AB}\).
+        Given line \(l\), line segment \(AB\) and its correspondent line \(l_{AB}\). The intersection \(K\) of \(l\) and \(l_{AB}\).
         Then point \(K\) can be expressed as:
     </p>
     \[
-        K = A + t \overrightarrow{AB} \tag{1-1}
+        K = A + t \overrightarrow{AB} \tag{3-1}
     \]
-    <p>Here is the relationship between \(t\) and \(L\), \(AB\): </p>
+    <p>Here is the relationship between \(t\) and \(l\), \(AB\): </p>
     \[
         \begin{cases}
-        L \ \text{intersects} \  AB, & t \in (0, 1) \\
-        L \ \text{touches} \ AB, & t = 0 \ \text{or} \ t = 1 \\
-        L \ \text{misses} \ AB, & t \in (-\infty, 0) \cup (1, \infty) 
+        l \ \text{intersects} \  AB, & t \in (0, 1) \\
+        l \ \text{touches} \ AB, & t = 0 \ \text{or} \ t = 1 \\
+        l \ \text{misses} \ AB, & t \in (-\infty, 0) \cup (1, \infty) 
         \end{cases}
     \]
-    <p>Therefore, the sufficient and necessary condition of \(L\) intersecting \(AB\) is: </p>
+    <p style="float: left; font-size: 9pt; text-align: center; width: 30%; margin-right: 1%; margin-bottom: 0.5em;">
+        <img src="/2018/10/13/planar_line_segment_intersection/intersect.svg" style="width: 100%">Fig. 3-1: Intersect</p>
+    <p style="float: left; font-size: 9pt; text-align: center; width: 30%; margin-right: 1%; margin-bottom: 0.5em;">
+        <img src="/2018/10/13/planar_line_segment_intersection/touch.svg" style="width: 100%">Fig. 3-2: Touch</p>
+    <p style="float: left; font-size: 9pt; text-align: center; width: 30%; margin-right: 1%; margin-bottom: 0.5em;">
+        <img src="/2018/10/13/planar_line_segment_intersection/miss.svg" style="width: 100%">Fig. 3-2: Miss</p>
+    <p style="clear: both;"></p>
+    <p>Therefore, the sufficient and necessary condition of \(l\) intersecting \(AB\) is: </p>
     \[
-        K = A + t \overrightarrow{AB}, \ t \in (0, 1) \tag{1-2}
+        K = A + t \overrightarrow{AB}, \ t \in (0, 1) \tag{3-2}
     \]
 
-    <h2>2. Lemma A. Determine if Two Line Segments Intersect</h2>
+    <h2>Lemma A. Determine if Two Line Segments Intersect</h2>
     <p>
-        Given line segments \(AB\), \(CD\) and their correspondent line \(L_{AB}\), \(L_{CD}\).
-        It is obvious if and only if \(L_{AB}\) intersects \(CD\) and \(L_{CD}\) intersects \(AB\), these two line segments intersect.
+        Given line segments \(AB\), \(CD\) and their correspondent line \(l_{AB}\), \(l_{CD}\).
+        It is obvious if and only if \(l_{AB}\) intersects \(CD\) and \(l_{CD}\) intersects \(AB\), these two line segments intersect.
     </p>
 
     <h3>A Rapid Method</h3>
@@ -54,49 +75,58 @@ tags:
     \text{and}
     \\
     (\overrightarrow{CA} \times \overrightarrow{CD}) \cdot (\overrightarrow{CD} \times \overrightarrow{CB}) > 0
-    \tag{2-1}
+    \tag{4-1}
     \]
 
     <h3>Proof:</h3>
-    <p>According to formula (1-2)</p>
+    <p>According to formula (3-2)</p>
     \[
         m \overrightarrow{AB} = \overrightarrow{AK} 
          = \overrightarrow{AC} + t \overrightarrow{CD} 
          = \overrightarrow{AD} + (1-t) \overrightarrow{DC} 
-         \tag{2-2}
+         \tag{4-2}
     \]
     <p>\(m\) is random none-zero constant. Then we have:</p>
     \[
         \overrightarrow{AB} 
         = \frac{1}{m}(\overrightarrow{AC} + t \overrightarrow{CD})
-        \tag{2-3}
+        \tag{4-3}
     \]
     \[
         \overrightarrow{AB} 
         = \frac{1}{m}(\overrightarrow{AD} + t \overrightarrow{DC})
-        \tag{2-4}
+        \tag{4-4}
     \]
-    <p>Then the first term of (2-1) becomes:</p>
+    <p>Then the first term of (4-1) becomes:</p>
     \[
         \frac{t(1-t)}{m^2} (\overrightarrow{AC} \times \overrightarrow{CD}) \cdot (\overrightarrow{DC} \times \overrightarrow{AD}) > 0
-        \tag{2-5}
+        \tag{4-5}
     \]
-    <p>For random triangle \(ACD\), \((\overrightarrow{AC} \times \overrightarrow{CD}) \cdot (\overrightarrow{DC} \times \overrightarrow{AD}) > 0\).
-        Therefore, formula (2-5) becomes:
-    </p>
-    \[
-        \frac{t(1-t)}{m^2} > 0
+    <p>For any triangle \(ACD\)：</p>
+    \[(
+        \overrightarrow{AC} \times \overrightarrow{CD}) \cdot (\overrightarrow{DC} \times \overrightarrow{AD}) =
+        |AC||CD|\sin \alpha \cdot |DC||AD| \sin \beta
+        \tag{4-6}
     \]
-    <p>Becasue \(m^2 > 0\),</p>
+    
+    <p>There are two cases listed in Fig. 4-1 and Fig. 4-2. No matter in which case, \(\sin \alpha \sin \beta > 0\).</p>
+        <p style="float: left; font-size: 12pt; text-align: center; width: 45%; margin-right: 1%; margin-bottom: 0.5em;">
+            <img src="/2018/10/13/planar_line_segment_intersection/cross_prod_case1.svg" style="width: 100%">
+            Fig. 4-1: \(\alpha \in (0, \pi)\), \(\beta \in (0, \pi)\), therefore, \(\sin \alpha \sin \beta > 0\).</p>
+        <p style="float: left; font-size: 12pt; text-align: center; width: 45%; margin-right: 1%; margin-bottom: 0.5em;">
+            <img src="/2018/10/13/planar_line_segment_intersection/cross_prod_case2.svg" style="width: 100%">
+            Fig. 4-2: \(\alpha \in (\pi, 2\pi)\), \(\beta \in (\pi, 2 \pi)\), \(\sin \alpha \sin \beta > 0\) as well.</p>
+        <p style="clear: both;"></p>
+    <p>Becasue \(m^2 > 0\), formula (4-5) becomes:</p>
     \[
         t(1-t) > 0
     \]
     \[
      0 < t < 1 
-     \tag{2-6}
+     \tag{4-7}
     \]
     <p>
-        Therefore, the first term of formula (2-1) means \(L_{AB}\) intersects \(CD\). Similarly, the second term means \(L_{CD}\) intersects \(AB\).
+        Therefore, the first term of formula (3-1) means \(l_{AB}\) intersects \(CD\). Similarly, the second term means \(l_{CD}\) intersects \(AB\).
         According to Lemma A., \(AB\) intersects \(CD\).
     </t>
 </body>
