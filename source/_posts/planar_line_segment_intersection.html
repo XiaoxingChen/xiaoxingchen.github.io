@@ -1,7 +1,7 @@
 ---
-title: Planar Line Segment Intersection
+title: Determine if Two Planar Line Segments Intersect
 date: 2018-10-13
-hidden: true 
+hidden: false 
 mathjax: true
 tags:
 ---
@@ -17,23 +17,86 @@ tags:
 </head>
 <body>
     <h2>Problem</h2>
-    <p>Given two line segments defined by points: \(P_1, P_2, O, A\), check whether two segments intersect.</p>
+    <p>Given two line segments defined by points: \(AB\) and \(CD\), check whether two segments intersect.</p>
 
-    <h2>Lemma 1. Check two points at the same side of a segment</h2>
-    <p>Given line Segment \(OA\) and points \(P_1, P_2\), whether the points locate at the same side of the vector can be judged by:</p>
+    <h2>1. Intersection of a line and line segment</h2>
+    <p>
+        Given line \(L\), line segment \(AB\) and its correspondent line \(L_{AB}\). The intersection \(K\) of \(L\) and \(L_{AB}\).
+        Then point \(K\) can be expressed as:
+    </p>
     \[
-        (\overrightarrow{OA} \times \overrightarrow{OP_1}) \cdot (\overrightarrow{OA} \times \overrightarrow{OP_2}) > 0
+        K = A + t \overrightarrow{AB} \tag{1-1}
+    \]
+    <p>Here is the relationship between \(t\) and \(L\), \(AB\): </p>
+    \[
+        \begin{cases}
+        L \ \text{intersects} \  AB, & t \in (0, 1) \\
+        L \ \text{touches} \ AB, & t = 0 \ \text{or} \ t = 1 \\
+        L \ \text{misses} \ AB, & t \in (-\infty, 0) \cup (1, \infty) 
+        \end{cases}
+    \]
+    <p>Therefore, the sufficient and necessary condition of \(L\) intersecting \(AB\) is: </p>
+    \[
+        K = A + t \overrightarrow{AB}, \ t \in (0, 1) \tag{1-2}
     \]
 
-    <h2>Lemma 2. If both of the segments' end points locate at the different sides of each other, the two segments intersect.</h2>
+    <h2>2. Lemma A. Determine if Two Line Segments Intersect</h2>
+    <p>
+        Given line segments \(AB\), \(CD\) and their correspondent line \(L_{AB}\), \(L_{CD}\).
+        It is obvious if and only if \(L_{AB}\) intersects \(CD\) and \(L_{CD}\) intersects \(AB\), these two line segments intersect.
+    </p>
 
-    <h2>Conclusion</h2>
-    <p>The necessary and sufficient conditions of two line segment intersect is: </p>
+    <h3>A Rapid Method</h3>
+    <p>Line segments \(AB\) intersects \(CD\) if and only if:</p>
     \[
-        (\overrightarrow{OA} \times \overrightarrow{OP_1}) \cdot (\overrightarrow{OA} \times \overrightarrow{OP_2}) > 0
+    (\overrightarrow{AC} \times \overrightarrow{AB}) \cdot (\overrightarrow{AB} \times \overrightarrow{AD}) > 0 
+    \\
+    \text{and}
+    \\
+    (\overrightarrow{CA} \times \overrightarrow{CD}) \cdot (\overrightarrow{CD} \times \overrightarrow{CB}) > 0
+    \tag{2-1}
     \]
-    <p>and</p>
+
+    <h3>Proof:</h3>
+    <p>According to formula (1-2)</p>
     \[
-        (\overrightarrow{P_1 P_2} \times \overrightarrow{P_1 O}) \cdot (\overrightarrow{P_1 P_2} \times \overrightarrow{P_1 A}) > 0
+        m \overrightarrow{AB} = \overrightarrow{AK} 
+         = \overrightarrow{AC} + t \overrightarrow{CD} 
+         = \overrightarrow{AD} + (1-t) \overrightarrow{DC} 
+         \tag{2-2}
     \]
+    <p>\(m\) is random none-zero constant. Then we have:</p>
+    \[
+        \overrightarrow{AB} 
+        = \frac{1}{m}(\overrightarrow{AC} + t \overrightarrow{CD})
+        \tag{2-3}
+    \]
+    \[
+        \overrightarrow{AB} 
+        = \frac{1}{m}(\overrightarrow{AD} + t \overrightarrow{DC})
+        \tag{2-4}
+    \]
+    <p>Then the first term of (2-1) becomes:</p>
+    \[
+        \frac{t(1-t)}{m^2} (\overrightarrow{AC} \times \overrightarrow{CD}) \cdot (\overrightarrow{DC} \times \overrightarrow{AD}) > 0
+        \tag{2-5}
+    \]
+    <p>For random triangle \(ACD\), \((\overrightarrow{AC} \times \overrightarrow{CD}) \cdot (\overrightarrow{DC} \times \overrightarrow{AD}) > 0\).
+        Therefore, formula (2-5) becomes:
+    </p>
+    \[
+        \frac{t(1-t)}{m^2} > 0
+    \]
+    <p>Becasue \(m^2 > 0\),</p>
+    \[
+        t(1-t) > 0
+    \]
+    \[
+     0 < t < 1 
+     \tag{2-6}
+    \]
+    <p>
+        Therefore, the first term of formula (2-1) means \(L_{AB}\) intersects \(CD\). Similarly, the second term means \(L_{CD}\) intersects \(AB\).
+        According to Lemma A., \(AB\) intersects \(CD\).
+    </t>
 </body>
