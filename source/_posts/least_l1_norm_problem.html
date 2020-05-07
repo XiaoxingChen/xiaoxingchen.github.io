@@ -1,0 +1,129 @@
+---
+title: Least L1-norm Problem
+date: 2020-05-07
+mathjax: true
+tags:
+---
+<head>
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+        <style>
+            .bib ol { counter-reset: item }
+            .bib li { display: block ; counter-increment: item; }
+            .bib li:before { content: " ["counter(item)"] "; }
+        </style>
+</head>
+<body>
+    <h2>Background</h2>
+    <p>This article came from a Leetcode problem: <a href="https://leetcode.com/problems/minimum-moves-to-equal-array-elements-ii/">462. Minimum Moves to Equal Array Elements II</a>.
+        For the sake of reading experience, I paste the problem description here: 
+    </p>
+    <blockquote>
+        <p>
+            Given a <b>non-empty</b> integer array, 
+            find the minimum number of moves required to make all array elements equal, 
+            where a move is incrementing a selected element by 1 or decrementing a selected element by 1.
+        </p>
+        <p>You may assume the array's length is at most 10,000.</p>
+        <p><b>Example:</b></p>
+    
+        <pre><b>Input:</b>
+        [1,2,3]
+        
+        <b>Output:</b>
+        2
+        
+        <b>Explanation:</b>
+        Only two moves are needed (remember each move increments or decrements one element):
+        
+        [1,2,3]  =&gt;  [2,2,3]  =&gt;  [2,2,2]
+        </pre>
+    </blockquote>
+    <p>
+        My first intuition was to sum the distances between each element and the mean(average) of the list, which failed to pass the 
+        test. Here we discuss the problem in a mathematical way.
+    </p>
+
+    <h2>Problem Statement</h2>
+    <p>The description:</p>
+    <blockquote>
+        find the minimum number of moves required to make all array elements equal.
+    </blockquote>
+    <p>means we need to find a \(m\) which satisfies:</p>
+    \[
+        \arg\min_m \sum_{i=1}^n |x_i - m|
+        \tag{1-1}
+    \]
+    <p>\(x\) is an \(n\) dimensional vector.</p>
+    <p>
+        In other words, the \(m\) we need is to minimize the L1-norm of the residual. 
+        While the average of a list minimize the L2-norm of the residual. 
+    </p>
+    <h2>Derivation</h2>
+    <p>In order to find \(m\), we can borrow the idea of how the average \(\mu\) was found:</p>
+    \[
+        \arg\min_\mu (x - \mu)^\top(x - \mu)
+        \tag{2-1}
+    \]
+
+    <p>The minimum can be found by setting its derivative to 0: </p>
+    \[
+        \frac{\text{d}}{\text{d}\mu} (x - \mu)^\top(x - \mu) = \frac{\text{d}}{\text{d}\mu} (x^\top x - 2\mu\sum_{i=1}^n x_i + n\mu ^2) = 0
+        \tag{2-2}
+    \]
+    \[
+        2n\mu - 2\sum_{i=1}^n x_i = 0
+    \]
+    \[
+        \mu = \frac{\sum_{i=1}^n x_i}{n} \tag{2-3}
+    \]
+
+    <p>We write formulation (1-1) as:</p>
+    \[
+        \arg\min_m \sum_{i=1}^n \sqrt{(x_i - m)^2}
+        \tag{2-4}
+    \]
+    <p>Set the derivative to 0:</p>
+    \[
+        \frac{\text{d}}{\text{d}m} \sum_{i=1}^n \sqrt{(x_i - m)^2} = \sum_{i=1}^n \frac{x_i - m}{\sqrt{(x_i - m)^2}} \\
+        = \sum_{i=1}^n \text{sign} (x_i - m) = 0 \tag{2-5}
+    \]
+    <p>Formula (2-5) indicates that when \(m\) lies on the coordinate 
+        such that the number of \(x_i\) greater than \(m\) equals to the number of \(x_i\) less than \(m\), 
+        \(m\) minimizes the L1-norm of the residual. It is worth noting that there are more than one solution.
+        The median of the vector \(x\) can be a solution.
+    </p>
+
+    <figure>
+        <img src="/2020/05/07/least_l1_norm_problem/m_l2_norm.svg" style="width:100%">
+        <figcaption>
+            Given 10 dimensional vector \(x\), plot \(m\) with respect to the L2-norm of residual.
+            It can be seen that the \(m\) minimizing L1-norm is not unique. 
+            <a href="https://github.com/XiaoxingChen/pyproj/blob/master/minimize_l1_norm/main.py">
+            [source code]</a>
+        </figcaption>
+    </figure>
+
+    <h2>Summary</h2>    
+    <p>A clean solution of the leetcode problem can be:</p>
+    <pre>
+    class Solution:
+        def minMoves2(self, nums: List[int]) -> int:
+            nums.sort()
+            m = nums[len(nums) // 2]
+            return sum([abs(n - m) for n in nums])
+    </pre>
+
+    
+    <h2>References</h2>
+    <ol class="bib">
+        <li>log0,<a href="http://www.chioka.in/differences-between-the-l1-norm-and-the-l2-norm-least-absolute-deviations-and-least-squares/">
+            Differences between the L1-norm and the L2-norm (Least Absolute Deviations and Least Squares)</a>
+        </li>
+        <li>
+            hattenn, Royi<a href="https://math.stackexchange.com/questions/113270/the-median-minimizes-the-sum-of-absolute-deviations-the-l-1-norm">
+            The Median Minimizes the Sum of Absolute Deviations (The L1 Norm)</a> StackExchange
+        </li>
+    </ol>
+</body>
