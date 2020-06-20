@@ -66,6 +66,7 @@ a#pdf:hover { background: #222; }
 .job ol ul {list-style-type: circle; list-style-position: inside; margin-left: 15px; }
 .job ol ul li{margin: 0.75em 0 0.75em 1em; border: none; line-height: 75%}
 .job ol ul li::before{content: "•"; padding-right: 8px;}
+.job ul li::before{content: "•"; padding-right: 8px;}
 
 .edu  { position: relative; margin-bottom: 1em; padding-bottom: 1em; border-bottom: 1px solid #ccc; }
 .edu h4 { position: absolute; top: 0.35em; right: 0 }

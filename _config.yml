@@ -101,6 +101,7 @@ theme: next
 deploy:
   type: git
   repository: https://github.com/XiaoxingChen/xiaoxingchen.github.io
+  # repository: git@47.103.49.126:/var/repo/hexo.git
   branch: master
 
 # hexo-hide-posts
