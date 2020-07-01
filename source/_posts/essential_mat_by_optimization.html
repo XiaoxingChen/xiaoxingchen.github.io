@@ -38,7 +38,9 @@ tags:
         Singular values of a essential matrix are \([1,1,0]\) <sup><a href="/2020/01/20/essential_mat_sig_val">[1]</a></sup>.
         In order to make the solution "essential", a general solution<sup>[2]</sup> is to SVD the result and replace its singular value with \([1,1,0]\).
         The matrix \(\hat E\) is the projection of matrix \(E\) on essential manifold. 
-        Then, the rotation matrix and translation vector can be recovered.
+        By decomposing motion from essential matrix, one will get four solutions. 
+        Only one of the four solutions is available, whose feature points have position depth in camera.
+        Finally, the rotation matrix and translation vector are recovered.
     </p>
     \[
         \hat E = U_E \text{diag}(1,1,0)  V_E^\top
@@ -48,9 +50,9 @@ tags:
         In this article, I am going to implement an optimization based method to find the essential matrix. 
     </p>
     <h1>Problem Formulation</h1>
-    <h2>Parameterize</h2>
+    <h2>Parameterization</h2>
     <p>
-        There are few papers talking about the properties of essential manifold.
+        Few papers talk about properties of essential manifold.
         Let's see what will happen if I solve the problem with only constraint the rotation matrix.
         I parameterize the essential matrix to a 6-dimensional vector: 3-dimensional translation vector and 3-dimension rotation.
         But it was denied after I found the equation will always converge at the point where translation vector \(t = [0,  0,  0]^\top\).
@@ -160,6 +162,18 @@ tags:
             Fig.3 - Cost in iteration.
         </figcaption>
     </figure>
+
+    <h1>Conclusion</h1>
+    <p>
+        Compared with eight-point-algorithm, there is no "linear space to manifold" projection required in optimization based method.
+        Every iteration was restricted on manifold. Besides, optimization method does not need essential matrix decomposition.
+        The optimization targets are rotation and translation direction.
+        However, with different iteration initial values, the method may converge to any of the four 
+        possible solutions. Developer has to recover four solutions from the converged one and verify all of them.
+    </p>
+    <p>
+        The accuracy of two methods will be compared later.
+    </p>
 
     <h1>References</h1>
     <ol class="bib">
