@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content=".bib ol { counter-reset: item }             .bib li { display: block ; counter-increment: item; }             .bib li:before { content: &quot; [&quot;counter(item)&quot;] &quot;; }">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Singular Values of Essential Matrix">
+<meta property="og:url" content="http://yoursite.com/2020/01/20/essential_mat_sig_val/index.html">
+<meta property="og:site_name" content="Xiaoxing Chen&#39;s Space">
+<meta property="og:description" content=".bib ol { counter-reset: item }             .bib li { display: block ; counter-increment: item; }             .bib li:before { content: &quot; [&quot;counter(item)&quot;] &quot;; }">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-01-20T09:13:14.000Z">
+<meta property="article:modified_time" content="2020-03-29T04:22:16.261Z">
+<meta property="article:author" content="Xiaoxing">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/01/20/essential_mat_sig_val/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>Singular Values of Essential Matrix | Xiaoxing Chen's Space</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xiaoxing Chen's Space</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/20/essential_mat_sig_val/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Xiaoxing">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xiaoxing Chen's Space">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Singular Values of Essential Matrix
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-20 17:13:14" itemprop="dateCreated datePublished" datetime="2020-01-20T17:13:14+08:00">2020-01-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-03-29 12:22:16" itemprop="dateModified" datetime="2020-03-29T12:22:16+08:00">2020-03-29</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <head>
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+        <style>
+            .bib ol { counter-reset: item }
+            .bib li { display: block ; counter-increment: item; }
+            .bib li:before { content: " ["counter(item)"] "; }
+        </style>
+</head>
+
+<body>
+
+
+
+<p>Essential matrix is not new to anybody being familiar with Epipolar Geometry. Here is the famous epipolar constraint: </p>
+\[
+    x_2^\top E x_1 = 0 
+\]
+<p>
+    Recall that when the essential matrix is obtained by 8-point algorithm, 
+    one has to decompose the result with SVD to make its third singular value 0 and the other 
+    two singular values equal. Here is a short derivation of this property of essential matrix.
+</p>
+
+<p>According to the definition of essential matrix: </p>
+\[
+ E = \{ S R | S = t^\wedge \in \mathfrak{so}(3), R \in SO(3)\} \tag{1-1}
+\] 
+
+<p>
+    According to the definition of SVD, a singular value \(\sigma\) of a matrix A, 
+    equals to the square root of correspondent eigenvalue \(\lambda\) of matrix \(A^\top A\):
+</p>
+\[
+   \sigma_{A,i} = \sqrt{\lambda_{A^\top A,i}} \tag{1-2}
+ \]
+<p>Meanwhile,</p>
+ \[
+    E^\top E = R^\top S^\top S R = -R^\top (t^\wedge)^2 R \tag{1-3}
+ \]
+ <p>According to the property of askew-symmetric matrix:</p>
+ \[
+    (t^\wedge)^2 = \|t\|^2 I - t t^\top \tag{1-4}
+ \]
+ <p>The first term is a scalar matrix with three equal eigenvalues \(\|t\|^2\)</p>
+ <p>The second term \(t t^\top\) is a symmetric matrix, which is therefore semi-positive definite.
+    It can be diagonalized<sup><a href="/2020/01/20/mat_generated_by_outer_product">[1]</a></sup>:
+ </p>
+ \[
+    t t^\top = \|t\|^2 R_t^\top diag(1, 0, 0) R_t \tag{1-5}
+ \]
+
+ <p>Thus, equation (1-3) becomes:</p>
+ \[
+    E^\top E = \|t\|^2 R^\top R_t^\top ( I - diag(1, 0, 0)) R_t R 
+    
+ \]
+ \[
+    = \|t\|^2 (R_t R )^\top diag(1, 1, 0) (R_t R) 
+    \tag{1-6}
+ \]
+
+ <p>Therefore, eigenvalues of \(E^\top E\) are: \(\|t\|^2 (1, 1, 0)\).</p>
+ <p>Finally, according to (1-3), singular values of essential matrix \(E\) are: \(\|t\|(1, 1, 0)\).</p>
+
+ <br>
+
+ <h2>References</h2>
+ <ol class="bib">
+    <li>Xiaoxing. <a href="/2020/01/20/mat_generated_by_outer_product"><cite>Property of Matrix Generated by Outer Product</cite></a></li>
+ </ol>
+</body>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/20/mat_generated_by_outer_product/" rel="prev" title="Property of Matrix Generated by Outer Product">
+      <i class="fa fa-chevron-left"></i> Property of Matrix Generated by Outer Product
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/02/29/why_here/" rel="next" title="Why Here">
+      Why Here <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">1.</span> <span class="nav-text">References</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Xiaoxing</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xiaoxingchen" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xiaoxingchen" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:chen-xx@zju.edu.cn" title="E-Mail → mailto:chen-xx@zju.edu.cn" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/%E7%AC%91%E8%A1%8C-%E9%99%88-8b96ba10a/" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;%E7%AC%91%E8%A1%8C-%E9%99%88-8b96ba10a&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-linkedin-square"></i>LinkedIn</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://xiaoxingchen.github.io/resume/resume_en.html" title="Resume → https:&#x2F;&#x2F;xiaoxingchen.github.io&#x2F;resume&#x2F;resume_en.html" rel="noopener" target="_blank"><i class="fa fa-fw fa-address-card"></i>Resume</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xiaoxing</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '1f48de0c2ba11ca76d97',
+      clientSecret: 'f68c7823966bc61e5eb122154ef198023aceabda',
+      repo        : 'xiaoxingchen.github.io',
+      owner       : 'XiaoxingChen',
+      admin       : ['XiaoxingChen'],
+      id          : '5990f86cef48c62bd271ad12f82e0a8d',
+        language: 'en | zh-CN | zh-TW',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
