@@ -648,8 +648,8 @@ gitalk:
   enable: true
   github_id: XiaoxingChen # GitHub repo owner
   repo: xiaoxingchen.github.io # Repository name to store issues
-  client_id: 1f48de0c2ba11ca76d97 # GitHub Application Client ID
-  client_secret: f68c7823966bc61e5eb122154ef198023aceabda # GitHub Application Client Secret
+  client_id:  # GitHub Application Client ID
+  client_secret:  # GitHub Application Client Secret
   admin_user: XiaoxingChen # GitHub repo owner and collaborators, only these guys can initialize gitHub issues
   # labels: 'gitalk' # label of GitHub issues 
   distraction_free_mode: true # Facebook-like distraction free mode
