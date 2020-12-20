@@ -9,6 +9,7 @@
 
 :root{
   --page-width: 8.5in;
+  --page-number: 1.3;
   --page-height: 11in;
   --main-width: 6.4in;
   --sidebar-width: calc(var(--page-width) - var(--main-width));
@@ -29,11 +30,13 @@
   --main-blocks-title-icon-offset-left: -19pt;
 }
 
+html,
 body{
   width: var(--page-width);
   height: var(--page-height);
-  margin: 0;
-  font-family: "Open Sans", sans-serif; 
+  margin-left: auto;
+  margin-right: auto;
+  font-family: "Open Sans", sans-serif;
   font-weight: 300;
   line-height: 1.3;
   color: #444;
@@ -60,7 +63,7 @@ li{
   float: right;
   position: relative; /* for disclaimer */
   width: var(--sidebar-width);
-  height: 100%;
+  height: calc(var(--page-height) * var(--page-number));;
   padding: 0.6in var(--sidebar-horizontal-padding);
   background-color: #f2f2f2;
   font-size: 8.5pt;
@@ -244,7 +247,7 @@ li{
 }
 
 .main-block:not(.concise) .details div{
-  margin: 0.18in 0 0.1in 0; 
+  margin: 0.18in 0 0.1in 0;
 }
 
 .main-block:not(.concise) .blocks:last-child .details div{
@@ -325,7 +328,7 @@ li{
 }
 
 .side-block{
-  margin-top: 0.5in; 
+  margin-top: 0.5in;
 }
 
 #contact ul{
