@@ -1306,7 +1306,7 @@ So far I start to make some of the contents public, here is the new site for the
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-29 12:23:41" itemprop="dateModified" datetime="2020-03-29T12:23:41+08:00">2020-03-29</time>
+                <time title="Modified: 2021-01-21 22:49:14" itemprop="dateModified" datetime="2021-01-21T22:49:14+08:00">2021-01-21</time>
               </span>
 
           
@@ -1341,27 +1341,27 @@ So far I start to make some of the contents public, here is the new site for the
 \]
 
 \[
-    A = 
+    A =
     \left[
     \begin{matrix}
-    a_1 a & a_2 a & \cdots & a_n a 
+    a_1 a & a_2 a & \cdots & a_n a
     \end{matrix}
-    \right] 
+    \right]
     =
     \left[
     \begin{matrix}
-    a_1 a^\top \\ 
-    a_2 a^\top \\ 
-    \vdots \\ 
-    a_n a^\top 
+    a_1 a^\top \\
+    a_2 a^\top \\
+    \vdots \\
+    a_n a^\top
     \end{matrix}
-    \right] 
+    \right]
     \tag{1-3}
 
 \]
 
 \[
-    A = 
+    A =
     \left[
     \begin{matrix}
     a_1 a_1 & a_1 a_2 & \cdots & a_1 a_n \\
@@ -1388,7 +1388,7 @@ So far I start to make some of the contents public, here is the new site for the
 
 <h2>General Case</h2>
 \[
-    a b^\top = C \tag{1-1}
+    a b^\top = C \tag{2-1}
 \]
 
 <p>Properties of matrix C:</p>
@@ -1399,6 +1399,42 @@ So far I start to make some of the contents public, here is the new site for the
     <li>\(\text{rank}(C) = 1\)</li>
     <li>Singular values of \(C\) are: \([\|a\|\|b\|, 0, \cdots, 0]\)</li>
 </ol>
+
+<h2>Decomposition</h2>
+<p>Given a 1-rank matrix \(A \in \mathbb{R}^{m \times n}\), it can be decomposed to:  </p>
+\[
+    A = u v ^\top
+\]
+\[
+    u = k
+    \left[
+    \begin{matrix}
+        a_{11} \\
+        a_{21} \\
+        \vdots \\
+        a_{m1} \\
+    \end{matrix}
+     \right]
+
+\qquad
+
+    v ^\top = \frac{1}{k a _{11}}
+    \left[
+    \begin{matrix}
+        a_{11} &
+        a_{12} &
+        \cdots &
+        a_{1n}
+    \end{matrix}
+     \right]
+
+    \quad
+    (k \neq 0)
+    \tag{2-2}
+\]
+
+<p>Because of the existence of \(k\), the decomposition is not unique. </p>
+
 </body>
       
     </div>
@@ -2068,7 +2104,7 @@ So far I start to make some of the contents public, here is the new site for the
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
