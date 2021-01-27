@@ -1,0 +1,125 @@
+---
+title: Two Reflections are A Rotation
+date: 2018-10-13
+hidden: false
+mathjax: true
+tags:
+---
+<head>
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+        <style>
+            .bib ol { counter-reset: item }
+            .bib li { display: block ; counter-increment: item; }
+            .bib li:before { content: " ["counter(item)"] "; }
+        </style>
+</head>
+<body>
+    <p>I will not put any proof of the title, but use it as a conclusion in this article.</p>
+    <h1>Representation of a reflection</h1>
+    <h2>Householder Transform</h2>
+    <p>
+        Householder transform is a famous orthogonal transform that used in basic linear algebra.
+        For example, QR decomposition use Householder transform to trianglize a matrix.
+
+    </p>
+    \[
+        P = I - 2 v v ^\top \tag{1-1}
+    \]
+    <p>Here \(P\) is the <b>Householder matrix</b>, \(I\) is the identity matrix, \(v\) is an n-dimensional unit vector used for reflection. </p>
+    <p>There are some properties of \(P\): </p>
+    <ol>
+        <li>Involutory: \(PP = I\) </li>
+        <li>Orthogonal: \(P^\top P  = I\) </li>
+        <li>Eigenvalues:
+            \( \lambda_i =
+            \begin{cases}
+                 -1 & \text{i = 1}\\
+                 1 & i = 2, \cdots , n\\
+            \end{cases}\)
+        </li>
+        <li>
+            Eigenvectors: \(
+                \begin{cases}
+                    e_i = v & i = 1\\
+                    e_i \perp v & i = 2, \cdots , n\\
+                \end{cases}
+            \)
+        </li>
+        <li>
+            Determinant: \(\text{det}(P) = -1\)
+        </li>
+    </ol>
+    <p>\(\forall x \in \mathbb{R}^{n}, x = c_1 e_1 + c_2 e_2 + \cdots c_n e_n\).
+        Then,</p>
+
+    \[
+        \begin{align}
+            Px &= \lambda_1 c_1 e_1 + \lambda_2 c_2 e_2 + \cdots \lambda_n c_n e_n \\
+            &= -c_1 e_1 + c_2 e_2 + \cdots c_n e_n
+            \tag{1-2}
+        \end{align}
+    \]
+
+    <p>Formula (1-2) shows that matrix \(P\) reflect a vector \(x\) along vector \(v\).</p>
+
+    <h3>Composition of a Single Rotation</h3>
+    <p>An n-dimensional single rotation \(R = e ^{B \theta}\) can be composed by two matrix \(P_1 = I - 2u u ^\top, P_2= I - 2v v ^\top\) </p>
+    \[
+    \begin{align}
+        R &= P_1 P_2 \\
+        \theta &= 2 \arccos(u \cdot v) \\
+        B &= \text{span}\{u, v\}
+    \end{align}
+
+    \]
+    <p>\(\theta\) is the angle of rotation, \(B\) is the plane of rotation.  </p>
+
+    <h3>Decomposition of a Single Rotation</h3>
+    <p>
+        The decomposition from a single rotation to two reflections are not unique.
+        Any two reflections \(P_1, P_2\)  with reflect vector \(u, v\) in rotation
+        plane \(B\) form a angle \(\theta\) can compose a single rotation.
+    </p>
+    \[
+    \begin{align}
+        R &= P_1 P_2 \\
+        &= (I - 2u u ^\top) (I - 2v v ^\top) \\
+        &= I - 2u u ^\top - 2v v ^\top + 4(u ^\top v) u v ^\top\\
+    \end{align}
+    \]
+    \[
+        \frac{R - I}{2} = 2(u ^\top v) u v ^\top - (u u ^\top + v v ^\top)
+    \]
+    <p>Because \(\text{tr}(v v ^\top) = \text{tr}(u u ^\top) = 1\), \(\text{tr}(u v ^\top) = u ^\top v\) </p>
+    \[
+        \text{tr}\left(\frac{R - I}{2}\right)
+        = \frac{1}{2} \left(\text{tr}(R) - n\right)
+        = 2 (u ^\top v)^2 - 2
+    \]
+    \[
+        \begin{align}
+        \cos ^2 \frac{\theta}{2} &= \frac{1}{4} \left(\text{tr}(R) - n\right) + 1 \\
+        \sin ^2 \frac{\theta}{2} &= -\frac{1}{4} \left(\text{tr}(R) - n\right)
+        \end{align}
+    \]
+    <p>Because</p>
+    \[
+    \begin{align}
+        \cos \theta &= \cos ^2 \frac{\theta}{2} - \sin ^2 \frac{\theta}{2} \\
+        \cos \theta &= \frac{1}{2} \left(\text{tr}(R) - n\right) + 1 \\
+    \end{align} \tag{todo mismatch with 3D rodrigues formula}
+    \]
+
+    <p>Besides,</p>
+    \[
+        \begin{align}
+            2 (u ^\top v) u_i v_j - u_i u_j - v_i v_j &= \frac{1}{2} R_{ij}\\
+            2 (u ^\top v) u_j v_i - u_i u_j - v_i v_j &= \frac{1}{2} R_{ji}\\
+        \end{align}
+    \]
+    \[
+        4 (u ^\top v) (u_i v_j - u_j v_i) = R_{ij} - R_{ji}
+    \]
+</body>
