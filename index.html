@@ -149,6 +149,450 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/28/two_reflections_one_rotation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Xiaoxing">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xiaoxing Chen's Space">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/28/two_reflections_one_rotation/" class="post-title-link" itemprop="url">Two Reflections From A Rotation</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-01-28 00:00:00 / Modified: 22:07:53" itemprop="dateCreated datePublished" datetime="2021-01-28T00:00:00+08:00">2021-01-28</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <head>
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+        <style>
+            .bib ol { counter-reset: item }
+            .bib li { display: block ; counter-increment: item; }
+            .bib li:before { content: " ["counter(item)"] "; }
+        </style>
+</head>
+<body>
+    <p>I will not put any proof of the title, but use it as a conclusion in this article.</p>
+    <!-- <h1>Representation of a reflection</h1> -->
+    <h2>Householder Transform</h2>
+    <p>
+        Householder transform is a famous orthogonal transform that used in basic linear algebra.
+        For example, QR decomposition use Householder transform to trianglize a matrix.
+    </p>
+    \[
+        P = I - 2 v v ^\top \tag{1-1}
+    \]
+    <p>Here \(P\) is the <b>Householder matrix</b>, \(I\) is the identity matrix, \(v\) is an n-dimensional unit vector used for reflection. </p>
+    <p>There are some properties of \(P\): </p>
+    <ol>
+        <li>Involutory: \(PP = I\) </li>
+        <li>Orthogonal: \(P^\top P  = I\) </li>
+        <li>Eigenvalues:
+            \( \lambda_i =
+            \begin{cases}
+                 -1 & \text{i = 1}\\
+                 1 & i = 2, \cdots , n\\
+            \end{cases}\)
+        </li>
+        <li>
+            Eigenvectors: \(
+                \begin{cases}
+                    e_i = v & i = 1\\
+                    e_i \perp v & i = 2, \cdots , n\\
+                \end{cases}
+            \)
+        </li>
+        <li>
+            Determinant: \(\text{det}(P) = -1\)
+        </li>
+    </ol>
+    <p>\(\forall x \in \mathbb{R}^{n}, x = c_1 e_1 + c_2 e_2 + \cdots c_n e_n\).
+        Then,</p>
+
+    \[
+        \begin{align}
+            Px &= \lambda_1 c_1 e_1 + \lambda_2 c_2 e_2 + \cdots \lambda_n c_n e_n \\
+            &= -c_1 e_1 + c_2 e_2 + \cdots c_n e_n
+            \tag{1-2}
+        \end{align}
+    \]
+
+    <p>Formula (1-2) shows that matrix \(P\) reflect a vector \(x\) along vector \(v\).</p>
+    <p>With the definition of <b>reflection</b>, the title of this article can be expressed as follow:
+        <blockquote>
+            A rotation \(R\) in plane \(B\) with rotation angle \(\theta\) can be composed by two reflections \(P_1 = I - 2 u u ^\top, P_2 = I - 2 v v ^\top\),
+            with \(u\) and \(v\) lie in plane \(B\) and form a \(\frac{\theta}{2}\) angle.
+        </blockquote>
+    </p>
+
+
+    <h2>Composition of a Single Rotation</h2>
+    <p>An n-dimensional single rotation \(R = e ^{B \theta}\) can be composed by two matrix \(P_1 = I - 2u u ^\top, P_2= I - 2v v ^\top\) </p>
+    \[
+    \begin{align}
+        R &= P_1 P_2 \\
+        \theta &= 2 \arccos(u \cdot v) \\
+        B &= \text{span}\{u, v\}
+    \end{align}
+
+    \]
+    <p>\(\theta\) is the angle of rotation, \(B\) is the plane of rotation.  </p>
+
+    <h2>Decomposition of a Single Rotation</h2>
+    <p>
+        The decomposition from a single rotation to two reflections are not unique.
+        Any two reflections \(P_1, P_2\)  with reflect vector \(u, v\) in rotation
+        plane \(B\) form a angle \(\theta\) can compose a single rotation.
+    </p>
+    \[
+    \begin{align}
+        R &= P_1 P_2 \\
+        &= (I - 2u u ^\top) (I - 2v v ^\top) \\
+        &= I - 2u u ^\top - 2v v ^\top + 4(u ^\top v) u v ^\top\\
+    \end{align}
+    \]
+    \[
+        \frac{R - I}{2} = 2(u ^\top v) u v ^\top - (u u ^\top + v v ^\top) \tag{2-1}
+    \]
+    <p>Because \(\text{tr}(v v ^\top) = \text{tr}(u u ^\top) = 1\), \(\text{tr}(u v ^\top) = u ^\top v\) </p>
+    \[
+        \text{tr}\left(\frac{R - I}{2}\right)
+        = \frac{1}{2} \left(\text{tr}(R) - n\right)
+        = 2 (u ^\top v)^2 - 2
+    \]
+    \[
+        \begin{align}
+        \cos ^2 \frac{\theta}{2} &= \frac{1}{4} \left(\text{tr}(R) - n\right) + 1 \\
+        \sin ^2 \frac{\theta}{2} &= -\frac{1}{4} \left(\text{tr}(R) - n\right)
+        \end{align}
+    \]
+    <p>Because</p>
+    \[
+        \cos \theta = \cos ^2 \frac{\theta}{2} - \sin ^2 \frac{\theta}{2}
+    \]
+    \[
+        \cos \theta = \frac{1}{2} \left(\text{tr}(R) - n\right) + 1 \tag{2-2}
+    \]
+
+    <p>It provides a way to calculate rotation angle of a n-dimensional single rotation.
+        Specifically, when \(n = 3\), it degenerates to the famous Rodrigous formula.
+    </p>
+
+    <p>Besides, by subtracting (2-1) with its transposition,</p>
+    \[
+        \frac{R ^\top - I}{2} = 2(u ^\top v) v u ^\top - (u u ^\top + v v ^\top)
+    \]
+    \[
+        \frac{1}{4 (u ^\top v)} (R - R ^\top) = u v ^\top - v u ^\top
+    \]
+
+    <p>
+        Denote \(A = \frac{1}{4 (u ^\top v)} (R - R ^\top)\), \(A\) is a skew symmetric matrix.
+        It contains the information of rotation plane of rotation \(R\).
+    </p>
+
+    <h2>References</h2>
+    <ol class="bib">
+        <li>
+            Wikipedia,<a href="https://en.wikipedia.org/wiki/Householder_transformation" target="_blank" rel="noopener">
+            Householder transformation</a>
+        </li>
+        <li>
+            Richard, Aurélie, et al. <a href="https://hal.archives-ouvertes.fr/hal-00713697/document" target="_blank" rel="noopener">
+            "Decomposition of nD-rotations: classification, properties and algorithm."</a> <i>Graphical models 73.6 (2011): 346-353.</i>
+        </li>
+    </ol>
+</body>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/04/gpu_particle_filter/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Xiaoxing">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xiaoxing Chen's Space">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/10/04/gpu_particle_filter/" class="post-title-link" itemprop="url">Particle Filter with GPU Implementation</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-10-04 00:00:00" itemprop="dateCreated datePublished" datetime="2020-10-04T00:00:00+08:00">2020-10-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-01-28 22:03:42" itemprop="dateModified" datetime="2021-01-28T22:03:42+08:00">2021-01-28</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+        <style>
+            .bib ol { counter-reset: item }
+            .bib li { display: block ; counter-increment: item; }
+            .bib li:before { content: " ["counter(item)"] "; }
+
+            code.md{
+                background-color:#eee;
+                color:deeppink;
+                border-radius: 3px;
+                border:1px solid #888;
+                padding: 2px 2px;
+            }
+            pre.md{
+                background-color:#eee;
+                border-radius: 3px;
+                border: 1px solid #888 ;
+            }
+            blockquote.md{
+                padding: 0 1em;
+                border-left: .25em solid #888;
+            }
+        </style>
+
+</head>
+<body>
+    <p>A toy example helps understand OpenCL and particle filter <a href="https://github.com/XiaoxingChen/gpu_particle_filter" target="_blank" rel="noopener">[source code]</a>.</p>
+    <h2>Notations</h2>
+    <ul>
+        <li>state vector: \(\mathrm{x} \in \mathfrak{se}(2)\)</li>
+        <li>motion noise: \(\mathrm{w}\)</li>
+        <li>motion measurement: \(\mathrm{v}\)</li>
+        <li>observation: \(\mathrm{y}\)</li>
+        <li>motion model: \(\mathrm{x}_k = f(\mathrm{x}_{k-1}, \mathrm{v}_k, \mathrm{w}_k)\), \(k = 1, \dots, K\)</li>
+        <li>observation model: \(\mathrm{y}_k = g(\mathrm{x}_k, \mathrm{n}_k)\), \(k = 0, \dots, K\)</li>
+        <li>Number of particles: \(N\)</li>
+        <li>Weight of particles: \(\omega\)</li>
+
+    </ul>
+
+    <h2>Estimation</h2>
+    <p><b>1. Prediction</b></p>
+    <p>Unlike steps in the <a title="State estimation for robotics">textbook</a><sup><a href="" title="http://asrl.utias.utoronto.ca/~tdb/bib/barfoot_ser17.pdf">[1]</a></sup>, I do prediction before sampling particles.</p>
+
+    \[
+        \hat{\mathrm{x}}_{k} = f(\mathrm{x}_{k-1}, \mathrm{v}_k, \mathrm{w}_{k})
+        \tag{2-1}
+    \]
+
+    <p><b>2. Particle sampling </b></p>
+    \[
+        \left[
+        \begin{matrix}
+            \check{\mathrm{x}}_{k,m} \\
+            \mathrm{w}_{k,m}
+        \end{matrix}
+        \right]
+        \leftarrow
+
+        p(\hat{\mathrm{x}}_{k}) p(\mathrm{w}_{k-1})
+        \tag{2-2}
+    \]
+
+    <p><b>3. Likelihood calculation</b></p>
+    <p>Here I use the likelihood between the simulated LiDAR measurement to actual LiDAR sensor data as the particle weight.</p>
+    \[
+        \omega_{k,m} \propto p(y_k | \check{\mathrm{x}}_{k,m}) = p(y_k | \check{\mathrm{y}}_{k,m})
+        \tag{2-3}
+    \]
+    <p>LiDAR measurement model: </p>
+    \[
+        p(y_k|\check{\mathrm{y}}_{k,m}) =
+        \begin{cases}
+        \text{PDF}(y_k - \check{\mathrm{y}}_{k,m}) && \text{ if } \ y_k, \check{\mathrm{y}}_{k,m} \le L_{max}), \\
+        1 - \text{CDF}(y_k - \check{\mathrm{y}}_{k,m}) && \text{ if } \ y_k > L_{max} \text{ or } \check{\mathrm{y}}_{k,m} > L_{max}, \\
+        \epsilon && \text{else}
+        \end{cases}
+        \tag{2-4}
+    \]
+
+    <p>
+        \(L_{max}\) means the maximum measure distance of the LiDAR sensor.
+        \(\text{PDF}\) is the probabilistic distribution function of the sensor model,
+        a gaussian model is used in this project.
+        \(\text{CDF}\) is the cumulative distribution function of the sensor model.
+        \(epsilon\) is a constant small value in code implementation which minimizes the impact of
+        overranged LiDAR beam.
+    </p>
+
+    <p><b>4. Resampling</b></p>
+    <p>I use the method in this paper<sup><a href="https://cse.sc.edu/~terejanu/files/tutorialMC.pdf" target="_blank" rel="noopener">[2]</a></sup> to do resampling.
+    <a href="https://leetcode.com/problems/random-pick-with-weight/" target="_blank" rel="noopener">Leetcode 528</a> is also helpful for understanding.</p>
+
+    <h2>Parallelization</h2>
+    <p>
+        In this project, I use line segments to represent objects in map without any acceleration structure.
+        For a single line LiDAR with resolution \(H\), working in a map with \(S\) segments, a particle filter with \(N\) particles has to
+        calculate line intersection for with complexity \(O(H \times S \times N)\). While those calculations are totally independent,
+        it is available to do parallelization. The determination of line segment intersection is presented here<sup><a href="https://xiaoxingchen.github.io/2018/10/13/planar_line_segment_intersection/" target="_blank" rel="noopener">[4]</a></sup>.
+    </p>
+    <p>
+        After eliminating the LiDAR beams that never intersect with objects, the rest beams' measure distances were calculated.
+        <a href="https://en.wikipedia.org/wiki/Reduction_Operator" target="_blank" rel="noopener">Parallel reduction</a> was used to find the "close hit" among all intersections of a single LiDAR beam.
+    </p>
+
+    <p>
+        Besides, the likelihood between simulation and actual measurement are also calculated in GPU.
+        To avoid float point overflow, the calculation was done in logarithmic space.
+        For there is no built-in cumulative gaussian function in OpenCL, it is <a href="https://en.wikipedia.org/wiki/Normal_distribution#Cumulative_distribution_function" target="_blank" rel="noopener">approximated by error function</a>:
+    </p>
+    \[
+        \text{CDF}(x) = \frac{1}{2}
+        \left[
+        1 + \text(erf)(\frac{x - \mu}{\sigma \sqrt 2})
+        \right]
+    \]
+
+    <h2>Experiments</h2>
+    <h3>Ice World</h3>
+    <figure>
+        <img src="https://user-images.githubusercontent.com/16934019/80937927-a1e1c880-8e09-11ea-99cb-6fa34e88f895.gif" style="width:70%">
+        <figcaption>
+            Fig.1 - LiDAR resolution: 32, LiDAR measure distance: 50 meters, particle number: 512.
+        </figcaption>
+    </figure>
+
+    <h3>Featureless Corridor</h3>
+    <figure>
+        <img src="https://user-images.githubusercontent.com/16934019/80937931-aa3a0380-8e09-11ea-9937-49a308e7e95d.gif" style="width:70%">
+        <figcaption>
+            Fig.2 - LiDAR measure distance: 20 meters. As shown in the image, particle filter can easily lost in feature less scenario.
+            The covariance in longitudinal direction increase drastically while in lateral direction it is till stable.
+            The localization converge immediately when LiDAR beam detects corner.
+        </figcaption>
+    </figure>
+
+
+    <h3>Circular Corridor</h3>
+    <figure>
+        <img src="https://user-images.githubusercontent.com/16934019/80937934-ac03c700-8e09-11ea-95ee-2300c933b5f3.gif" style="width:70%">
+        <figcaption>
+            Fig.3 - The localization is stable the LiDAR beam matches well to the wall. However the estimated position deviated from the actual position.
+            In this situation, one dimension of the localization is unobservable(need confirm).
+        </figcaption>
+    </figure>
+    <h2>References</h2>
+    <p>
+        <ol class="bib">
+            <li>
+                Barfoot, Timothy D.
+            <cite>
+                <a href="http://asrl.utias.utoronto.ca/~tdb/bib/barfoot_ser17.pdf" target="_blank" rel="noopener">"State estimation for robotics."</a>
+            </cite>
+                Cambridge University Press, 2017.
+            </li>
+            <li>
+            Terejanu, Gabriel A.
+            <cite>
+                <a href="https://cse.sc.edu/~terejanu/files/tutorialMC.pdf" target="_blank" rel="noopener">"Tutorial on Monte Carlo Techniques." </a>
+            </cite>
+                Department of Computer Science and Engineering. University at Buffalo (2009).
+            </li>
+            <li>
+                Atsushi, Sakai.
+                <a href="https://github.com/AtsushiSakai/PythonRobotics/blob/master/Localization/particle_filter/particle_filter.py" target="_blank" rel="noopener">"PythonRobotics."</a>
+            </li>
+            <li>
+                Xiaoxing, Chen.
+                <a href="https://xiaoxingchen.github.io/2018/10/13/planar_line_segment_intersection/" target="_blank" rel="noopener">"Determine Intersection of Two Planar Line Segments"</a>
+            </li>
+        </ol>
+    </p>
+</body>
+</html>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/07/least_l1_norm_problem/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -317,251 +761,6 @@
         </li>
     </ol>
 </body>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/04/gpu_particle_filter/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Xiaoxing">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xiaoxing Chen's Space">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/04/gpu_particle_filter/" class="post-title-link" itemprop="url">Particle Filter with GPU Implementation</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-05-04 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-04T00:00:00+08:00">2020-05-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-10-04 20:37:35" itemprop="dateModified" datetime="2020-10-04T20:37:35+08:00">2020-10-04</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script type="text/javascript" async
-            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
-        </script>
-        <style>
-            .bib ol { counter-reset: item }
-            .bib li { display: block ; counter-increment: item; }
-            .bib li:before { content: " ["counter(item)"] "; }
-
-            code.md{
-                background-color:#eee;
-                color:deeppink;
-                border-radius: 3px;
-                border:1px solid #888;
-                padding: 2px 2px;
-            }
-            pre.md{
-                background-color:#eee;
-                border-radius: 3px;
-                border: 1px solid #888 ;
-            }
-            blockquote.md{
-                padding: 0 1em;
-                border-left: .25em solid #888;
-            }
-        </style>
-
-</head>
-<body>
-    <p>A toy example helps understand OpenCL and particle filter <a href="https://github.com/XiaoxingChen/gpu_particle_filter" target="_blank" rel="noopener">[source code]</a>.</p>
-    <h2>Notations</h2>
-    <ul>
-        <li>state vector: \(\mathrm{x} \in \mathfrak{se}(2)\)</li>
-        <li>motion noise: \(\mathrm{w}\)</li>
-        <li>motion measurement: \(\mathrm{v}\)</li>
-        <li>observation: \(\mathrm{y}\)</li>
-        <li>motion model: \(\mathrm{x}_k = f(\mathrm{x}_{k-1}, \mathrm{v}_k, \mathrm{w}_k)\), \(k = 1, \dots, K\)</li>
-        <li>observation model: \(\mathrm{y}_k = g(\mathrm{x}_k, \mathrm{n}_k)\), \(k = 0, \dots, K\)</li>
-        <li>Number of particles: \(N\)</li>
-        <li>Weight of particles: \(\omega\)</li>
-        
-    </ul>
-
-    <h2>Estimation</h2>
-    <p><b>1. Prediction</b></p>
-    <p>Unlike steps in the <a title="State estimation for robotics">textbook</a><sup><a href="" title="http://asrl.utias.utoronto.ca/~tdb/bib/barfoot_ser17.pdf">[1]</a></sup>, I do prediction before sampling particles.</p>
-
-    \[
-        \hat{\mathrm{x}}_{k} = f(\mathrm{x}_{k-1}, \mathrm{v}_k, \mathrm{w}_{k})
-        \tag{2-1}
-    \]
-
-    <p><b>2. Particle sampling </b></p>
-    \[
-        \left[
-        \begin{matrix}
-            \check{\mathrm{x}}_{k,m} \\ 
-            \mathrm{w}_{k,m}
-        \end{matrix}
-        \right]
-        \leftarrow
-
-        p(\hat{\mathrm{x}}_{k}) p(\mathrm{w}_{k-1})
-        \tag{2-2}
-    \]
-
-    <p><b>3. Likelihood calculation</b></p>
-    <p>Here I use the likelihood between the simulated LiDAR measurement to actual LiDAR sensor data as the particle weight.</p>
-    \[
-        \omega_{k,m} \propto p(y_k | \check{\mathrm{x}}_{k,m}) = p(y_k | \check{\mathrm{y}}_{k,m})
-        \tag{2-3}
-    \]
-    <p>LiDAR measurement model: </p>
-    \[
-        p(y_k|\check{\mathrm{y}}_{k,m}) = 
-        \begin{cases}
-        \text{PDF}(y_k - \check{\mathrm{y}}_{k,m}) && \text{ if } \ y_k, \check{\mathrm{y}}_{k,m} \le L_{max}), \\
-        1 - \text{CDF}(y_k - \check{\mathrm{y}}_{k,m}) && \text{ if } \ y_k > L_{max} \text{ or } \check{\mathrm{y}}_{k,m} > L_{max}, \\
-        \epsilon && \text{else}
-        \end{cases}
-        \tag{2-4}
-    \]
-
-    <p>
-        \(L_{max}\) means the maximum measure distance of the LiDAR sensor. 
-        \(\text{PDF}\) is the probabilistic distribution function of the sensor model, 
-        a gaussian model is used in this project. 
-        \(\text{CDF}\) is the cumulative distribution function of the sensor model.
-        \(epsilon\) is a constant small value in code implementation which minimizes the impact of 
-        overranged LiDAR beam.
-    </p>
-
-    <p><b>4. Resampling</b></p>
-    <p>I use the method in this paper<sup><a href="https://cse.sc.edu/~terejanu/files/tutorialMC.pdf" target="_blank" rel="noopener">[2]</a></sup> to do resampling.
-    <a href="https://leetcode.com/problems/random-pick-with-weight/" target="_blank" rel="noopener">Leetcode 528</a> is also helpful for understanding.</p>
-
-    <h2>Parallelization</h2>
-    <p>
-        In this project, I use line segments to represent objects in map without any acceleration structure. 
-        For a single line LiDAR with resolution \(H\), working in a map with \(S\) segments, a particle filter with \(N\) particles has to 
-        calculate line intersection for with complexity \(O(H \times S \times N)\). While those calculations are totally independent, 
-        it is available to do parallelization. The determination of line segment intersection is presented here<sup><a href="https://xiaoxingchen.github.io/2018/10/13/planar_line_segment_intersection/" target="_blank" rel="noopener">[4]</a></sup>.
-    </p>
-    <p>
-        After eliminating the LiDAR beams that never intersect with objects, the rest beams' measure distances were calculated. 
-        <a href="https://en.wikipedia.org/wiki/Reduction_Operator" target="_blank" rel="noopener">Parallel reduction</a> was used to find the "close hit" among all intersections of a single LiDAR beam. 
-    </p>
-
-    <p>
-        Besides, the likelihood between simulation and actual measurement are also calculated in GPU. 
-        To avoid float point overflow, the calculation was done in logarithmic space. 
-        For there is no built-in cumulative gaussian function in OpenCL, it is <a href="https://en.wikipedia.org/wiki/Normal_distribution#Cumulative_distribution_function" target="_blank" rel="noopener">approximated by error function</a>:
-    </p>
-    \[
-        \text{CDF}(x) = \frac{1}{2}
-        \left[
-        1 + \text(erf)(\frac{x - \mu}{\sigma \sqrt 2})
-        \right]
-    \]
-
-    <h2>Experiments</h2>
-    <h3>Ice World</h3>
-    <figure>
-        <img src="https://user-images.githubusercontent.com/16934019/80937927-a1e1c880-8e09-11ea-99cb-6fa34e88f895.gif" style="width:70%">
-        <figcaption>
-            Fig.1 - LiDAR resolution: 32, LiDAR measure distance: 50 meters, particle number: 512.
-        </figcaption>
-    </figure>
-
-    <h3>Featureless Corridor</h3>
-    <figure>
-        <img src="https://user-images.githubusercontent.com/16934019/80937931-aa3a0380-8e09-11ea-9937-49a308e7e95d.gif" style="width:70%">
-        <figcaption>
-            Fig.2 - LiDAR measure distance: 20 meters. As shown in the image, particle filter can easily lost in feature less scenario. 
-            The covariance in longitudinal direction increase drastically while in lateral direction it is till stable.
-            The localization converge immediately when LiDAR beam detects corner. 
-        </figcaption>
-    </figure>
-    
-
-    <h3>Circular Corridor</h3>
-    <figure>
-        <img src="https://user-images.githubusercontent.com/16934019/80937934-ac03c700-8e09-11ea-95ee-2300c933b5f3.gif" style="width:70%">
-        <figcaption>
-            Fig.3 - The localization is stable the LiDAR beam matches well to the wall. However the estimated position deviated from the actual position. 
-            In this situation, one dimension of the localization is unobservable(need confirm).
-        </figcaption>
-    </figure>
-    <h2>References</h2>
-    <p>
-        <ol class="bib">
-            <li>
-                Barfoot, Timothy D. 
-            <cite>
-                <a href="http://asrl.utias.utoronto.ca/~tdb/bib/barfoot_ser17.pdf" target="_blank" rel="noopener">"State estimation for robotics."</a>
-            </cite>
-                Cambridge University Press, 2017.
-            </li>
-            <li>
-            Terejanu, Gabriel A. 
-            <cite>
-                <a href="https://cse.sc.edu/~terejanu/files/tutorialMC.pdf" target="_blank" rel="noopener">"Tutorial on Monte Carlo Techniques." </a>
-            </cite>
-                Department of Computer Science and Engineering. University at Buffalo (2009).
-            </li>
-            <li>
-                Atsushi, Sakai. 
-                <a href="https://github.com/AtsushiSakai/PythonRobotics/blob/master/Localization/particle_filter/particle_filter.py" target="_blank" rel="noopener">"PythonRobotics."</a>
-            </li>
-            <li>
-                Xiaoxing, Chen. 
-                <a href="https://xiaoxingchen.github.io/2018/10/13/planar_line_segment_intersection/" target="_blank" rel="noopener">"Determine Intersection of Two Planar Line Segments"</a>
-            </li>
-        </ol>
-    </p>
-</body>
-</html>
       
     </div>
 
@@ -863,7 +1062,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-10-04 20:24:57" itemprop="dateModified" datetime="2020-10-04T20:24:57+08:00">2020-10-04</time>
+                <time title="Modified: 2020-10-04 20:27:43" itemprop="dateModified" datetime="2020-10-04T20:27:43+08:00">2020-10-04</time>
               </span>
 
           
@@ -1275,7 +1474,7 @@ So far I start to make some of the contents public, here is the new site for the
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/20/mat_generated_by_outer_product/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/19/mat_generated_by_outer_product/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -1289,7 +1488,7 @@ So far I start to make some of the contents public, here is the new site for the
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/01/20/mat_generated_by_outer_product/" class="post-title-link" itemprop="url">Property of Matrix Generated by Outer Product</a>
+            <a href="/2020/01/19/mat_generated_by_outer_product/" class="post-title-link" itemprop="url">Property of Matrix Generated by Outer Product</a>
         </h1>
 
         <div class="post-meta">
@@ -1299,14 +1498,14 @@ So far I start to make some of the contents public, here is the new site for the
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-01-20 00:00:00" itemprop="dateCreated datePublished" datetime="2020-01-20T00:00:00+08:00">2020-01-20</time>
+              <time title="Created: 2020-01-19 00:00:00" itemprop="dateCreated datePublished" datetime="2020-01-19T00:00:00+08:00">2020-01-19</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-01-21 22:49:14" itemprop="dateModified" datetime="2021-01-21T22:49:14+08:00">2021-01-21</time>
+                <time title="Modified: 2021-01-28 22:02:51" itemprop="dateModified" datetime="2021-01-28T22:02:51+08:00">2021-01-28</time>
               </span>
 
           
@@ -1434,6 +1633,7 @@ So far I start to make some of the contents public, here is the new site for the
 \]
 
 <p>Because of the existence of \(k\), the decomposition is not unique. </p>
+<p>Specially, if \(u = v\), \(u = \frac{1}{\sqrt{a_{11}}}[ \begin{matrix}a_{11} & a_{12}& \cdots& a_{1n} \end{matrix} ] ^\top\).  </p>
 
 </body>
       
@@ -2064,7 +2264,7 @@ So far I start to make some of the contents public, here is the new site for the
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
