@@ -1,7 +1,7 @@
 ---
 title: Particle Filter with GPU Implementation
-date: 2020-05-4
-hidden: false 
+date: 2020-10-4
+hidden: false
 mathjax: true
 tags:
 ---
@@ -50,7 +50,7 @@ tags:
         <li>observation model: \(\mathrm{y}_k = g(\mathrm{x}_k, \mathrm{n}_k)\), \(k = 0, \dots, K\)</li>
         <li>Number of particles: \(N\)</li>
         <li>Weight of particles: \(\omega\)</li>
-        
+
     </ul>
 
     <h2>Estimation</h2>
@@ -66,7 +66,7 @@ tags:
     \[
         \left[
         \begin{matrix}
-            \check{\mathrm{x}}_{k,m} \\ 
+            \check{\mathrm{x}}_{k,m} \\
             \mathrm{w}_{k,m}
         \end{matrix}
         \right]
@@ -84,7 +84,7 @@ tags:
     \]
     <p>LiDAR measurement model: </p>
     \[
-        p(y_k|\check{\mathrm{y}}_{k,m}) = 
+        p(y_k|\check{\mathrm{y}}_{k,m}) =
         \begin{cases}
         \text{PDF}(y_k - \check{\mathrm{y}}_{k,m}) && \text{ if } \ y_k, \check{\mathrm{y}}_{k,m} \le L_{max}), \\
         1 - \text{CDF}(y_k - \check{\mathrm{y}}_{k,m}) && \text{ if } \ y_k > L_{max} \text{ or } \check{\mathrm{y}}_{k,m} > L_{max}, \\
@@ -94,11 +94,11 @@ tags:
     \]
 
     <p>
-        \(L_{max}\) means the maximum measure distance of the LiDAR sensor. 
-        \(\text{PDF}\) is the probabilistic distribution function of the sensor model, 
-        a gaussian model is used in this project. 
+        \(L_{max}\) means the maximum measure distance of the LiDAR sensor.
+        \(\text{PDF}\) is the probabilistic distribution function of the sensor model,
+        a gaussian model is used in this project.
         \(\text{CDF}\) is the cumulative distribution function of the sensor model.
-        \(epsilon\) is a constant small value in code implementation which minimizes the impact of 
+        \(epsilon\) is a constant small value in code implementation which minimizes the impact of
         overranged LiDAR beam.
     </p>
 
@@ -108,19 +108,19 @@ tags:
 
     <h2>Parallelization</h2>
     <p>
-        In this project, I use line segments to represent objects in map without any acceleration structure. 
-        For a single line LiDAR with resolution \(H\), working in a map with \(S\) segments, a particle filter with \(N\) particles has to 
-        calculate line intersection for with complexity \(O(H \times S \times N)\). While those calculations are totally independent, 
+        In this project, I use line segments to represent objects in map without any acceleration structure.
+        For a single line LiDAR with resolution \(H\), working in a map with \(S\) segments, a particle filter with \(N\) particles has to
+        calculate line intersection for with complexity \(O(H \times S \times N)\). While those calculations are totally independent,
         it is available to do parallelization. The determination of line segment intersection is presented here<sup><a href="https://xiaoxingchen.github.io/2018/10/13/planar_line_segment_intersection/">[4]</a></sup>.
     </p>
     <p>
-        After eliminating the LiDAR beams that never intersect with objects, the rest beams' measure distances were calculated. 
-        <a href="https://en.wikipedia.org/wiki/Reduction_Operator">Parallel reduction</a> was used to find the "close hit" among all intersections of a single LiDAR beam. 
+        After eliminating the LiDAR beams that never intersect with objects, the rest beams' measure distances were calculated.
+        <a href="https://en.wikipedia.org/wiki/Reduction_Operator">Parallel reduction</a> was used to find the "close hit" among all intersections of a single LiDAR beam.
     </p>
 
     <p>
-        Besides, the likelihood between simulation and actual measurement are also calculated in GPU. 
-        To avoid float point overflow, the calculation was done in logarithmic space. 
+        Besides, the likelihood between simulation and actual measurement are also calculated in GPU.
+        To avoid float point overflow, the calculation was done in logarithmic space.
         For there is no built-in cumulative gaussian function in OpenCL, it is <a href="https://en.wikipedia.org/wiki/Normal_distribution#Cumulative_distribution_function">approximated by error function</a>:
     </p>
     \[
@@ -143,18 +143,18 @@ tags:
     <figure>
         <img src="https://user-images.githubusercontent.com/16934019/80937931-aa3a0380-8e09-11ea-9937-49a308e7e95d.gif" style="width:70%">
         <figcaption>
-            Fig.2 - LiDAR measure distance: 20 meters. As shown in the image, particle filter can easily lost in feature less scenario. 
+            Fig.2 - LiDAR measure distance: 20 meters. As shown in the image, particle filter can easily lost in feature less scenario.
             The covariance in longitudinal direction increase drastically while in lateral direction it is till stable.
-            The localization converge immediately when LiDAR beam detects corner. 
+            The localization converge immediately when LiDAR beam detects corner.
         </figcaption>
     </figure>
-    
+
 
     <h3>Circular Corridor</h3>
     <figure>
         <img src="https://user-images.githubusercontent.com/16934019/80937934-ac03c700-8e09-11ea-95ee-2300c933b5f3.gif" style="width:70%">
         <figcaption>
-            Fig.3 - The localization is stable the LiDAR beam matches well to the wall. However the estimated position deviated from the actual position. 
+            Fig.3 - The localization is stable the LiDAR beam matches well to the wall. However the estimated position deviated from the actual position.
             In this situation, one dimension of the localization is unobservable(need confirm).
         </figcaption>
     </figure>
@@ -162,25 +162,25 @@ tags:
     <p>
         <ol class="bib">
             <li>
-                Barfoot, Timothy D. 
+                Barfoot, Timothy D.
             <cite>
                 <a href="http://asrl.utias.utoronto.ca/~tdb/bib/barfoot_ser17.pdf">"State estimation for robotics."</a>
             </cite>
                 Cambridge University Press, 2017.
             </li>
             <li>
-            Terejanu, Gabriel A. 
+            Terejanu, Gabriel A.
             <cite>
                 <a href="https://cse.sc.edu/~terejanu/files/tutorialMC.pdf">"Tutorial on Monte Carlo Techniques." </a>
             </cite>
                 Department of Computer Science and Engineering. University at Buffalo (2009).
             </li>
             <li>
-                Atsushi, Sakai. 
+                Atsushi, Sakai.
                 <a href="https://github.com/AtsushiSakai/PythonRobotics/blob/master/Localization/particle_filter/particle_filter.py">"PythonRobotics."</a>
             </li>
             <li>
-                Xiaoxing, Chen. 
+                Xiaoxing, Chen.
                 <a href="https://xiaoxingchen.github.io/2018/10/13/planar_line_segment_intersection/">"Determine Intersection of Two Planar Line Segments"</a>
             </li>
         </ol>

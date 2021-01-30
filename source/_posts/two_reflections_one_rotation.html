@@ -1,6 +1,6 @@
 ---
-title: Two Reflections are A Rotation
-date: 2018-10-13
+title: Two Reflections Form A Single Rotation
+date: 2021-1-28
 hidden: false
 mathjax: true
 tags:
@@ -16,13 +16,22 @@ tags:
         </style>
 </head>
 <body>
-    <p>I will not put any proof of the title, but use it as a conclusion in this article.</p>
-    <h1>Representation of a reflection</h1>
+    <p>
+        The proof <sup><a href="https://www.youtube.com/watch?v=Hy2gbdbrJZ8">[1]</a></sup> of the title will not be present here.
+        It is used as a conclusion in this article to solve practical computer graphics and robotics problem.</p>
+
+    <h1>Basic Concepts</h1>
+    <h2>Single Rotation</h2>
+    <p>A rotation matrix \(R\) in n-dimensional space: \(\{ R \in \mathbb{R}^{n \times n} | RR ^\top = I, \text{det}(R) = 1\}\).
+        A single rotation matrix is a rotation matrix \(R\) with only one pair of complex eigenvalues.
+    </p>
+    <p>A single rotation has only one rotation plane \(B\) and rotation angle \(\theta\).
+        The exponential form of a single rotation is \(R = e ^{B \theta}\).   </p>
+
     <h2>Householder Transform</h2>
     <p>
-        Householder transform is a famous orthogonal transform that used in basic linear algebra.
+        Householder transform is a famous orthogonal transform in basic linear algebra.
         For example, QR decomposition use Householder transform to trianglize a matrix.
-
     </p>
     \[
         P = I - 2 v v ^\top \tag{1-1}
@@ -63,20 +72,27 @@ tags:
     \]
 
     <p>Formula (1-2) shows that matrix \(P\) reflect a vector \(x\) along vector \(v\).</p>
+    <p>With the definition of <b>reflection</b>, the title of this article can be expressed as follow:
+        <blockquote>
+            A single rotation \(R\) in plane \(B\) with rotation angle \(\theta\) can be composed by two reflections \(P_1 = I - 2 u u ^\top, P_2 = I - 2 v v ^\top\),
+            with \(u\) and \(v\) lie in plane \(B\) and form a angle of \(\frac{\theta}{2}\).
+        </blockquote>
+    </p>
 
-    <h3>Composition of a Single Rotation</h3>
+
+    <h1>Composition of a Single Rotation</h1>
     <p>An n-dimensional single rotation \(R = e ^{B \theta}\) can be composed by two matrix \(P_1 = I - 2u u ^\top, P_2= I - 2v v ^\top\) </p>
     \[
     \begin{align}
         R &= P_1 P_2 \\
-        \theta &= 2 \arccos(u \cdot v) \\
+        \cos \frac{\theta}{2}  &= u ^\top v \\
         B &= \text{span}\{u, v\}
     \end{align}
 
     \]
-    <p>\(\theta\) is the angle of rotation, \(B\) is the plane of rotation.  </p>
 
-    <h3>Decomposition of a Single Rotation</h3>
+    <h1>Decomposition of a Single Rotation</h1>
+
     <p>
         The decomposition from a single rotation to two reflections are not unique.
         Any two reflections \(P_1, P_2\)  with reflect vector \(u, v\) in rotation
@@ -90,8 +106,9 @@ tags:
     \end{align}
     \]
     \[
-        \frac{R - I}{2} = 2(u ^\top v) u v ^\top - (u u ^\top + v v ^\top)
+        \frac{R - I}{2} = 2(u ^\top v) u v ^\top - (u u ^\top + v v ^\top) \tag{2-1}
     \]
+    <h2>Find the Rotation Angle</h2>
     <p>Because \(\text{tr}(v v ^\top) = \text{tr}(u u ^\top) = 1\), \(\text{tr}(u v ^\top) = u ^\top v\) </p>
     \[
         \text{tr}\left(\frac{R - I}{2}\right)
@@ -106,20 +123,99 @@ tags:
     \]
     <p>Because</p>
     \[
-    \begin{align}
-        \cos \theta &= \cos ^2 \frac{\theta}{2} - \sin ^2 \frac{\theta}{2} \\
-        \cos \theta &= \frac{1}{2} \left(\text{tr}(R) - n\right) + 1 \\
-    \end{align} \tag{todo mismatch with 3D rodrigues formula}
+        \cos \theta = \cos ^2 \frac{\theta}{2} - \sin ^2 \frac{\theta}{2}
+    \]
+    \[
+        \cos \theta = \frac{\text{tr}(R) - n}{2} + 1 \tag{2-2}
     \]
 
-    <p>Besides,</p>
+    <p>It provides a way to calculate rotation angle of a n-dimensional single rotation.
+        Specifically, when \(n = 3\), it degenerates to the famous Rodrigous formula.
+    </p>
+
+    <h2>Find the Rotation Plane</h2>
+    <p>By subtracting (2-1) with its transposition,</p>
+    \[
+        \frac{R ^\top - I}{2} = 2(u ^\top v) v u ^\top - (u u ^\top + v v ^\top)
+    \]
+    \[
+        \frac{1}{4 (u ^\top v)} (R - R ^\top) = u v ^\top - v u ^\top
+    \]
+
+    <p>
+        Denote \(A = u v ^\top - v u ^\top\), \(A ^\top = -A\) and is therefore a skew symmetric matrix.
+    </p>
+    <blockquote><b>Lemma 1.</b> For vectors \(u \in \mathbb{R}^{n}, v \in \mathbb{R}^{n}\).
+        \(u v ^\top - v u ^\top = A\) forms a directional plane \(B\).
+        And for any \(x \in \mathbb{R}^{n}\),
+        applying \(A\) on \(x\) finds a vector \(y\) in plane \(B\) that \(y \perp x\).
+    </blockquote>
+
+    <p>Proof: we use \(y\) and \(u\) to form another plane \(B'\) to see whether plane \(B\) and \(B'\)
+        are the same directional plane with different magnitude.</p>
+    \[
+        A x = y = u v ^\top x - v u ^\top x
+    \]
     \[
         \begin{align}
-            2 (u ^\top v) u_i v_j - u_i u_j - v_i v_j &= \frac{1}{2} R_{ij}\\
-            2 (u ^\top v) u_j v_i - u_i u_j - v_i v_j &= \frac{1}{2} R_{ji}\\
+            y u ^\top &= u v ^\top x u ^\top - v u ^\top x u ^\top = (v ^\top x) u u ^\top - (u ^\top x) v u ^\top \\
+            u y ^\top &= u x^\top v u ^\top - u x^\top u v ^\top = (x ^\top v) u u ^\top - (x ^\top u) u v ^\top
         \end{align}
     \]
     \[
-        4 (u ^\top v) (u_i v_j - u_j v_i) = R_{ij} - R_{ji}
+        y u ^\top + u y ^\top = (u ^\top x) (u v ^\top - v u ^\top) = k A
     \]
+
+    <p>If \(u\) is not perpendicular to \(x\), \(u ^\top x = k \neq 0\).
+        Therefore the planes generated by \(y u ^\top + u y ^\top\) and \(u v ^\top - v u ^\top\)
+        are the same directional plane with different magnitude. So, vector \(y\) lies in plane \(B\).
+    </p>
+    <p>Besides:</p>
+    \[
+        x ^\top y = x ^\top A x
+    \]
+    <p>Transpose both sides.</p>
+    \[
+        \begin{align}
+            x ^\top y &= (x ^\top A x)^\top \\
+            &= -x ^\top A x \\
+        \end{align}
+    \]
+    \[
+        x ^\top y = -(x ^\top y) = 0 \implies  x \perp y
+    \]
+
+    <p>
+        With Lemma1, we can find two vectors in plane \(B\) by applying \(A\) to two vectors that is not perpendicular to
+        plane \(B\). A identity matrix \(I\) is consists of \(n\) orthogonal vectors. By apply \(A\) to \(I\),  \(A I = A\).
+        Therefore all column vectors of \(A\) lie in the plane \(B\). Thus, pick up two column of none zero column vector of
+        matrix \(A\), one can define the rotation plane of single rotation \(R\).
+    </p>
+
+    <h1>The Next Step</h1>
+    <p>
+        A general rotation in higher dimensional space (\(n > 3\)) may be consists of multiple single rotations.
+        A method for decomposing a general rotation to several orthogonal single rotations was proposed <sup><a href="#ref3">[3]</a></sup>.
+        By combining those methods, developers may be able to solve higher dimensional geometry problem just as in 3D world.
+        Maybe do ray tracing or SLAM in 4D world.
+    </p>
+
+    <h1>References</h1>
+    <ol class="bib">
+        <li id="ref1">
+            Mathoma, <a href="https://www.youtube.com/watch?v=Hy2gbdbrJZ8">Geometric algebra in 2D - Two Reflection is a Rotation</a>, <i>YouTube</i>
+        </li>
+        <li>
+            Wikipedia,<a href="https://en.wikipedia.org/wiki/Householder_transformation">
+            Householder transformation</a>
+        </li>
+        <li id="ref3">
+            Richard, Aurélie, et al. <a href="https://hal.archives-ouvertes.fr/hal-00713697/document">
+            "Decomposition of nD-rotations: classification, properties and algorithm."</a> <i>Graphical models 73.6 (2011): 346-353.</i>
+        </li>
+        <li>Muphrid,
+            <a href="https://math.stackexchange.com/questions/506512/is-there-geometric-interpretation-to-skew-symmetric-coefficient-matrix/506535#506535">
+            "Geometric interpretation to Skew symmetric coefficient matrix."</a> <i>Math stack exchange</i>.
+        </li>
+    </ol>
 </body>
