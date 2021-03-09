@@ -72,7 +72,7 @@
             <div>
               <ul>
                 <li>Focused on the solution that modifies traditional forklift into LiDAR SLAM based autonomous SLAM forklift.</li>
-                <li>Led to the establishment of Shanghai Jiao Tong University - Seer Robotics Joint Lab.</li>
+                <li>Led to the establishment of <i>Shanghai Jiao Tong University - Seer Robotics <a href="https://www.si.sjtu.edu.cn/zh-CN/article/view/0a2c1d99-0f56-b056-315a-6ffd5436b70b/499c01d1-61a7-ca13-1673-4a4d77206eff">Joint Lab</a></i>.</li>
                 <li>Expanded the startup from 8 partners to 70 people.</li>
               </ul>
               </div>
@@ -85,23 +85,27 @@
         </h2>
         <section class="blocks">
           <div class="date">
-            <span>2020</span>
+            <span>2021</span><span>2020</span>
           </div>
           <div class="decorator">
           </div>
           <div class="details">
             <header>
-              <h3>Ray Tracing on Arm GPU</h3>
+              <h3>Ray Tracing on Arm Mali GPU</h3>
               <span class="place">Arm Client Ecosystem</span>
             </header>
             <div>
-              Accelerating the ray-triangle intersection detection by applying spatial indexing data structure on 3D geometries.
-              Support both CPU,GPU construction and update.
+              Accelerating the ray-triangle intersection detection by applying spatial indexing data structure(e.g. BVH) on 3D geometries.
+              Support both CPU,GPU build and update.
               <ul>
-                <li>Built ray query library from research team's prototype benchmark.</li>
-                <li>Built Vulkan ray query layer for Android.
-                  The layer captures standard Vulkan API calls and works transparently to developer.</li>
-                <li>Supported graphics to implemented ray query demo in <a href="https://github.com/KhronosGroup/Vulkan-Samples">Vulkan-Samples Project</a>.</li>
+                <li>Built ray query library from research team's prototype benchmark.
+                  Performance: 1M ray/frame, 75% shadow, 180k triangles, 14.0FPS on Mali-G77.
+                </li>
+                <li>Encapsulate the ray query library into a Vulkan layer as a software ray query solution(<a href="https://www.lunarg.com/new-vulkan-sdks-now-support-ray-tracing/">Vulkan 1.2.162</a>) for Android platform.
+                  The layer captures standard Vulkan API calls,
+                  inserts descriptor set bindings to shader code which reflected from SPIR-V code.
+                  The solution works transparently to developer.</li>
+                <li>Supported graphics team to implement ray query demo in <a href="https://github.com/KhronosGroup/Vulkan-Samples">Vulkan-Samples Project</a>.</li>
               </ul>
             </div>
           </div>
@@ -119,12 +123,14 @@
             </header>
             <div>
               <ul>
-                <li>Worked on camera/IMU spatial/temporal calibration, shutter time calibration and rolling shutter effect compensation.</li>
+                <li>Worked on camera/IMU spatial/temporal calibration, shutter time calibration(estimator accuracy ±0.1ms) and rolling shutter effect compensation.
+                  Monocular SLAM final RMSE: 0.21% with loop closure, 0.25% without loop closure, 640x480 on Huawei P20.
+                </li>
                 <li>Investigated Quaternion-spline based estimator for calibration tool and simulator.</li>
+                <li>Enabled object detection and image feature extraction on Arm platform by <a href="https://github.com/ARM-software/armnn">ArmNN</a> (Arm's inference engine). Performance: 7.0FPS on Huawei P20.</li>
+                <li>Created feature vector database on cloud with K-nearest neighbors search engine for visual search.</li>
                 <li>Enabled <a href="https://github.com/magicleap/SuperPointPretrainedNetwork">SuperPoint</a> (Machine learning based frontend) in Arm platform by reconstructing network with
                   <a href="https://github.com/ARM-software/ComputeLibrary">Arm Compute Library</a>.</li>
-                <li>Enabled object detection and image feature extraction on Arm platform by <a href="https://github.com/ARM-software/armnn">ArmNN</a> (Arm's inference engine)</li>
-                <li>Created feature vector database on cloud with K-nearest neighbors search engine for visual search.</li>
                 <li>Implemented an OpenCL based LiDAR particle filter localization demo on Arm Innovation Day</li>
               </ul>
             </div>
@@ -138,7 +144,7 @@
           </div>
           <div class="details">
             <header>
-              <h3>Road Model Construction SLAM Prototype</h3>
+              <h3>SLAM Prototype for Road Model Construction</h3>
               <span class="place">BMW</span>
             </header>
             <div>
@@ -146,11 +152,16 @@
                 <li>Did the lane tracking refinement on lane detection data from Mobileye. </li>
                 <li>Constructed road model (offline SLAM) by fusing GPS, lane detection and odometry. </li>
                 <li>Developed a module for interpolating undetected lane marking.</li>
-                <li>Improved the road model accuracy by introducing road curb information into pose graph.</li>
+                <li>Decrease the road model error(lateral) to ±1.5m by introducing road curb information into pose graph.</li>
               </ul>
             </div>
           </div>
         </section>
+        <div style="page-break-before:always">&nbsp;</div>
+        <br>
+        <br>
+        <br>
+        <br>
         <section class="blocks">
           <div class="date">
             <span>2018</span>
@@ -171,8 +182,40 @@
             </div>
           </div>
         </section>
+
+        <section class="blocks">
+          <div class="date">
+            <span>2017</span>
+          </div>
+          <div class="decorator">
+          </div>
+          <div class="details">
+            <header>
+              <h3>LiDAR Based Driverless Forklift Project</h3>
+              <span class="place">Seer Robotics</span>
+            </header>
+            <div>
+              <ul>
+                <li>Designed and finished the general chassis controller.
+                  The controller supports chassis kinematics and inverse kinematics with vehicle steering model, differential wheeled model
+                  and mecanum model. The controller served as a core product in the startup.
+                </li>
+                <li>Implemented gyro-accelerometer complementary filter with yaw angle accuracy: ±0.002 rad,
+                  which finally replaced the third-party solution. Integrated the filter into IMU-Odometry EKF,
+                  Absolute error of the localization system(with LiDAR): ±10mm.
+                </li>
+                <li>Implemented cross-bus(Ethernet, CAN, ModBus) network time synchronize(NTP like) solution.</li>
+                <li>Built a On-The-Air firmware update framework for all micro-controllers on robots.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
       </section>
-      <div style="page-break-before:always">&nbsp;</div>
+      <!-- <div style="page-break-before:always">&nbsp;</div>
+        <br>
+        <br>
+        <br>
+        <br> -->
       <section class="main-block concise">
         <h2>
           <i class="fa fa-graduation-cap"></i> Education
@@ -205,13 +248,14 @@
           </div>
           <div class="details">
             <header>
-              <h3>B.E. in Mechtronics</h3>
+              <h3>B.E. in Mechatronics</h3>
               <span class="place">Zhejiang University</span>
               <span class="location">Hangzhou, China</span>
             </header>
             <div>
-              <b>Courseworks</b>: Probability and Mathematical Statistics, Digital Electronic Circuits, Principle of Automatic Control, Motor Control,
-                Pneumatic Control, Electro-hydraulic Servo/proportional Control. <br>
+              <b>Courseworks</b>: Probability and Mathematical Statistics, Digital Electronic Circuits, Principle of Automatic Control, Motor Control.
+                <!-- ,Pneumatic Control, Electro-hydraulic Servo/proportional Control -->
+                <br>
               <b>Competitions</b>: <br>
               RoboCup Japan Open 2015 (Fukui) - Small Size League, Champion<br>
               <a href="https://result.robocup2015.org/show/item?id=67">RoboCup2015</a> Hefei, China - Small Size League, 3rd <br>
@@ -238,17 +282,30 @@
           Skills
         </h1>
         <ul>
-          <li>C/C++</li>
-          <li>python</li>
+          <li><b>Modern C++</b>: experienced</li>
+          <li><b>python</b>: experienced</li>
         </ul>
         <ul>
-          <li>Vulkan</li>
-          <li>OpenCL</li>
+          <li><b>Vulkan</b>: basic</li>
+          <li><b>OpenCL</b>: basic</li>
         </ul>
+
         <ul>
-          <li>SLAM</li>
-          <li>VIO</li>
+          <li><b>CMake</b>: experienced</li>
+          <li><b>gdb</b>: basic</li>
         </ul>
+
+        <ul>
+          <li><b>Regular Expression</b></li>
+          <li><b>Gitlab CI</b></li>
+        </ul>
+
+        <ul>
+          <li><b>SLAM/VIO</b></li>
+          <li><b>3D Geometry</b></li>
+        </ul>
+
+
 
         <h1>
           Language
