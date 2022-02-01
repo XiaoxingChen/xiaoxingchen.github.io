@@ -158,7 +158,7 @@ sidebar:
   #  - always  expand for all pages automatically.
   #  - hide    expand only when click on the sidebar toggle icon.
   #  - remove  totally remove sidebar including sidebar toggle.
-  display: hide
+  display: always
 
   # Sidebar padding in pixels.
   padding: 18
@@ -645,10 +645,10 @@ livere_uid: # <your_uid>
 # Gitalk
 # For more information: https://gitalk.github.io, https://github.com/gitalk/gitalk
 gitalk:
-  enable: false
+  enable: true
   github_id: XiaoxingChen # GitHub repo owner
   repo: xiaoxingchen.github.io # Repository name to store issues
-  client_id:  # GitHub Application Client ID
+  client_id: Iv1.cdb2bdd94b74584f # GitHub Application Client ID
   client_secret:  # GitHub Application Client Secret
   admin_user: XiaoxingChen # GitHub repo owner and collaborators, only these guys can initialize gitHub issues
   # labels: 'gitalk' # label of GitHub issues
