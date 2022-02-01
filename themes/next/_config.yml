@@ -578,7 +578,7 @@ comments:
   style: tabs
   # Choose a comment system to be displayed by default.
   # Available values: changyan | disqus | disqusjs | gitalk | livere | valine
-  active: gitalk
+  active: disqus
   # Setting `true` means remembering the comment system selected by the visitor.
   storage: true
   # Lazyload all comment systems.
@@ -593,8 +593,8 @@ comments:
 
 # Disqus
 disqus:
-  enable: false
-  shortname:
+  enable: true
+  shortname: xiaoxingchen
   count: true
   #post_meta_order: 0
 
@@ -645,10 +645,10 @@ livere_uid: # <your_uid>
 # Gitalk
 # For more information: https://gitalk.github.io, https://github.com/gitalk/gitalk
 gitalk:
-  enable: true
+  enable: false
   github_id: XiaoxingChen # GitHub repo owner
   repo: xiaoxingchen.github.io # Repository name to store issues
-  client_id: Iv1.cdb2bdd94b74584f # GitHub Application Client ID
+  client_id:  # GitHub Application Client ID
   client_secret:  # GitHub Application Client Secret
   admin_user: XiaoxingChen # GitHub repo owner and collaborators, only these guys can initialize gitHub issues
   # labels: 'gitalk' # label of GitHub issues
