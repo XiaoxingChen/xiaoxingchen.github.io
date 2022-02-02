@@ -1,0 +1,124 @@
+---
+title: Traversal Order in BVH Tree Construction
+date: 2022-1-21
+hidden: true
+mathjax: true
+tags:
+---
+
+<head>
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+        <style>
+            .bib ol { counter-reset: item }
+            .bib li { display: block ; counter-increment: item; }
+            .bib li:before { content: " ["counter(item)"] "; }
+            pre.md{
+            background-color:#eee;
+            border-radius: 3px;
+            border: 1px solid #888 ;
+            }
+            table.md, table.md td, table.md th{
+            border: 1px solid black;
+            text-align: center;
+            border-collapse: collapse;
+        }
+        </style>
+</head>
+
+<body>
+<h1>Background</h1>
+<p>
+    The construction of spatial partition trees are slightly different with tree problems on leetcode.
+    The program have to process a parent node both before and after its children nodes.
+    This logic is easy to implement in recursive method.
+    But in shader languages like GLSL, recursion grammar is not supported <sup><a href="#ref1">[1]</a></sup>.
+    Developers are required to implement the tree construction/traversal logic by iteration.
+</p>
+<p>
+    Recall what is taught in <i>Algorithm and Data Structure</i> course: in iterative traversal, DFS can be simulated by
+    a stack while BFS can be simulated by a queue. We are going to discuss whether a iterative DFS traversal is able to
+    access a parent node twice, once before its children nodes and once after.
+</p>
+
+<h2>Problem Constraints</h2>
+<ol>
+    <li>Iterative traversal</li>
+    <li>Depth first</li>
+    <li>Access a parent node once before its children nodes</li>
+    <li>Access a parent node once after its children nodes</li>
+    <li>Continuously stored node buffer</li>
+</ol>
+
+<h1>BVH Tree Construction Logic</h1>
+<p>
+    Consider a simplest BVH Tree: separate a set of 2D points and divide them along the longest axis and marked as two subsets.
+    The full set is the root node range of the BVH Tree and each subset is a child node of the root.
+</p>
+<p>
+    Here is the definition of the node:
+</p>
+
+<pre class="md">
+    struct Node
+    {
+        AABB aabb;
+        std::vector&lt;size_t> children_index;
+        std::vector&lt;size_t> points_index;
+        bool is_leaf;
+    };
+</pre>
+
+
+<p style="float: left; font-size: 12pt; text-align: center; width: 45%; margin-right: 1%; margin-bottom: 0.5em;">
+    <img src="/2022/01/21/traversal_order_in_bvh_tree_construction/tree_construction_1.svg" style="width: 100%">
+    Fig. 1-1: construction of the 2nd level</p>
+<p style="float: left; font-size: 12pt; text-align: center; width: 45%; margin-right: 1%; margin-bottom: 0.5em;">
+    <img src="/2022/01/21/traversal_order_in_bvh_tree_construction/tree_construction_2.svg" style="width: 100%">
+    Fig. 1-2: construction of the 3rd level</p>
+<p style="clear: both;"></p>
+
+<h2>Parameters</h2>
+<p>
+    During the construction of BVH Tree, there are several kinds of parameters that are accessed in different stages.
+</p>
+
+<table class="md">
+    <tr>
+        <td>Parameter Properties</td> <td>Description</td> <td>Examples</td>
+    </tr>
+    <tr>
+        <td>global</td>
+        <td>
+            those parameters are accessed during the whole tree construction process</td>
+        <td>node buffer</td>
+    </tr>
+    <tr>
+        <td>up-down</td>
+        <td>those parameters are passed from parent node to its children node </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>bottom-up</td>
+        <td>those parameters are passed from child node to its parent node.</td>
+        <td>bounding box of child node</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+
+
+<h1>References</h1>
+<ol class="bib">
+    <li id="ref1">
+        Khronos Group, <a href="https://www.khronos.org/registry/OpenGL/specs/gl/GLSLangSpec.4.50.pdf">GLSL 4.5 Specification, Page 115</a>
+    </li>
+    <li>
+        MBo, <a href="https://stackoverflow.com/questions/63276864/is-post-order-traversal-bottom-up-traversal-and-pre-order-traversal-top-do">is post-order traversal equivalent to bottom-up traversal</a>, <i>stackoverflow</i>
+    </li>
+</ol>
+</body>
