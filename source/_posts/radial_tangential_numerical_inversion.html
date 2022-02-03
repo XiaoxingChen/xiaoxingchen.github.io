@@ -76,13 +76,41 @@ tags:
   }_{\text{tangential}}
 \]
 
+<p>Here \(r^2 = x^2 + y^2\) </p>
+
 <blockquote class="md">
     where <i>undistort</i> is an approximate iterative algorithm that estimates the normalized original point coordinates out of the normalized distorted point coordinates ("normalized" means that the coordinates do not depend on the camera matrix) <sup><a href="#ref1">[1]</a></sup>.
 </blockquote>
 
+<!-- <h2>Jacobi</h2>
+
+<p>\(\frac{\partial d_r}{\partial x}\) </p>
+
+
+\[
+\frac{2 x k_1 + 4x(x^2+y^2) k_2 + 6x(x^2+y^2)^2 k_3}{1 + k_4 (x^2+y^2) + k_5 (x^2+y^2)^2 + k_6 (x^2+y^2)^3}
+\]
+
+\[
+\frac{1 + k_1 (x^2+y^2) + k_2 (x^2+y^2)^2 + k_3 (x^2+y^2)^3}{1 + k_4 (x^2+y^2) + k_5 (x^2+y^2)^2 + k_6 (x^2+y^2)^3}
+\]
+
+\[
+    \left[
+    \begin{matrix}
+        \frac{\partial x_d}{\partial x} & \frac{\partial x_d}{\partial y} \\
+        \frac{\partial y_d}{\partial x} & \frac{\partial y_d}{\partial y} \\
+    \end{matrix}
+     \right]
+
+     = I +
+        \frac{1 + k_1 r^2 + k_2 r^4 + k_3 r^6}{1 + k_4 r^2 + k_5 r^4 + k_6 r^6} I
+
+\] -->
+
 <h1>Mathematical Representation</h1>
 
-<p>Given vector function \(y = f(x)\) and vector \(y_0\), find vector \(x_0\) that satisfies \(f(x_0) = y_0\) .</p>
+<p>Given vector-valued function \(y = f(x)\) and vector \(y_0\), find vector \(x_0\) that satisfies \(f(x_0) = y_0\) .</p>
 <p>The solution would be quite clear if \(x = f^{-1}(y)\) is an explicit function.
     However, for the radial tangential model that mentioned above, it is an implicit function.
     Therefore, an numerical method is required to find the solution.
@@ -90,6 +118,24 @@ tags:
 \[
     x_{n+1} = x_{n} + (x_0 - f(x_{n}))
 \]
+
+<p>Denote \(g(x) = x + x_0 - f(x)\), </p>
+
+\[
+    x_{n+1} = g(x_n)
+\]
+
+<h1>Fixed-point Iteration</h1>
+
+<p>
+    Convergence rate: \(\rho(g'(x))\). The method is convergent only if \(\rho(g'(x)) &lt; 1\).
+    If \(\rho(g'(x)) > 1\), the procedure diverges. If \(\rho(g'(x)) &lt; 1\) but is close to \(1.0\), convergence is quite slow
+    <sup>
+        <a href="#ref3">[3]</a>
+    </sup>. Here \(\rho(\cdot)\) is the spectral radial of a matrix. \(g'(x)\) is the jacobian matrix of vector-valued function \(g(x)\).
+</p>
+
+<h1>Result</h1>
 
 <p style="float: left; font-size: 12pt; text-align: center; width: 45%; margin-right: 1%; margin-bottom: 0.5em;">
     <img src="https://user-images.githubusercontent.com/16934019/152280752-66bcb1b4-06db-4b56-a614-299216a30057.png" style="width: 100%">
@@ -100,7 +146,7 @@ tags:
 <p style="clear: both;"></p>
 
 <p style="float: left; font-size: 12pt; text-align: center; width: 45%; margin-right: 1%; margin-bottom: 0.5em;">
-    <img src="https://user-images.githubusercontent.com/16934019/152280752-66bcb1b4-06db-4b56-a614-299216a30057.png" style="width: 100%">
+    <img src="https://user-images.githubusercontent.com/16934019/152281184-7b7c2c85-68fd-4c9f-9fc9-39df5526fc15.png" style="width: 100%">
     Fig. 1-3: original image</p>
 <p style="float: left; font-size: 12pt; text-align: center; width: 45%; margin-right: 1%; margin-bottom: 0.5em;">
     <img src="https://user-images.githubusercontent.com/16934019/152280775-28d3ad23-a6ed-44fc-bb3d-edcef5b7d7ac.png" style="width: 100%">
@@ -114,7 +160,14 @@ tags:
         OpenCV, <a href="https://docs.opencv.org/3.4/da/d54/group__imgproc__transform.html#ga55c716492470bfe86b0ee9bf3a1f0f7e">undistortPoints</a>
     </li>
     <li>
-        https://github.com/opencv/opencv/blob/master/modules/calib3d/src/undistort.dispatch.cpp#L490
+        OpenCV, <a href="https://github.com/opencv/opencv/blob/master/modules/calib3d/src/undistort.dispatch.cpp#L490">undistort implementation</a>
+    </li>
+    <li id="ref3">
+        Joe D. Hoffman, <a href="http://freeit.free.fr/Finite%20Element/Hoffman,_Numerical_Methods_for_Engineers&Scientists,2001.pdf#page=155">Fixed-Point Iteration</a> <i>Numerical Methods for Engineers and Scientists</i>
+
+    </li>
+    <li>
+        Peter J. Olver, <a href="https://www-users.cse.umn.edu/~olver/num_/lns.pdf">Vector-Valued Iteration</a>, <i>Numerical Analysis Lecture Notes</i>
     </li>
 </ol>
 </body>
