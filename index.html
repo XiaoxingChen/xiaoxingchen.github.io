@@ -149,6 +149,249 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/01/21/radial_tangential_numerical_inversion/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Xiaoxing">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xiaoxing Chen's Space">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/21/radial_tangential_numerical_inversion/" class="post-title-link" itemprop="url">Numerical Inversion of Radial Tangential Distortion Model</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-01-21 00:00:00" itemprop="dateCreated datePublished" datetime="2022-01-21T00:00:00+08:00">2022-01-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-02-03 22:32:04" itemprop="dateModified" datetime="2022-02-03T22:32:04+08:00">2022-02-03</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2022/01/21/radial_tangential_numerical_inversion/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/01/21/radial_tangential_numerical_inversion/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+<head>
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+        <style>
+            .bib ol { counter-reset: item }
+            .bib li { display: block ; counter-increment: item; }
+            .bib li:before { content: " ["counter(item)"] "; }
+            pre.md{
+            background-color:#eee;
+            border-radius: 3px;
+            border: 1px solid #888 ;
+            }
+            table.md, table.md td, table.md th{
+            border: 1px solid black;
+            text-align: center;
+            border-collapse: collapse;
+            }
+            blockquote.md{
+                padding: 0 1em;
+                border-left: .25em solid #888;
+            }
+        </style>
+</head>
+
+<body>
+<h1>Distortion Model</h1>
+
+\[
+\left[
+\begin{matrix}
+    x_d \\
+    y_d \\
+\end{matrix}
+ \right]
+  =
+  \left[
+    \begin{matrix}
+        x \\
+        y \\
+    \end{matrix}
+    \right]+
+
+  \underbrace{
+    \frac{1 + k_1 r^2 + k_2 r^4 + k_3 r^6}{1 + k_4 r^2 + k_5 r^4 + k_6 r^6}
+    \left[
+    \begin{matrix}
+        x \\
+        y \\
+    \end{matrix}
+     \right]
+  }_{\text{radial}}
+  +
+  \underbrace{
+    \left[
+    \begin{matrix}
+        2xy & r^2 + 2x^2 \\
+        r^2 + 2 y^2 & 2xy \\
+    \end{matrix}
+     \right]
+
+     \left[
+     \begin{matrix}
+         p_1 \\
+         p_2 \\
+     \end{matrix}
+      \right]
+  }_{\text{tangential}}
+\]
+
+<p>Here \(r^2 = x^2 + y^2\) </p>
+
+<blockquote class="md">
+    where <i>undistort</i> is an approximate iterative algorithm that estimates the normalized original point coordinates out of the normalized distorted point coordinates ("normalized" means that the coordinates do not depend on the camera matrix) <sup><a href="#ref1">[1]</a></sup>.
+</blockquote>
+
+<!-- <h2>Jacobi</h2>
+
+<p>\(\frac{\partial d_r}{\partial x}\) </p>
+
+
+\[
+\frac{2 x k_1 + 4x(x^2+y^2) k_2 + 6x(x^2+y^2)^2 k_3}{1 + k_4 (x^2+y^2) + k_5 (x^2+y^2)^2 + k_6 (x^2+y^2)^3}
+\]
+
+\[
+\frac{1 + k_1 (x^2+y^2) + k_2 (x^2+y^2)^2 + k_3 (x^2+y^2)^3}{1 + k_4 (x^2+y^2) + k_5 (x^2+y^2)^2 + k_6 (x^2+y^2)^3}
+\]
+
+\[
+    \left[
+    \begin{matrix}
+        \frac{\partial x_d}{\partial x} & \frac{\partial x_d}{\partial y} \\
+        \frac{\partial y_d}{\partial x} & \frac{\partial y_d}{\partial y} \\
+    \end{matrix}
+     \right]
+
+     = I +
+        \frac{1 + k_1 r^2 + k_2 r^4 + k_3 r^6}{1 + k_4 r^2 + k_5 r^4 + k_6 r^6} I
+
+\] -->
+
+<h1>Mathematical Representation</h1>
+
+<p>Given vector-valued function \(y = f(x)\) and vector \(y_0\), find vector \(x_0\) that satisfies \(f(x_0) = y_0\) .</p>
+<p>The solution would be quite clear if \(x = f^{-1}(y)\) is an explicit function.
+    However, for the radial tangential model that mentioned above, it is an implicit function.
+    Therefore, an numerical method is required to find the solution.
+</p>
+\[
+    x_{n+1} = x_{n} + (x_0 - f(x_{n}))
+\]
+
+<p>Denote \(g(x) = x + x_0 - f(x)\), </p>
+
+\[
+    x_{n+1} = g(x_n)
+\]
+
+<h1>Fixed-point Iteration</h1>
+
+<p>
+    Convergence rate: \(\rho(g'(x))\). The method is convergent only if \(\rho(g'(x)) &lt; 1\).
+    If \(\rho(g'(x)) > 1\), the procedure diverges. If \(\rho(g'(x)) &lt; 1\) but is close to \(1.0\), convergence is quite slow
+    <sup>
+        <a href="#ref3">[3]</a>
+    </sup>. Here \(\rho(\cdot)\) is the spectral radial of a matrix. \(g'(x)\) is the jacobian matrix of vector-valued function \(g(x)\).
+</p>
+
+<h1>Result</h1>
+
+<p style="float: left; font-size: 12pt; text-align: center; width: 45%; margin-right: 1%; margin-bottom: 0.5em;">
+    <img src="https://user-images.githubusercontent.com/16934019/152280752-66bcb1b4-06db-4b56-a614-299216a30057.png" style="width: 100%">
+    Fig. 1-1: undistorted image</p>
+<p style="float: left; font-size: 12pt; text-align: center; width: 45%; margin-right: 1%; margin-bottom: 0.5em;">
+    <img src="https://user-images.githubusercontent.com/16934019/152280769-4cfd0a85-db12-4918-a74d-487c7dc88c98.png" style="width: 100%">
+    Fig. 1-2: distorted</p>
+<p style="clear: both;"></p>
+
+<p style="float: left; font-size: 12pt; text-align: center; width: 45%; margin-right: 1%; margin-bottom: 0.5em;">
+    <img src="https://user-images.githubusercontent.com/16934019/152281184-7b7c2c85-68fd-4c9f-9fc9-39df5526fc15.png" style="width: 100%">
+    Fig. 1-3: original image</p>
+<p style="float: left; font-size: 12pt; text-align: center; width: 45%; margin-right: 1%; margin-bottom: 0.5em;">
+    <img src="https://user-images.githubusercontent.com/16934019/152280775-28d3ad23-a6ed-44fc-bb3d-edcef5b7d7ac.png" style="width: 100%">
+    Fig. 1-4: diff</p>
+<p style="clear: both;"></p>
+
+
+<h1>References</h1>
+<ol class="bib">
+    <li id="ref1">
+        OpenCV, <a href="https://docs.opencv.org/3.4/da/d54/group__imgproc__transform.html#ga55c716492470bfe86b0ee9bf3a1f0f7e" target="_blank" rel="noopener">undistortPoints</a>
+    </li>
+    <li>
+        OpenCV, <a href="https://github.com/opencv/opencv/blob/master/modules/calib3d/src/undistort.dispatch.cpp#L490" target="_blank" rel="noopener">undistort implementation</a>
+    </li>
+    <li id="ref3">
+        Joe D. Hoffman, <a href="http://freeit.free.fr/Finite%20Element/Hoffman,_Numerical_Methods_for_Engineers&Scientists,2001.pdf#page=155" target="_blank" rel="noopener">Fixed-Point Iteration</a> <i>Numerical Methods for Engineers and Scientists</i>
+
+    </li>
+    <li>
+        Peter J. Olver, <a href="https://www-users.cse.umn.edu/~olver/num_/lns.pdf" target="_blank" rel="noopener">Vector-Valued Iteration</a>, <i>Numerical Analysis Lecture Notes</i>
+    </li>
+</ol>
+</body>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/28/two_reflections_one_rotation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2256,211 +2499,12 @@ So far I start to make some of the contents public, here is the new site for the
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/13/planar_line_segment_intersection/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Xiaoxing">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xiaoxing Chen's Space">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/10/13/planar_line_segment_intersection/" class="post-title-link" itemprop="url">Determine Intersection of Two Planar Line Segments</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2018-10-13 00:00:00" itemprop="dateCreated datePublished" datetime="2018-10-13T00:00:00+08:00">2018-10-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-10-04 12:33:12" itemprop="dateModified" datetime="2020-10-04T12:33:12+08:00">2020-10-04</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2018/10/13/planar_line_segment_intersection/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/10/13/planar_line_segment_intersection/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <head>
-    <script type="text/javascript" async
-            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
-        </script>
-        <style>
-            .bib ol { counter-reset: item }
-            .bib li { display: block ; counter-increment: item; }
-            .bib li:before { content: " ["counter(item)"] "; }
-        </style>
-</head>
-<body>
-    <h2>Background</h2>
-    <p>
-        While implementing a 2D LiDAR simulator, the calculation of the LiDAR measurement was a bottleneck for performance improvement.
-        For example, in a particle filter with 1024 particles and each particle represents a 256-line LiDAR,
-        running in a map was represented by line segments. For a map with 16 line segments, the estimator have to calculate intersection 
-        for \(1024 \times 256 \times 16 = 4194304\) times each update. 
-        Therefore, an effective method which determines the intersection of line segments is necessary.
-    </p>
-    <figure>
-        <img src="/2018/10/13/planar_line_segment_intersection/loc_vibration.gif" style="width:80%">
-        <figcaption>
-            Fig.1 - Particle filter localization with LiDAR.
-        </figcaption>
-    </figure>
-    <h2>Statement of Problem</h2>
-    <p>Given two line segments defined by points: \(AB\) and \(CD\), check whether two segments intersect.</p>
-
-    <h2>Intersection of a line and line segment</h2>
-    <p>
-        Given line \(l\), line segment \(AB\) and its correspondent line \(l_{AB}\). The intersection \(K\) of \(l\) and \(l_{AB}\).
-        Then point \(K\) can be expressed as:
-    </p>
-    \[
-        K = A + t \overrightarrow{AB} \tag{3-1}
-    \]
-    <p>Here is the relationship between \(t\) and \(l\), \(AB\): </p>
-    \[
-        \begin{cases}
-        l \ \text{intersects} \  AB, & t \in (0, 1) \\
-        l \ \text{touches} \ AB, & t = 0 \ \text{or} \ t = 1 \\
-        l \ \text{misses} \ AB, & t \in (-\infty, 0) \cup (1, \infty) 
-        \end{cases}
-    \]
-    <p style="float: left; font-size: 9pt; text-align: center; width: 30%; margin-right: 1%; margin-bottom: 0.5em;">
-        <img src="/2018/10/13/planar_line_segment_intersection/intersect.svg" style="width: 100%">Fig. 3-1: Intersect</p>
-    <p style="float: left; font-size: 9pt; text-align: center; width: 30%; margin-right: 1%; margin-bottom: 0.5em;">
-        <img src="/2018/10/13/planar_line_segment_intersection/touch.svg" style="width: 100%">Fig. 3-2: Touch</p>
-    <p style="float: left; font-size: 9pt; text-align: center; width: 30%; margin-right: 1%; margin-bottom: 0.5em;">
-        <img src="/2018/10/13/planar_line_segment_intersection/miss.svg" style="width: 100%">Fig. 3-2: Miss</p>
-    <p style="clear: both;"></p>
-    <p>Therefore, the sufficient and necessary condition of \(l\) intersecting \(AB\) is: </p>
-    \[
-        K = A + t \overrightarrow{AB}, \ t \in (0, 1) \tag{3-2}
-    \]
-
-    <h2>Lemma A. Determine if Two Line Segments Intersect</h2>
-    <p>
-        Given line segments \(AB\), \(CD\) and their correspondent line \(l_{AB}\), \(l_{CD}\).
-        It is obvious if and only if \(l_{AB}\) intersects \(CD\) and \(l_{CD}\) intersects \(AB\), these two line segments intersect.
-    </p>
-
-    <h3>A Rapid Method</h3>
-    <p>Line segments \(AB\) intersects \(CD\) if and only if:</p>
-    \[
-    (\overrightarrow{AC} \times \overrightarrow{AB}) \cdot (\overrightarrow{AB} \times \overrightarrow{AD}) > 0 
-    \\
-    \text{and}
-    \\
-    (\overrightarrow{CA} \times \overrightarrow{CD}) \cdot (\overrightarrow{CD} \times \overrightarrow{CB}) > 0
-    \tag{4-1}
-    \]
-
-    <h3>Proof:</h3>
-    <p>According to formula (3-2)</p>
-    \[
-        m \overrightarrow{AB} = \overrightarrow{AK} 
-         = \overrightarrow{AC} + t \overrightarrow{CD} 
-         = \overrightarrow{AD} + (1-t) \overrightarrow{DC} 
-         \tag{4-2}
-    \]
-    <p>\(m\) is random none-zero constant. Then we have:</p>
-    \[
-        \overrightarrow{AB} 
-        = \frac{1}{m}(\overrightarrow{AC} + t \overrightarrow{CD})
-        \tag{4-3}
-    \]
-    \[
-        \overrightarrow{AB} 
-        = \frac{1}{m}(\overrightarrow{AD} + t \overrightarrow{DC})
-        \tag{4-4}
-    \]
-    <p>Then the first term of (4-1) becomes:</p>
-    \[
-        \frac{t(1-t)}{m^2} (\overrightarrow{AC} \times \overrightarrow{CD}) \cdot (\overrightarrow{DC} \times \overrightarrow{AD}) > 0
-        \tag{4-5}
-    \]
-    <p>For any triangle \(ACD\)：</p>
-    \[(
-        \overrightarrow{AC} \times \overrightarrow{CD}) \cdot (\overrightarrow{DC} \times \overrightarrow{AD}) =
-        |AC||CD|\sin \alpha \cdot |DC||AD| \sin \beta
-        \tag{4-6}
-    \]
-    
-    <p>There are two cases listed in Fig. 4-1 and Fig. 4-2. No matter in which case, \(\sin \alpha \sin \beta > 0\).</p>
-        <p style="float: left; font-size: 12pt; text-align: center; width: 45%; margin-right: 1%; margin-bottom: 0.5em;">
-            <img src="/2018/10/13/planar_line_segment_intersection/cross_prod_case1.svg" style="width: 100%">
-            Fig. 4-1: \(\alpha \in (0, \pi)\), \(\beta \in (0, \pi)\), therefore, \(\sin \alpha \sin \beta > 0\).</p>
-        <p style="float: left; font-size: 12pt; text-align: center; width: 45%; margin-right: 1%; margin-bottom: 0.5em;">
-            <img src="/2018/10/13/planar_line_segment_intersection/cross_prod_case2.svg" style="width: 100%">
-            Fig. 4-2: \(\alpha \in (\pi, 2\pi)\), \(\beta \in (\pi, 2 \pi)\), \(\sin \alpha \sin \beta > 0\) as well.</p>
-        <p style="clear: both;"></p>
-    <p>Becasue \(m^2 > 0\), formula (4-5) becomes:</p>
-    \[
-        t(1-t) > 0
-    \]
-    \[
-     0 < t < 1 
-     \tag{4-7}
-    \]
-    <p>
-        Therefore, the first term of formula (3-1) means \(l_{AB}\) intersects \(CD\). Similarly, the second term means \(l_{CD}\) intersects \(AB\).
-        According to Lemma A., \(AB\) intersects \(CD\).
-    </t>
-</body>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
 
 
 
@@ -2525,7 +2569,7 @@ So far I start to make some of the contents public, here is the new site for the
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
