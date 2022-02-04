@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://user-images.githubusercontent.com/16934019/152281184-7b7c2c85-68fd-4c9f-9fc9-39df5526fc15.png">
 <meta property="og:image" content="https://user-images.githubusercontent.com/16934019/152280775-28d3ad23-a6ed-44fc-bb3d-edcef5b7d7ac.png">
 <meta property="article:published_time" content="2022-01-20T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-02-04T10:08:30.196Z">
+<meta property="article:modified_time" content="2022-02-04T10:19:50.938Z">
 <meta property="article:author" content="Xiaoxing">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/2022/01/21/radial_tangential_numerical_inversion/i_controller.svg">
@@ -189,7 +189,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-02-04 18:08:30" itemprop="dateModified" datetime="2022-02-04T18:08:30+08:00">2022-02-04</time>
+                <time title="Modified: 2022-02-04 18:19:50" itemprop="dateModified" datetime="2022-02-04T18:19:50+08:00">2022-02-04</time>
               </span>
 
           
@@ -391,7 +391,7 @@ But the reverse of the process is difficult because the inverse function is in i
     P_{n+1} = P_n + K_I(P_d - f(P_n)) \tag{1-2}
 \]
 
-<p>But setting \(K_I = 1.0\), here is the C++ implementation in <a href="https://github.com/XiaoxingChen/mxm/blob/develop/inc/mxm/model_camera.h#L82" target="_blank" rel="noopener">mxm/model_camera.h</a>: </p>
+<p>Set \(K_I = 1.0\) to simplify the problem. here is the C++ implementation in <a href="https://github.com/XiaoxingChen/mxm/blob/develop/inc/mxm/model_camera.h#L82" target="_blank" rel="noopener">mxm/model_camera.h</a>: </p>
 <pre class="md">
     virtual Matrix<DType> undistort(const Matrix<DType>& homo_pts) const override
     {
