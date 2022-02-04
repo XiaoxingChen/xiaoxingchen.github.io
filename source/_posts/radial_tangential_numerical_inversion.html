@@ -32,7 +32,13 @@ tags:
 </head>
 
 <body>
-<h1>Distortion Model</h1>
+<h1>Background</h1>
+<p>
+Radial tangential distortion model is the most commonly used model in pinhole camera calibration.
+Its mathematical representation is shown as formula (1-1).
+By observing the formula, it is fair to say that the coordinate mapping from undistorted to distorted is natural.
+But the reverse of the process is difficult because the inverse function is in implicit form.
+</p>
 
 \[
 \left[
@@ -74,13 +80,27 @@ tags:
      \end{matrix}
       \right]
   }_{\text{tangential}}
+
+  \tag{1-1}
 \]
 
 <p>Here \(r^2 = x^2 + y^2\) </p>
 
+<p>
+    In engineering application, both directions of the mapping are used.
+    Therefore, the implementation in OpenCV may have some indications.
+    Here is a description that copied from OpenCV specification:
+</p>
+
 <blockquote class="md">
-    where <i>undistort</i> is an approximate iterative algorithm that estimates the normalized original point coordinates out of the normalized distorted point coordinates ("normalized" means that the coordinates do not depend on the camera matrix) <sup><a href="#ref1">[1]</a></sup>.
+    where <i>undistort</i> is an <b>approximate iterative algorithm</b> that estimates the normalized original point coordinates out of the normalized distorted point coordinates ("normalized" means that the coordinates do not depend on the camera matrix) <sup><a href="#ref1">[1]</a></sup>.
 </blockquote>
+
+<p>
+    <i>An approximate iterative algorithm</i> proves the difficulty to find the close form of the undistort mapping.
+    The <a href="https://github.com/opencv/opencv/blob/master/modules/calib3d/src/undistort.dispatch.cpp#L490">implementation</a> <sup><a href="#ref2">[2]</a></sup> in OpenCV seems to call the distortion function several times and finally get the
+    solution of undistort mapping. The workflow looks like a Newton Method but without any derivative calculation.
+</p>
 
 <!-- <h2>Jacobi</h2>
 
@@ -125,49 +145,130 @@ tags:
     x_{n+1} = g(x_n)
 \]
 
-<h1>Fixed-point Iteration</h1>
-
-<p>
-    Convergence rate: \(\rho(g'(x))\). The method is convergent only if \(\rho(g'(x)) &lt; 1\).
-    If \(\rho(g'(x)) > 1\), the procedure diverges. If \(\rho(g'(x)) &lt; 1\) but is close to \(1.0\), convergence is quite slow
-    <sup>
-        <a href="#ref3">[3]</a>
-    </sup>. Here \(\rho(\cdot)\) is the spectral radial of a matrix. \(g'(x)\) is the jacobian matrix of vector-valued function \(g(x)\).
+<h1>A Controller's Approach</h1>
+<p>Recall the the distort function moves a pixel a bit in a specific direction.
+    So the undistort function is to find the original coordinate of a distorted point.
+    The approach used in this blog is to add the error back to the original input and finally find the
+    numerical solution. It sounds like an incremental PID controller.
 </p>
 
-<h1>Result</h1>
+<h2>Notations</h2>
+<ul>
+    <li>\(P_d\): distorted point coordinate </li>
+    <li>\(P_n\): point coordinate in n-th iteration</li>
+    <li>\(K_I\): coefficient of the integral feedback</li>
+    <li>\(f(x)\): distort function </li>
+    <li>\(e_n\): error in n-th iteration, \(e_n = P_d - f(P_n)\) </li>
+</ul>
 
+<h2>Iteration Equation</h2>
+<center>
+<figure>
+    <img src="/2022/01/21/radial_tangential_numerical_inversion/i_controller.svg" alt="">
+    <figcaption>
+        Fig.1 - Controller Diagram of the Integral Controller
+    </figcaption>
+
+</figure>
+</center>
+
+\[
+    P_{n+1} = P_n + K_I e_n
+\]
+\[
+    P_{n+1} = P_n + K_I(P_d - f(P_n)) \tag{1-2}
+\]
+
+<p>But setting \(K_I = 1.0\), here is the C++ implementation in <a href="https://github.com/XiaoxingChen/mxm/blob/develop/inc/mxm/model_camera.h#L82">mxm/model_camera.h</a>: </p>
+<pre class="md">
+    virtual Matrix<DType> undistort(const Matrix<DType>& homo_pts) const override
+    {
+        Matrix<DType> ret(homo_pts);
+        const size_t iter_max = 5;
+        Matrix<DType> tmp;
+        for(size_t i = 0; i &lt;iter_max; i++)
+        {
+            tmp = distort(ret);
+            ret = (homo_pts - tmp) + ret;
+        }
+        return ret;
+    }
+</pre>
+
+<p>If the controller works, then \( \lim_{n \to \infty} e_n = 0\), i.e. \( \lim_{n \to \infty} P_d = f(P_n) \).  </p>
+
+<h2>Test Result</h2>
+<p>The undistort accuracy turned out to be good.</p>
 <p style="float: left; font-size: 12pt; text-align: center; width: 45%; margin-right: 1%; margin-bottom: 0.5em;">
     <img src="https://user-images.githubusercontent.com/16934019/152280752-66bcb1b4-06db-4b56-a614-299216a30057.png" style="width: 100%">
-    Fig. 1-1: undistorted image</p>
+    Fig. 2-1: undistorted image</p>
 <p style="float: left; font-size: 12pt; text-align: center; width: 45%; margin-right: 1%; margin-bottom: 0.5em;">
     <img src="https://user-images.githubusercontent.com/16934019/152280769-4cfd0a85-db12-4918-a74d-487c7dc88c98.png" style="width: 100%">
-    Fig. 1-2: distorted</p>
+    Fig. 2-2: distorted</p>
 <p style="clear: both;"></p>
 
 <p style="float: left; font-size: 12pt; text-align: center; width: 45%; margin-right: 1%; margin-bottom: 0.5em;">
     <img src="https://user-images.githubusercontent.com/16934019/152281184-7b7c2c85-68fd-4c9f-9fc9-39df5526fc15.png" style="width: 100%">
-    Fig. 1-3: original image</p>
+    Fig. 2-3: original image</p>
 <p style="float: left; font-size: 12pt; text-align: center; width: 45%; margin-right: 1%; margin-bottom: 0.5em;">
     <img src="https://user-images.githubusercontent.com/16934019/152280775-28d3ad23-a6ed-44fc-bb3d-edcef5b7d7ac.png" style="width: 100%">
-    Fig. 1-4: diff</p>
+    Fig. 2-4: diff between original image and distorted image</p>
 <p style="clear: both;"></p>
 
+
+<h1>Know-How and Know-Why</h1>
+<p>
+    We have find out how the iteration method works, but still don't know why.
+    There are several questions left to be answered.
+</p>
+<ol>
+    <li>Will the iteration always converge?</li>
+    <li>What's the convergence rate?</li>
+    <li>When will it fail to converge?</li>
+    <li>What can we do if the iteration diverged?</li>
+</ol>
+<p>
+    With a great amount of searching on the Internet I have found the
+    standard name of the iteration method used by OpenCV is called: Fixed-Point Iteration.
+</p>
+<h2>Fixed-point Iteration</h2>
+<p>In general, an iterative system has the form</p>
+\[
+    u_{n+1} = g(u_n)
+\]
+<p>Where \(g: \mathbb{R}^{n} \rightarrow \mathbb{R}^{n} \) is a vector-valued function.</p>
+<p>A <i>fixed point</i> or <i>equilibrium</i> of a discrete dynamical system is a vector
+\(u^{\star} \in \mathbb{R}^{n}\) such that<sup><a href="#ref3">[3]</a></sup> </p>
+
+\[
+    g(u^\star  ) = u^ \star
+\]
+<p>
+    Convergence rate of the iteration: \(\rho(g'(x))\). The method is convergent only if \(\rho(g'(x)) &lt; 1\).
+    If \(\rho(g'(x)) > 1\), the procedure diverges. If \(\rho(g'(x)) &lt; 1\) but is close to \(1.0\), convergence is quite slow
+    <sup>
+        <a href="#ref4">[4]</a>
+    </sup>. Here \(\rho(\cdot)\) is the spectral radial of a matrix. \(g'(x)\) is the jacobian matrix of vector-valued function \(g(x)\).
+</p>
 
 <h1>References</h1>
 <ol class="bib">
     <li id="ref1">
         OpenCV, <a href="https://docs.opencv.org/3.4/da/d54/group__imgproc__transform.html#ga55c716492470bfe86b0ee9bf3a1f0f7e">undistortPoints</a>
     </li>
-    <li>
+    <li id="ref2">
         OpenCV, <a href="https://github.com/opencv/opencv/blob/master/modules/calib3d/src/undistort.dispatch.cpp#L490">undistort implementation</a>
     </li>
     <li id="ref3">
+        Peter J. Olver, <a href="https://www-users.cse.umn.edu/~olver/num_/lne.pdf">Numerical Solution of Scalar Equations</a>, <i>Numerical Analysis Lecture Notes</i>
+    </li>
+    <li id="ref4">
+        Peter J. Olver, <a href="https://www-users.cse.umn.edu/~olver/num_/lns.pdf">Vector-Valued Iteration</a>, <i>Numerical Analysis Lecture Notes</i>
+    </li>
+    <li id="ref5">
         Joe D. Hoffman, <a href="http://freeit.free.fr/Finite%20Element/Hoffman,_Numerical_Methods_for_Engineers&Scientists,2001.pdf#page=155">Fixed-Point Iteration</a> <i>Numerical Methods for Engineers and Scientists</i>
 
     </li>
-    <li>
-        Peter J. Olver, <a href="https://www-users.cse.umn.edu/~olver/num_/lns.pdf">Vector-Valued Iteration</a>, <i>Numerical Analysis Lecture Notes</i>
-    </li>
+
 </ol>
 </body>
