@@ -161,7 +161,7 @@ But the reverse of the process is difficult because the inverse function is in i
     <li>\(e_n\): error in n-th iteration, \(e_n = P_d - f(P_n)\) </li>
 </ul>
 
-<h2>Iteration Equation</h2>
+<h2>Iterative Formula</h2>
 <center>
 <figure>
     <img src="/2022/01/21/radial_tangential_numerical_inversion/i_controller.svg" alt="">
@@ -179,7 +179,7 @@ But the reverse of the process is difficult because the inverse function is in i
     P_{n+1} = P_n + K_I(P_d - f(P_n)) \tag{1-2}
 \]
 
-<p>But setting \(K_I = 1.0\), here is the C++ implementation in <a href="https://github.com/XiaoxingChen/mxm/blob/develop/inc/mxm/model_camera.h#L82">mxm/model_camera.h</a>: </p>
+<p>Set \(K_I = 1.0\) to simplify the problem. here is the C++ implementation in <a href="https://github.com/XiaoxingChen/mxm/blob/develop/inc/mxm/model_camera.h#L82">mxm/model_camera.h</a>: </p>
 <pre class="md">
     virtual Matrix<DType> undistort(const Matrix<DType>& homo_pts) const override
     {
@@ -218,13 +218,12 @@ But the reverse of the process is difficult because the inverse function is in i
 
 <h1>Know-How and Know-Why</h1>
 <p>
-    We have find out how the iteration method works, but still don't know why.
+    We have found out how the iteration method works, but still don't know why.
     There are several questions left to be answered.
 </p>
 <ol>
-    <li>Will the iteration always converge?</li>
+    <li>What's the condition for convergence of the iteration method?</li>
     <li>What's the convergence rate?</li>
-    <li>When will it fail to converge?</li>
     <li>What can we do if the iteration diverged?</li>
 </ol>
 <p>
