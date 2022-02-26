@@ -1,0 +1,235 @@
+---
+title: Geometries for N-Dimensional Ray Tracing
+date: 2021-01-07
+mathjax: true
+hidden: false
+tags:
+---
+
+<head>
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+    <style>
+        .bib ol {
+            counter-reset: item
+        }
+
+        .bib li {
+            display: block;
+            counter-increment: item;
+        }
+
+        .bib li:before {
+            content: " ["counter(item)"] ";
+        }
+    </style>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+
+
+    <h1>Background</h1>
+    <p>Geometries explained in this blog serve the <a href="https://github.com/XiaoxingChen/ray_tracing_4d">ray_tracing_4d</a> project.</p>
+
+    <h1>Ray</h1>
+    <p>Consider a ray in N-Dimensional space, a point \(x\) on a ray can be described as: </p>
+    \[
+        x = c + d t
+    \]
+    \[
+        c \in \mathbb{R}^{N}, d \in \mathbb{R}^{N}, \| d \| = 1, t \in \mathbb{R}
+    \]
+    <p>Where \(c\) is the origin point of the ray with N-Dimension and \(d\) is the direction of the ray.</p>
+
+    <h1>Axis Aligned Bounding Box(AABB)</h1>
+    <p>An AABB in N-Dimensional Space can be described by either a center point and a half extent or
+        a minimum point \(p\) and a maximum point \(q\) . This blog uses the later description.</p>
+
+
+    \[
+        p \in \mathbb{R}^N; q \in \mathbb{R}^N; p_i &lt; q_i \text{ for}\ i = 1, \cdots, N
+    \]
+    <p>The open region \(B\) described by the bounding box is</p>
+    \[
+        B = \left\{x \in \mathbb{R}^{N} \middle| p_i &lt;x_i &lt; q_i \text{ for}\ i = 1, \cdots, N \right\}
+    \]
+
+    <h2>Intersect with N-Ray</h2>
+    <p>For a specific axis \(i\), the inequality equation of the intersection problem is: </p>
+    \[
+        p_i &lt; c_i + d_i t &lt; q_i
+    \]
+    <p>The solution in axis \(i\) is:  </p>
+    \[
+        T = \left\{ t \in \mathbb{R} \middle| t \in \left(\frac{p_i - c_i}{d_i}, \frac{q_i - c_i}{d_i} \right) \right\}
+    \]
+    <p>Specifically, when \(d_i = 0\), there are three cases: </p>
+    <ol>
+        <li>\(c_i \leqslant p_i &lt; q_i \Leftrightarrow t \in (+\infty , +\infty ) \Leftrightarrow T = \emptyset  \) </li>
+        <li>\(p_i &lt; c_i &lt; q_i \Leftrightarrow t \in (-\infty , +\infty ) \Leftrightarrow T = \mathbb{U}  \) </li>
+        <li>\( p_i &lt; q_i \leqslant c_i \Leftrightarrow t \in (-\infty , -\infty ) \Leftrightarrow T = \emptyset  \) </li>
+
+    </ol>
+
+    <p>Consider all axis, the solution is: </p>
+    \[
+        T = \left\{ t \in \mathbb{R} \middle| t \in \bigcap_{i=1}^{N} \left(\frac{p_i - c_i}{d_i}, \frac{q_i - c_i}{d_i} \right) \right\}
+
+    \]
+
+    <h1>Pinhole Camera Model</h1>
+    <p>In N-Dimensional Space, a Pinhole Camera projects N-Dimensional points to (N-1) dimensional points.
+        The camera matrix \(K\) is 3D space is:
+    </p>
+    \[
+    K =
+        \left[
+        \begin{matrix}
+            f_x & 0 & c_x \\
+            0 & f_y & c_y \\
+            0 & 0 & 1
+        \end{matrix}
+         \right]
+    \]
+    <p>Where \(f_x, f_y\) are the focal lengths and \(c_x, c_y\) are offsets of principle point.</p>
+    <p>By extending the matrix to N-Dimension, the model can be described as:</p>
+    \[
+        K =
+        \left[
+        \begin{matrix}
+            \text{diag}(f) & c \\
+            0 & 1 \\
+        \end{matrix}
+         \right]
+    \]
+    <p>Likely, \(f\) is the focal length vector, \(f \in \mathbb{R}^{N-1}\).
+        \(c\) is the principle offset vector, \(c \in \mathbb{R}^{N-1}\).
+    </p>
+
+    <h1>Simplex</h1>
+    In geometry, a simplex (plural: simplexes or simplices) is a generalization of the notion of a triangle or tetrahedron to arbitrary dimensions <sup>[1]</sup>.
+
+    <h2>Intersect N-1-Simplex with N-Ray</h2>
+    <p>An N-1-Simplex in N-Dimensional Space is composed of N vertices \(u_0, \cdots , u_{N-1} \in \mathbb{R}^{N}\).
+    </p>
+    <h3>Approach 1. Basis from edges</h3>
+    <p>A vector space \(B \in \mathbb{R}^{N \times (N-1)} \)can be generated from \(u_1 - u_0, u_2 - u_0, \cdots , u_{N-1} - u_0 \).
+        One can find the intersection of the ray and the vector space by solve the equation:</p>
+    \[
+        c + d t = u_0 + B k
+    \]
+    \[
+        \left[
+        \begin{matrix}
+            B & -d
+        \end{matrix}
+         \right]
+         \left[
+         \begin{matrix}
+             k \\ t
+         \end{matrix}
+          \right]
+        = c - u_0
+    \]
+    \[
+         \left[
+         \begin{matrix}
+             k \\ t
+         \end{matrix}
+          \right]
+        = \left[
+        \begin{matrix}
+            B & -d
+        \end{matrix}
+         \right]^{-1} (c - u_0)
+    \]
+
+    <p>Whether the intersection point is within the simplex can be determined by: </p>
+    \[
+        \sum_{i=1}^{N-1} k_i &lt; 1 \ \text{and } 0 \leq k_i  \text{ for } i = 1, \cdots , N-1
+    \]
+
+    <h3>Approach 2. Barycentric Coordinate System</h3>
+    <p>Directly use \(u_0, \cdots, u_{N-1} \) as a basis \(U\) . \(\theta\) is the weighted vector of all vertices.</p>
+    \[
+
+        \begin{cases}
+            c + dt = U \theta \\
+            \| \theta \| = 1 \\
+        \end{cases}
+    \]
+    <p>In matrix form:</p>
+    \[
+        \left[
+        \begin{matrix}
+            U & -d \\
+            \mathbf{1} & 0 \\
+        \end{matrix}
+         \right]
+        \left[
+        \begin{matrix}
+            \theta \\
+            t \\
+        \end{matrix}
+         \right]
+         =
+         \left[
+         \begin{matrix}
+            c \\
+            1 \\
+         \end{matrix}
+          \right]
+    \]
+    \[
+
+    \left[
+    \begin{matrix}
+        \theta \\
+        t \\
+    \end{matrix}
+     \right] =
+
+     \left[
+     \begin{matrix}
+         U & -d \\
+         \mathbf{1} & 0 \\
+     \end{matrix}
+      \right] ^{-1}
+
+     \left[
+     \begin{matrix}
+        c \\
+        1 \\
+     \end{matrix}
+      \right]
+
+    \]
+
+    <p>Whether the intersection point is within the simplex can be determined by: </p>
+    \[
+        0 \leq \theta_i \leq 1 \text{ for } i = 1, \cdots , N
+    \]
+
+    <h3>Connection Between the Two Approaches</h3>
+    \[
+        \begin{cases}
+            \theta_1 &= 1 - \|k\| \\
+            \theta_{i+1} &= k_i, \text{ for } i = 1, \cdots , N-1\\
+        \end{cases}
+    \]
+    <p>Current solution uses approach 1.</p>
+
+    <h1>References</h1>
+<ol class="bib">
+    <li id="ref5">
+        en.wikipedia.org, <a href="https://en.wikipedia.org/wiki/Simplex">Simplex</a>
+    </li>
+
+</ol>
+
+</body>
