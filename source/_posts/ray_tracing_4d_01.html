@@ -33,95 +33,32 @@ tags:
 <body>
 
 
-    <h1>Background</h1>
+    <h1 id="background">Background</h1>
     <p>Geometries explained in this blog serve the <a href="https://github.com/XiaoxingChen/ray_tracing_4d">ray_tracing_4d</a> project.</p>
 
-    <h1>Ray</h1>
-    <p>Consider a ray in N-Dimensional space, a point \(x\) on a ray can be described as: </p>
+    <h1 id="ray">Ray</h1>
+    <p>Consider a ray in N-Dimensional space, a parametric equation of ray can be described as: </p>
     \[
-        x = c + d t
+        r(t) = c + d t
     \]
     \[
-        c \in \mathbb{R}^{N}, d \in \mathbb{R}^{N}, \| d \| = 1, t \in \mathbb{R}
+        c \in \mathbb{R}^{n}, d \in \mathbb{R}^{n}, \| d \| = 1, t \in \mathbb{R}
     \]
     <p>Where \(c\) is the origin point of the ray with N-Dimension and \(d\) is the direction of the ray.</p>
 
-    <h1>Axis Aligned Bounding Box(AABB)</h1>
-    <p>An AABB in N-Dimensional Space can be described by either a center point and a half extent or
-        a minimum point \(p\) and a maximum point \(q\) . This blog uses the later description.</p>
+    <p><b>C++ implementation</b>: [<a href="https://github.com/XiaoxingChen/mxm/blob/develop/inc/mxm/geometry_ray.h">geometry_ray.h</a>]</p>
 
-
-    \[
-        p \in \mathbb{R}^N; q \in \mathbb{R}^N; p_i &lt; q_i \text{ for}\ i = 1, \cdots, N
-    \]
-    <p>The open region \(B\) described by the bounding box is</p>
-    \[
-        B = \left\{x \in \mathbb{R}^{N} \middle| p_i &lt;x_i &lt; q_i \text{ for}\ i = 1, \cdots, N \right\}
-    \]
-
-    <h2>Intersect with N-Ray</h2>
-    <p>For a specific axis \(i\), the inequality equation of the intersection problem is: </p>
-    \[
-        p_i &lt; c_i + d_i t &lt; q_i
-    \]
-    <p>The solution in axis \(i\) is:  </p>
-    \[
-        T = \left\{ t \in \mathbb{R} \middle| t \in \left(\frac{p_i - c_i}{d_i}, \frac{q_i - c_i}{d_i} \right) \right\}
-    \]
-    <p>Specifically, when \(d_i = 0\), there are three cases: </p>
-    <ol>
-        <li>\(c_i \leqslant p_i &lt; q_i \Leftrightarrow t \in (+\infty , +\infty ) \Leftrightarrow T = \emptyset  \) </li>
-        <li>\(p_i &lt; c_i &lt; q_i \Leftrightarrow t \in (-\infty , +\infty ) \Leftrightarrow T = \mathbb{U}  \) </li>
-        <li>\( p_i &lt; q_i \leqslant c_i \Leftrightarrow t \in (-\infty , -\infty ) \Leftrightarrow T = \emptyset  \) </li>
-
-    </ol>
-
-    <p>Consider all axis, the solution is: </p>
-    \[
-        T = \left\{ t \in \mathbb{R} \middle| t \in \bigcap_{i=1}^{N} \left(\frac{p_i - c_i}{d_i}, \frac{q_i - c_i}{d_i} \right) \right\}
-
-    \]
-
-    <h1>Pinhole Camera Model</h1>
-    <p>In N-Dimensional Space, a Pinhole Camera projects N-Dimensional points to (N-1) dimensional points.
-        The camera matrix \(K\) is 3D space is:
-    </p>
-    \[
-    K =
-        \left[
-        \begin{matrix}
-            f_x & 0 & c_x \\
-            0 & f_y & c_y \\
-            0 & 0 & 1
-        \end{matrix}
-         \right]
-    \]
-    <p>Where \(f_x, f_y\) are the focal lengths and \(c_x, c_y\) are offsets of principle point.</p>
-    <p>By extending the matrix to N-Dimension, the model can be described as:</p>
-    \[
-        K =
-        \left[
-        \begin{matrix}
-            \text{diag}(f) & c \\
-            0 & 1 \\
-        \end{matrix}
-         \right]
-    \]
-    <p>Likely, \(f\) is the focal length vector, \(f \in \mathbb{R}^{N-1}\).
-        \(c\) is the principle offset vector, \(c \in \mathbb{R}^{N-1}\).
-    </p>
-
-    <h1>Simplex</h1>
+    <h1 id="simplex">Simplex</h1>
     In geometry, a simplex (plural: simplexes or simplices) is a generalization of the notion of a triangle or tetrahedron to arbitrary dimensions <sup>[1]</sup>.
 
-    <h2>Intersect N-1-Simplex with N-Ray</h2>
-    <p>An N-1-Simplex in N-Dimensional Space is composed of N vertices \(u_0, \cdots , u_{N-1} \in \mathbb{R}^{N}\).
+    <h2 id="intersect_n_1_simplex_with_n_ray">Intersect N-1-Simplex with N-Ray</h2>
+    <p>An N-1-Simplex in N-Dimensional Space is composed of \(n\) vertices \(u_1, \cdots , u_{n} \in \mathbb{R}^{n}\).
     </p>
-    <h3>Approach 1. Basis from edges</h3>
-    <p>A vector space \(B \in \mathbb{R}^{N \times (N-1)} \)can be generated from \(u_1 - u_0, u_2 - u_0, \cdots , u_{N-1} - u_0 \).
+    <h3 id="approach_1">Approach 1. Basis from edges</h3>
+    <p>A vector space \(B \in \mathbb{R}^{n \times (n-1)} \)can be generated from \(u_2 - u_1, u_3 - u_1, \cdots , u_n - u_1 \).
         One can find the intersection of the ray and the vector space by solve the equation:</p>
     \[
-        c + d t = u_0 + B k
+        c + d t = u_1 + B k
     \]
     \[
         \left[
@@ -134,7 +71,7 @@ tags:
              k \\ t
          \end{matrix}
           \right]
-        = c - u_0
+        = c - u_1
     \]
     \[
          \left[
@@ -146,16 +83,16 @@ tags:
         \begin{matrix}
             B & -d
         \end{matrix}
-         \right]^{-1} (c - u_0)
+         \right]^{-1} (c - u_1)
     \]
 
     <p>Whether the intersection point is within the simplex can be determined by: </p>
     \[
-        \sum_{i=1}^{N-1} k_i &lt; 1 \ \text{and } 0 \leq k_i  \text{ for } i = 1, \cdots , N-1
+        \sum_{i=1}^{n-1} k_i &lt; 1 \ \text{and } 0 \leq k_i  \text{ for } i = 1, \cdots , n-1
     \]
 
-    <h3>Approach 2. Barycentric Coordinate System</h3>
-    <p>Directly use \(u_0, \cdots, u_{N-1} \) as a basis \(U\) . \(\theta\) is the weighted vector of all vertices.</p>
+    <h3 id="approach_2_barycentric">Approach 2. Barycentric Coordinate System</h3>
+    <p>Directly use \(u_1, \cdots, u_n \) as a basis \(U\) . \(\theta\) is the weighted vector of all vertices.</p>
     \[
 
         \begin{cases}
@@ -212,23 +149,135 @@ tags:
 
     <p>Whether the intersection point is within the simplex can be determined by: </p>
     \[
-        0 \leq \theta_i \leq 1 \text{ for } i = 1, \cdots , N
+        0 \leq \theta_i \leq 1 \text{ for } i = 1, \cdots , n
     \]
 
-    <h3>Connection Between the Two Approaches</h3>
+    <h3 id="connection_between">Connection Between Two Approaches</h3>
     \[
         \begin{cases}
             \theta_1 &= 1 - \|k\| \\
-            \theta_{i+1} &= k_i, \text{ for } i = 1, \cdots , N-1\\
+            \theta_{i+1} &= k_i, \text{ for } i = 1, \cdots , n-1\\
         \end{cases}
     \]
-    <p>Current solution uses approach 1.</p>
+    <p>Current solution uses approach 1. <b>C++ implementation</b>: [<a href="https://github.com/XiaoxingChen/mxm/blob/develop/inc/mxm/geometry_primitive.h#L11">geometry_primitive.h</a>]</p>
 
-    <h1>References</h1>
+    <h1 id="rotation">Rotation</h1>
+    <p>This blog uses <i>Special Orthogonal Group</i> to deal with N-Dimensional rigidbody rotation problem.</p>
+    \[
+        SO(n) = \left\{ R \in \mathbb{R}^{n \times n} \middle| \det R = 1, R^\top R = I \right\}
+    \]
+    <p>A single rotation in high dimensional space is defined by a rotation plane and a rotation angle.
+        A general rotation can be composed by multiplying several single rotations.
+        Details are explained in a later blog <sup>[2]</sup>.
+    </p>
+
+    <p><b>C++ implementation</b>: [<a href="https://github.com/XiaoxingChen/mxm/blob/develop/inc/mxm/full_dimensional_rotation.h">full_dimensional_rotation.h</a>]</p>
+
+    <h1 id="pinhole_camera_model">Pinhole Camera Model</h1>
+    <p>In N-Dimensional Space, a Pinhole Camera projects N-Dimensional points to (N-1) dimensional points.
+        The camera matrix \(K\) is 3D space is:
+    </p>
+    \[
+    K =
+        \left[
+        \begin{matrix}
+            f_x & 0 & c_x \\
+            0 & f_y & c_y \\
+            0 & 0 & 1
+        \end{matrix}
+         \right]
+    \]
+    <p>Where \(f_x, f_y\) are the focal lengths and \(c_x, c_y\) are offsets of principle point.</p>
+    <p>By extending the matrix to N-Dimension, the model can be described as:</p>
+    \[
+        K =
+        \left[
+        \begin{matrix}
+            \text{diag}(f) & c \\
+            0 & 1 \\
+        \end{matrix}
+         \right]
+    \]
+    <p>Likely, \(f\) is the focal length vector, \(f \in \mathbb{R}^{n-1}\).
+        \(c\) is the principle offset vector, \(c \in \mathbb{R}^{n-1}\).
+    </p>
+
+    <h2 id="screen_ray_cast">Screen Ray Cast</h2>
+    <p>In ray tracing pipeline, pixel color calculation were started by casting rays to the scene.
+        The transform from a pixel coordinate point \(v \in \mathbb{R}^{n-1}\) to ray expression \(r(t)\)  is described as follow:
+    </p>
+    \[
+        r(t) = p_c + R_c \frac{d_v}{\|d_v\|} t
+    \]
+    \[
+        d_v = K ^{-1}
+        \left[
+        \begin{matrix}
+            v \\
+            1 \\
+        \end{matrix}
+        \right]
+    \]
+
+    <p>
+        Where \(p_c, R_c\) is the position and orientation of the camera.
+        \(d_v\) is the direction vector of pixel point, which is not normalized.
+        \(K\) is the intrinsic matrix of the N-Dimensional pinhole camera model.
+    </p>
+
+    <p><b>C++ implementation</b>: [<a href="https://github.com/XiaoxingChen/mxm/blob/develop/inc/mxm/model_camera.h">model_camera.h</a>]</p>
+
+    <h1 id="aabb">Axis Aligned Bounding Box(AABB)</h1>
+    <p>An AABB in N-Dimensional Space can be described by either a center point and a half extent or
+        a minimum point \(p\) and a maximum point \(q\) . This blog uses the later description.</p>
+
+
+    \[
+        p \in \mathbb{R}^n; q \in \mathbb{R}^n; p_i &lt; q_i \text{ for}\ i = 1, \cdots, n
+    \]
+    <p>The open region \(B\) described by the bounding box is</p>
+    \[
+        B = \left\{x \in \mathbb{R}^{n} \middle| p_i &lt;x_i &lt; q_i \text{ for}\ i = 1, \cdots, n \right\}
+    \]
+
+    <h2 id="intersection_with_n_ray">Intersect with N-Ray</h2>
+    <p>For a specific axis \(i\), the inequality equation of the intersection problem is: </p>
+    \[
+        p_i &lt; c_i + d_i t &lt; q_i
+    \]
+    <p>The solution in axis \(i\) is:  </p>
+    \[
+        T = \left\{ t \in \mathbb{R} \middle| t \in \left(\frac{p_i - c_i}{d_i}, \frac{q_i - c_i}{d_i} \right) \right\}
+    \]
+    <p>Specifically, when \(d_i = 0\), there are three cases: </p>
+    <ol>
+        <li>\(c_i \leqslant p_i &lt; q_i \Leftrightarrow t \in (+\infty , +\infty ) \Leftrightarrow T = \emptyset  \) </li>
+        <li>\(p_i &lt; c_i &lt; q_i \Leftrightarrow t \in (-\infty , +\infty ) \Leftrightarrow T = \mathbb{U}  \) </li>
+        <li>\( p_i &lt; q_i \leqslant c_i \Leftrightarrow t \in (-\infty , -\infty ) \Leftrightarrow T = \emptyset  \) </li>
+
+    </ol>
+
+    <p>Consider all axis, the solution is: </p>
+    \[
+        T = \left\{ t \in \mathbb{R} \middle| t \in \bigcap_{i=1}^{n} \left(\frac{p_i - c_i}{d_i}, \frac{q_i - c_i}{d_i} \right) \right\}
+    \]
+
+    <p><b>C++ implementation</b>: [<a href="https://github.com/XiaoxingChen/mxm/blob/develop/inc/mxm/spatial_aabb.h">spatial_aabb.h</a>]</p>
+
+    <h1 id="bvh_tree">Bounding Volume Hierarchy(BVH) Tree</h1>
+    <p>N-Dimensional BVH Tree preserves the logic in low dimensional space. Details will not be explained here.</p>
+    <p><b>C++ implementation</b>:
+        [<a href="https://github.com/XiaoxingChen/mxm/blob/develop/inc/mxm/spatial_bvh.h">spatial_bvh.h</a>,
+        <a href="https://github.com/XiaoxingChen/mxm/blob/develop/inc/mxm/spatial_bvh_inl.h">spatial_bvh_inl.h</a>
+        ]
+    </p>
+
+    <h1 id="references">References</h1>
 <ol class="bib">
     <li id="ref5">
         en.wikipedia.org, <a href="https://en.wikipedia.org/wiki/Simplex">Simplex</a>
     </li>
+    <li>Xiaoxing Chen, <a href="https://xiaoxingchen.github.io/2021/01/28/two_reflections_one_rotation/">Two Reflections Form A Single Rotation</a></li>
 
 </ol>
 

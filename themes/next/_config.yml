@@ -185,8 +185,8 @@ site_state: true
 # Value before `||` delimiter is the target permalink, value after `||` delimiter is the name of Font Awesome icon.
 social:
   GitHub: https://github.com/xiaoxingchen || github
-  E-Mail: mailto:chen-xx@zju.edu.cn || envelope
-  LinkedIn: https://www.linkedin.com/in/%E7%AC%91%E8%A1%8C-%E9%99%88-8b96ba10a/ || linkedin-square
+  E-Mail: mailto:siuhangchanxx@gmail.com || envelope
+  LinkedIn: https://www.linkedin.com/in/xiaoxing-chen-8b96ba10a/ || linkedin-square
   Resume: https://xiaoxingchen.github.io/resume/resume_en.html || address-card
   #Weibo: https://weibo.com/yourname || weibo
   #Google: https://plus.google.com/yourname || google
