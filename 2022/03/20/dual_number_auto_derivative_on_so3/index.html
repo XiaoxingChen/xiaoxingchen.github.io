@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content=".bib ol {             counter-reset: item         }          .bib li {             display: block;             counter-increment: item;         }          .bib li:before {">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dual Number and Auto Derivative of Special Orthogonal Group">
+<meta property="og:url" content="http://yoursite.com/2022/03/20/dual_number_auto_derivative_on_so3/index.html">
+<meta property="og:site_name" content="Xiaoxing Chen&#39;s Blog">
+<meta property="og:description" content=".bib ol {             counter-reset: item         }          .bib li {             display: block;             counter-increment: item;         }          .bib li:before {">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-03-20T07:00:00.000Z">
+<meta property="article:modified_time" content="2022-03-21T07:19:27.650Z">
+<meta property="article:author" content="Xiaoxing">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2022/03/20/dual_number_auto_derivative_on_so3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>Dual Number and Auto Derivative of Special Orthogonal Group | Xiaoxing Chen's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xiaoxing Chen's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/03/20/dual_number_auto_derivative_on_so3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Xiaoxing">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xiaoxing Chen's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Dual Number and Auto Derivative of Special Orthogonal Group
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-03-20 00:00:00" itemprop="dateCreated datePublished" datetime="2022-03-20T00:00:00-07:00">2022-03-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-03-21 00:19:27" itemprop="dateModified" datetime="2022-03-21T00:19:27-07:00">2022-03-21</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2022/03/20/dual_number_auto_derivative_on_so3/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/20/dual_number_auto_derivative_on_so3/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        
+<head>
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+    <style>
+        .bib ol {
+            counter-reset: item
+        }
+
+        .bib li {
+            display: block;
+            counter-increment: item;
+        }
+
+        .bib li:before {
+            content: " ["counter(item)"] ";
+        }
+    </style>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+    <h1 id="background">Background</h1>
+    <p>
+        Finding the closed-form Jacobian matrix of a residual function is one of the most time consuming works
+        in solving a nonlinear optimization problem.
+        A work around is to use numerical Jacobian. i.e. manually give a small increment in every
+        variable and find out the increment in residual. However the selection of the increment
+        is sensitive to the data magnitude. An inappropriate increment can lead to fluctuation before convergence.
+    </p>
+    <p>
+        In google <a href="http://ceres-solver.org/" target="_blank" rel="noopener">ceres-solver</a>, an auto derivative method is introduced to
+        liberate developers from complicated Jacobian debugging. This blog introduces the principle behind the auto derivative
+        and explains a <i>Perspective-N-Point</i> problem demo based on auto derivative and nonlinear optimization.
+    </p>
+
+    <h1 id="dual_number_albegra">Dual Number Algebra</h1>
+    <p>
+        The basic idea of auto derivative is to extend the input of a single variable function.
+        Consider function \(y = f(x)\), the input \(x\) is no longer a variable, but an out put
+        of another function with first order slop \( b\varepsilon \). Where \(\varepsilon\) is the basis of the
+        increment, real number \(b\) measures the magnitude of the increment. Therefore, variable \(x\)
+        is expressed as \(x = a + b \varepsilon\).
+    </p>
+    <p>Define \(\varepsilon ^2 = 0\) to drop infinitesimals with order higher than one.</p>
+    <h2>Addition</h2>
+    \[
+        (a + b \varepsilon) + (c + d \varepsilon) = (a + c) + (b + d) \varepsilon
+    \]
+
+    <h2>Multiplication</h2>
+    \[
+        (a + b \varepsilon)(c + d \varepsilon) = ac + (ad + bc) \varepsilon
+    \]
+
+    <h2>Conjugate</h2>
+    <p>Given \(x = a + b \varepsilon\), </p>
+    \[
+        \bar{x} = a - b \varepsilon
+    \]
+    <p>Then, \(\bar{x} x = a^2 - b^2 \varepsilon^2  = a^2\) </p>
+
+    <h2>Division</h2>
+    <p>Dual number division uses conjugate property to eliminate the denominator. </p>
+    \[
+    \begin{align}
+        \frac{a + b \varepsilon}{c + d \varepsilon} &= \frac{(a + b \varepsilon)(c - d \varepsilon)}{(c + d \varepsilon) (c - d \varepsilon)}\\
+        &= \frac{ac + (bc - ad) \varepsilon}{c^2} \\
+    \end{align}
+
+    \]
+    <p>Where \(c \neq 0\).</p>
+
+    \[
+        \frac{a + b \varepsilon}{c + d \varepsilon} = \frac{b}{d}
+    \]
+    <p>Where \(c = 0\) and \(a = 0\).  </p>
+    <p>Otherwise the division is not defined.</p>
+
+    <h2>Derivative</h2>
+    <p>
+        For all functions that can be expanded as Taylor Series at point \(x_0\) :
+    </p>
+    \[
+        \begin{align}
+            f(x) &= f(x_0)
+            + \frac{f^ {\prime} (x_0)}{1!}(x-x_0)
+            + \frac{f^ {\prime \prime} (x_0)}{2!} (x-x_0)^2
+            + \frac{f^ {\prime \prime \prime} (x_0)}{3!} (x-x_0)^3
+            + \cdots \\
+            &= \sum_{\infty }^{n=0} \frac{f^{(n)}(x_0)}{n!} (x-x_0)^n \\
+        \end{align}
+    \]
+    <p>Set \(x = a + b \varepsilon\) and expand the series at \(x_0 = a\),  </p>
+    \[
+        \begin{align}
+            f(a + b \varepsilon) &= f(a)
+            + \frac{f^ {\prime} (a)}{1!} (b\varepsilon)
+            + \frac{f^ {\prime \prime} (a)}{2!} (b\varepsilon) ^2
+            + \frac{f^ {\prime \prime \prime} (a)}{3!} (b\varepsilon) ^3
+            + \cdots \\
+            &= f(a) + f^ {\prime} (a) (b\varepsilon)  \tag{2-5}\\
+
+        \end{align}
+    \]
+
+    <p>i.e.</p>
+    \[
+        f^{\prime }(a) \varepsilon =  \frac{ f(a + b \varepsilon) - f(a) }{b} \tag{2-6}
+    \]
+
+    <h1>Dual Number Elementary Functions</h1>
+    <p>
+        In order to use dual number in C++ project, simply overloading operators like <code>+ - * /</code>
+        is not enough. C++ built in functions such as <code>sin</code>, <code>cos</code>, <code>exp</code>, <code>log</code>
+        don't handle dual number input. The dual number class have to support all these functions.
+    </p>
+    <p>
+        Luckily, most elementary functions of dual numbers can be converted to the combination of C++ built in functions.
+        For example:
+    </p>
+    <p>By applying formula: \(\sin(u + v) = \sin(u) \cos(v) + \cos(u) \sin(v)\) and \(\lim_{x \to 0} \frac{\sin(x)}{x} = 1 \)  </p>
+    \[
+    \begin{align}
+        \sin(a + b \varepsilon) &= \sin(a) \cos(b \varepsilon) + \cos(a) \sin(b \varepsilon) \\
+        &= \sin(a) \cdot 1 + \cos(a) b \varepsilon \\
+        &= \sin(a) + b \cos(a) \varepsilon
+    \end{align}
+    \]
+    <p>Or by applying formula (2-5): \(f(a + b \varepsilon) = f(a) + f'(a) (b \varepsilon)\) </p>
+    \[
+        \sin(a + b \varepsilon) = \sin(a) + b \cos(a) \varepsilon \tag{3-1}
+    \]
+
+    <p>Thus the C++ implementation of the <code>sin</code> function for dual number is:</p>
+    <pre>
+    template &lt;typename DType> DualNumber &lt;DType>
+    sin(const DualNumber &lt; DType>& val)
+    {
+        return {std::sin(val(0)), std::cos(val(0)) * val(1)};
+    }
+    </pre>
+
+    <h2>Mostly Used Elementary Functions</h2>
+    \[
+    \begin{align}
+        \sin(a + b \varepsilon) &= \sin(a) + b \cos(a) \varepsilon \\
+        \arcsin(a + b \varepsilon) &= \arcsin(a) + \frac{b \varepsilon}{\sqrt{1-a^2}} \\
+        \cos(a + b \varepsilon) &= \cos(a) - b \sin(a) \varepsilon \\
+        \arccos(a + b \varepsilon) &= \arccos(a) - \frac{b \varepsilon}{\sqrt{1-a^2}} \\
+        \exp(a + b \varepsilon) &= \exp(a) + b \exp(a) \varepsilon \\
+        \ln(a + b \varepsilon) &= \ln(a) + \frac{a}{b} \varepsilon \\
+        (a + b \varepsilon)^ \alpha &= a^ \alpha + (\alpha b)  a^{\alpha - 1} \varepsilon \\
+    \end{align}
+
+    \]
+
+    <h1>Derivative of 3D Special Orthogonal Group</h1>
+    <p>
+        Consider a rotation axis \(\phi \in \mathbb{R}^{3} \) and \(\| \phi \| = 1 \),
+        a rotation along axis \(\phi\) with angle \(\theta\) can be expressed as \(f(\theta) = \exp (\theta \phi^ \wedge) \).
+        The \((\cdot )^ \wedge \) operation converts a 3D vector into a skew-symmetric matrix.
+    </p>
+    <p>Meanwhile, \(f'(\theta) = \phi^ \wedge \exp(\theta \phi^ \wedge)\) and \(f^{(n)}(\theta) = (\phi^ \wedge)^n \exp(\theta \phi^ \wedge)\) </p>
+    <p>The Taylor Series of \(f(\theta)\) at point \(\theta_0\) is:</p>
+    \[
+    \begin{align}
+        f(\theta) &= f(\theta_0) + \frac{f'(\theta_0)}{1!}(\theta - \theta_0) + \frac{f''(\theta_0)}{2!}(\theta - \theta_0)^2 + \cdots   \\
+        &= ( I + \phi^ \wedge (\theta - \theta_0) + \frac{(\phi^ \wedge)^2}{2!}(\theta - \theta_0)^2 + \cdots  ) f(\theta_0)\\
+        &= \left( \sum_{n=0}^{\infty } \frac{(\phi^ \wedge)^n}{n!} (\theta - \theta_0)^n \right) f(\theta_0)
+    \end{align}
+
+    \]
+
+    <p>Let \(\theta = a + b \varepsilon\) and \(\theta_0 = a\), then  </p>
+    \[
+        f(a + b \varepsilon) = (I + \phi^ \wedge b \varepsilon) f(a)
+    \]
+    \[
+        \frac{f(a + b \varepsilon) - f(a)}{b} = \phi^ \wedge f(a) \varepsilon
+    \]
+
+    <p>The DoF of a 3D rotation is 3, therefore three orthogonal rotation vectors are required to
+        find all derivative of a rotation function. Normally the standard orthogonal basis
+         \([0,0,1]^\top, [0,1,0]^\top, [1,0,0]^\top\) are used as \(\phi\) .
+    </p>
+
+    <h2>Rodrigues Formula</h2>
+    <p>Rodrigues formula is essential the exponential map from \(\mathfrak{so}(3)\) to \(SO(3)\).  </p>
+    <p>Denote \(\varphi = \theta \phi\) </p>
+    <!-- \[
+        \exp(\theta \phi) = I + \sin(\theta) \phi^ \wedge + \cos (\theta) \phi^ \wedge \phi^ \wedge
+    \] -->
+    \[
+        \exp(\varphi) = I + \frac{\sin(\theta)}{\theta}  \varphi^ \wedge + \frac{\cos (\theta)}{\theta^2}  \varphi^ \wedge \varphi^ \wedge
+    \]
+
+    <p>
+        The numerical accuracy decrease when \(\theta \rightarrow 0\).
+        In normal C++ implementation,
+        an <code>if</code> expression
+        is used to eliminate the singularity:
+    </p>
+        \[
+            \| \varphi \| &lt; \epsilon \Rightarrow  \exp(\varphi) = I
+            \tag{4-3}
+        \]
+    <p>
+        Where \(\epsilon\) is the machine accuracy.
+        However the expression is incorrect when dealing with dual number input.
+    </p>
+    <p>Denote </p>
+    \[
+        \varphi =
+        \left[
+        \begin{matrix}
+            a_1 + b_1 \varepsilon \\
+            a_2 + b_2 \varepsilon \\
+            a_3 + b_3 \varepsilon \\
+        \end{matrix}
+         \right]
+    \]
+    <p>
+        Denote \(a = [a_1, a_2, a_3]^\top\). \(\theta = 0 \Rightarrow  \|a\| = 0
+        \Leftrightarrow
+        \varphi ^ \wedge \varphi ^ \wedge = 0 \) but \( \not \Rightarrow  \varphi ^ \wedge = 0\).
+        Therefore, the expression (4-3) should be corrected to
+    </p>
+
+    \[
+            \| \varphi \| &lt; \epsilon \Rightarrow  \exp(\varphi) = I + \varphi^ \wedge
+            \tag{4-4}
+    \]
+
+    <p>
+        <a href="https://github.com/XiaoxingChen/mxm/blob/e004ef892dce35436194b5b7a93c7e522c256fbe/inc/mxm/lie_special_orthogonal.h#L173" target="_blank" rel="noopener">Here</a>
+        is the C++ implementation of the Rodrigues formula that supports dual number calculation.</p>
+
+    <h2>A Demo with Rotation Auto Derivative</h2>
+    <p>Perspective N Point(PnP) problem tends to find the camera pose by minimizing the reprojection error
+        between 2D points. It is a typical nonlinear optimization problem with the state vector
+        constrained on a 6 DoF manifold. The demo use dual number auto derivative to find the Jacobian matrix
+        and the method converged correctly.
+    </p>
+    <p>
+        See <a href="https://github.com/XiaoxingChen/mxm/blob/e004ef892dce35436194b5b7a93c7e522c256fbe/inc/mxm/cv_3d.h#L317" target="_blank" rel="noopener">mxm/cv_3d.h:317</a> for Jacobian matrix
+        calculation and
+        <a href="https://github.com/XiaoxingChen/mxm/blob/e004ef892dce35436194b5b7a93c7e522c256fbe/tests/test_cv_basic.cpp#L537" target="_blank" rel="noopener">tests/test_cv_basic.cpp:537</a>
+        for PnP problem verification pipeline.
+    </p>
+    <h1>Limitations</h1>
+    <p>
+        Consider real number expression \(c = \frac{ab}{b}\). It is easy to find \(c = a\) when \(b \neq 0\)
+        but hard to define the value of \(c\) when \(b = 0\).
+        Similarly for dual number: \(x \neq \sqrt[]{x^2}\) when \(x\) is a purely nonreal dual number, i.e. \(x = b \varepsilon\).
+    </p>
+
+
+    <h1 id="references">References</h1>
+    <ol class="bib">
+        <li>
+            Michael Penn,
+            <cite>
+                <a href="https://youtu.be/ceaNqdHdqtg" target="_blank" rel="noopener">"The strange cousin of the complex numbers - the dual numbers."</a>
+            </cite>
+            YouTube, 2022
+        </li>
+
+
+    </ol>
+</body>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/01/20/radial_tangential_numerical_inversion/" rel="prev" title="Numerical Inversion of Radial Tangential Distortion Model">
+      <i class="fa fa-chevron-left"></i> Numerical Inversion of Radial Tangential Distortion Model
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#background"><span class="nav-number">1.</span> <span class="nav-text">Background</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dual_number_albegra"><span class="nav-number">2.</span> <span class="nav-text">Dual Number Algebra</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">2.1.</span> <span class="nav-text">Addition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">2.2.</span> <span class="nav-text">Multiplication</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">2.3.</span> <span class="nav-text">Conjugate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">2.4.</span> <span class="nav-text">Division</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">2.5.</span> <span class="nav-text">Derivative</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">3.</span> <span class="nav-text">Dual Number Elementary Functions</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">3.1.</span> <span class="nav-text">Mostly Used Elementary Functions</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">4.</span> <span class="nav-text">Derivative of 3D Special Orthogonal Group</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">4.1.</span> <span class="nav-text">Rodrigues Formula</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">4.2.</span> <span class="nav-text">A Demo with Rotation Auto Derivative</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">5.</span> <span class="nav-text">Limitations</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#references"><span class="nav-number">6.</span> <span class="nav-text">References</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Xiaoxing</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xiaoxingchen" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xiaoxingchen" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:siuhangchanxx@gmail.com" title="E-Mail → mailto:siuhangchanxx@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/xiaoxing-chen-8b96ba10a/" title="LinkedIn → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;xiaoxing-chen-8b96ba10a&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-linkedin-square"></i>LinkedIn</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://xiaoxingchen.github.io/resume/resume_en.html" title="Resume → https:&#x2F;&#x2F;xiaoxingchen.github.io&#x2F;resume&#x2F;resume_en.html" rel="noopener" target="_blank"><i class="fa fa-fw fa-address-card"></i>Resume</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xiaoxing</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://xiaoxingchen.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://yoursite.com/2022/03/20/dual_number_auto_derivative_on_so3/";
+    this.page.identifier = "2022/03/20/dual_number_auto_derivative_on_so3/";
+    this.page.title = "Dual Number and Auto Derivative of Special Orthogonal Group";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://xiaoxingchen.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

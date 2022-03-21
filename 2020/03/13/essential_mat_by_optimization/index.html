@@ -22,17 +22,21 @@
 
   <meta name="description" content=".bib ol { counter-reset: item }             .bib li { display: block ; counter-increment: item; }             .bib li:before { content: &quot; [&quot;counter(item)&quot;] &quot;; }">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Singular Values of Essential Matrix">
-<meta property="og:url" content="http://yoursite.com/2020/01/20/essential_mat_sig_val/index.html">
+<meta property="og:title" content="Solve Epipolar Constraint by Optimization over Unit Sphere Manifold">
+<meta property="og:url" content="http://yoursite.com/2020/03/13/essential_mat_by_optimization/index.html">
 <meta property="og:site_name" content="Xiaoxing Chen&#39;s Blog">
 <meta property="og:description" content=".bib ol { counter-reset: item }             .bib li { display: block ; counter-increment: item; }             .bib li:before { content: &quot; [&quot;counter(item)&quot;] &quot;; }">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-01-20T09:13:14.000Z">
-<meta property="article:modified_time" content="2020-03-29T04:22:16.261Z">
+<meta property="og:image" content="http://yoursite.com/2020/03/14/essential_mat_by_optimization/3d_view.svg">
+<meta property="og:image" content="http://yoursite.com/2020/03/14/essential_mat_by_optimization/essential_by_gn.svg">
+<meta property="og:image" content="http://yoursite.com/2020/03/14/essential_mat_by_optimization/viz_iteration.svg">
+<meta property="article:published_time" content="2020-03-13T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-07-02T15:21:33.343Z">
 <meta property="article:author" content="Xiaoxing">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/03/14/essential_mat_by_optimization/3d_view.svg">
 
-<link rel="canonical" href="http://yoursite.com/2020/01/20/essential_mat_sig_val/">
+<link rel="canonical" href="http://yoursite.com/2020/03/13/essential_mat_by_optimization/">
 
 
 <script id="page-configurations">
@@ -44,7 +48,7 @@
   };
 </script>
 
-  <title>Singular Values of Essential Matrix | Xiaoxing Chen's Blog</title>
+  <title>Solve Epipolar Constraint by Optimization over Unit Sphere Manifold | Xiaoxing Chen's Blog</title>
   
 
 
@@ -153,7 +157,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/20/essential_mat_sig_val/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/13/essential_mat_by_optimization/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -166,7 +170,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Singular Values of Essential Matrix
+          Solve Epipolar Constraint by Optimization over Unit Sphere Manifold
         </h1>
 
         <div class="post-meta">
@@ -176,14 +180,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-01-20 01:13:14" itemprop="dateCreated datePublished" datetime="2020-01-20T01:13:14-08:00">2020-01-20</time>
+              <time title="Created: 2020-03-13 09:00:00" itemprop="dateCreated datePublished" datetime="2020-03-13T09:00:00-07:00">2020-03-13</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-28 21:22:16" itemprop="dateModified" datetime="2020-03-28T21:22:16-07:00">2020-03-28</time>
+                <time title="Modified: 2020-07-02 08:21:33" itemprop="dateModified" datetime="2020-07-02T08:21:33-07:00">2020-07-02</time>
               </span>
 
           
@@ -195,8 +199,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2020/01/20/essential_mat_sig_val/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/01/20/essential_mat_sig_val/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2020/03/13/essential_mat_by_optimization/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/03/13/essential_mat_by_optimization/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -221,68 +225,184 @@
             .bib li:before { content: " ["counter(item)"] "; }
         </style>
 </head>
-
 <body>
+    <h1>Motivation</h1>
+    <p>
+        While estimating the transform between two images, one has to solve the Essential Matrix according to Epipolar Constraint:
+    </p>
+    \[
+        x_2^\top E x_1 = 0 
+        \tag{1-1}
+    \]
+    <p>Five-point-algorithm and eight-point-algorithm are both applicable. 
+        Here I take eight-point algorithm as example. The essential matrix is vectorized,
+        and equation (1-1) is transformed to a homogeneous equation in form \(Ax = 0\). 
+        The homogeneous equation can be solved by SVD, and the essential matrix will be recovered from vector \(x\).
+    </p>
+    <p>
+        However, according to the definition of essential matrix:
+    </p>
+    \[
+    E = \{ S R | S = t^\wedge \in \mathfrak{so}(3), R \in SO(3)\} \tag{1-2}
+    \]
+    <p>
+        Singular values of a essential matrix are \([1,1,0]\) <sup><a href="/2020/01/20/essential_mat_sig_val">[1]</a></sup>.
+        In order to make the solution "essential", a general solution<sup>[2]</sup> is to SVD the result and replace its singular value with \([1,1,0]\).
+        The matrix \(\hat E\) is the projection of matrix \(E\) on essential manifold. 
+        By decomposing motion from essential matrix, one will get four solutions. 
+        Only one of the four solutions is available, whose feature points have position depth in camera.
+        Finally, the rotation matrix and translation vector are recovered.
+    </p>
+    \[
+        \hat E = U_E \text{diag}(1,1,0)  V_E^\top
+        \tag{1-3}
+    \]
+    <p>
+        In this article, I am going to implement an optimization based method to find the essential matrix. 
+    </p>
+    <h1>Problem Formulation</h1>
+    <h2>Parameterization</h2>
+    <p>
+        Few papers talk about properties of essential manifold.
+        Let's see what will happen if I solve the problem with only constraint the rotation matrix.
+        I parameterize the essential matrix to a 6-dimensional vector: 3-dimensional translation vector and 3-dimension rotation.
+        But it was denied after I found the equation will always converge at the point where translation vector \(t = [0,  0,  0]^\top\).
+        This is where "pure rotation" happens, the constraint "degenerated". 
+        Therefore, I finally added a constraint \(\|t\| = 1\), to restrict the translation vector on a unit sphere.
+        If I can turn the unit sphere manifold to a Lie Group, the the solution can be solve as what one do to the rotation part.
+        Unluckily, the answer was "NO": 
+        <a href="https://math.stackexchange.com/questions/3481290/can-every-manifold-be-turned-into-a-lie-group" target="_blank" rel="noopener">
+            \(S^2\) manifold cannot be given a Lie Group structure</a>.
+    </p>
+    <p>
+        Anyway, the idea of constrained optimization is to iterate the state vector without breaking the constraint.
+        The translation vector on unit sphere has degree of 2, the essential matrix was then vectorized to \(E = [\tau_x, \tau_y, \psi_x, \psi_y, \psi_z]^\top\). 
+        Every step I calculate the jacobian of the translation vector in two orthogonal directions. 
+        In order to preserve the incremental direction, the translation vector is stored in a orthonormal matrix \(T = [t_x, t_y, t_z], T \in SO(3)\).
+        The first two columns of the matrix \(t_x, t_y\) indicates the incremental directions, the last column \(t_z\) is the vector itself.
+    </p>
+    <h2>Cost Function</h2>
+    <p>Residual: </p>
+    \[
+        f(x) = x_1^\top t_z^\wedge R x_2 \tag{2-1}
+    \]
 
+    <p>The problem then comes to:</p>
+    \[
+        \text{arg}\ \text{min} F(t_z, R) = \frac{1}{2} \sum_{i = 1} ^ n \|f(t_z, R)\|^2 
+        = \frac{1}{2} \sum_{i = 1} ^ n 
+        \left( 
+            (x_{1,i}^\top t_z^\wedge R x_{2,i})^\top (x_{1,i}^\top t_z^\wedge R x_{2,i}) 
+        \right)
+        \tag{2-2}
+    \]
 
+    <h2>Jacobian</h2>
+    <p>I use numerical method to calculate the jacobian.</p>
+    \[
+        J = 
+        \left[
+        \begin{matrix}
+        \frac{\partial f}{\partial \tau_x} &
+        \frac{\partial f}{\partial \tau_y} &
+        \frac{\partial f}{\partial \psi_x} &
+        \frac{\partial f}{\partial \psi_y} &
+        \frac{\partial f}{\partial \psi_z}
+        \end{matrix}
+        \right]
+        \tag{2-3}
+    \]
+    <h2>Update</h2>
+    \[
+        \begin{cases}
+            \Delta \tau = [\Delta \tau_x, \Delta \tau_y, 0]^\top\\
+            T_k = \text{exp} (\Delta \tau ^ \wedge) T_{k-1} \\
+            t_{z,k} = T_{k[:,3]} \\ 
+            R_k = \text{exp} (\Delta \psi ^ \wedge) R_{k-1}
+        \end{cases}
+        \tag{2-4}
+    \]
 
-<p>Essential matrix is not new to anybody being familiar with Epipolar Geometry. Here is the famous epipolar constraint: </p>
-\[
-    x_2^\top E x_1 = 0 
-\]
-<p>
-    Recall that when the essential matrix is obtained by 8-point algorithm, 
-    one has to decompose the result with SVD to make its third singular value 0 and the other 
-    two singular values equal. Here is a short derivation of this property of essential matrix.
-</p>
+    <h1>Simulation</h1>
+    <p>
+        Two cameras were set at position \((0.5, -0.8, 0.5)m\) and \((0.6, -0.8, 0.5)m\), 
+        their orientations were presented in rotation vectors: \((-\frac{\pi}{2}, 0, 0)rad\), \((-\frac{\pi}{2}, 0.1, 0)rad\).
+        Totally 60 points were generated.
+    </p>
 
-<p>According to the definition of essential matrix: </p>
-\[
- E = \{ S R | S = t^\wedge \in \mathfrak{so}(3), R \in SO(3)\} \tag{1-1}
-\] 
+    <figure>
+        <img src="/2020/03/14/essential_mat_by_optimization/3d_view.svg" style="width:70%">
+        <figcaption>
+            Fig.1 - Generate point cloud in 3D space, the red arrows indicate the pose of cameras. 
+        </figcaption>
+        
+    </figure>
+        
+    <figure>
+        <img src="/2020/03/14/essential_mat_by_optimization/essential_by_gn.svg" style="width:100%">
+        <figcaption>
+            Fig.2 - Project points to normalized camera coordinate. 
+            The point IDs are known to algorithm so that there is no outliers in matching.
+            <a href="https://github.com/XiaoxingChen/pyproj/blob/master/epipolar_geometry/essential_by_gn.py" target="_blank" rel="noopener">
+            [source code]</a>
+        </figcaption>
+    </figure>
 
-<p>
-    According to the definition of SVD, a singular value \(\sigma\) of a matrix A, 
-    equals to the square root of correspondent eigenvalue \(\lambda\) of matrix \(A^\top A\):
-</p>
-\[
-   \sigma_{A,i} = \sqrt{\lambda_{A^\top A,i}} \tag{1-2}
- \]
-<p>Meanwhile,</p>
- \[
-    E^\top E = R^\top S^\top S R = -R^\top (t^\wedge)^2 R \tag{1-3}
- \]
- <p>According to the property of askew-symmetric matrix:</p>
- \[
-    (t^\wedge)^2 = \|t\|^2 I - t t^\top \tag{1-4}
- \]
- <p>The first term is a scalar matrix with three equal eigenvalues \(\|t\|^2\)</p>
- <p>The second term \(t t^\top\) is a symmetric matrix, which is therefore semi-positive definite.
-    It can be diagonalized<sup><a href="/2020/01/20/mat_generated_by_outer_product">[1]</a></sup>:
- </p>
- \[
-    t t^\top = \|t\|^2 R_t^\top diag(1, 0, 0) R_t \tag{1-5}
- \]
+    <p>The Gauss-Newton method was used to calculate the update. 
+        Given initial value \(t = (\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}, 0)\), \(\psi = (0, -0.1, 0)\)
+        The cost converged within 10 iterations.
+    </p>
+    <pre><code class="language-log">
+        it: 0, cost: 32027813.76362674
+        it: 1, cost: 77838.5880822376
+        it: 2, cost: 6281.828095169881
+        it: 3, cost: 112.93046933952343
+        it: 4, cost: 6.927671506086043
+        it: 5, cost: 1.0246290629301655e-07
+        it: 6, cost: 1.2263197696799394e-15
+        it: 7, cost: 3.9916308419887783e-25
+        it: 8, cost: 4.27369517787316e-25
+        it: 9, cost: 2.6192914664154937e-25
+        t: [ 9.9984608e-01 -7.6998377e-17 -1.7341515e-16], r: [-0.0011568  0.0636558  0.0636558]
+        groundtruth: t01: [0.1 0.  0. ], r01: [-0.0011568  0.0636558  0.0636558]
+    </code></pre>
 
- <p>Thus, equation (1-3) becomes:</p>
- \[
-    E^\top E = \|t\|^2 R^\top R_t^\top ( I - diag(1, 0, 0)) R_t R 
+    <figure>
+        <img src="/2020/03/14/essential_mat_by_optimization/viz_iteration.svg" style="width:70%">
+        <figcaption align='center'>
+            Fig.3 - Cost in iteration.
+        </figcaption>
+    </figure>
+
+    <h1>Conclusion</h1>
+    <p>
+        Compared with eight-point-algorithm, there is no "linear space to manifold" projection required in optimization based method.
+        Every iteration was restricted on manifold. Besides, optimization method does not need essential matrix decomposition.
+        The optimization targets are rotation and translation direction.
+        However, with different iteration initial values, the method may converge to any of the four 
+        possible solutions. Developer has to recover four solutions from the converged one and verify all of them.
+        The accuracy of both methods are reliable, errors come from numerical computation.
+    </p>
+
+    <h1>References</h1>
+    <ol class="bib">
+        <li>
+            Xiaoxing.
+            <cite>
+                <a href="/2020/01/20/essential_mat_sig_val">
+                    Singular Values of Essential Matrix
+                </a>
+            </cite>
+        </li>
+        <li>
+            Zhang, Zhengyou. 
+            <cite>
+                "Determining the epipolar geometry and its uncertainty: A review."
+            </cite>
+            International journal of computer vision 27.2 (1998): 161-195.
+        </li>
+    </ol>
     
- \]
- \[
-    = \|t\|^2 (R_t R )^\top diag(1, 1, 0) (R_t R) 
-    \tag{1-6}
- \]
-
- <p>Therefore, eigenvalues of \(E^\top E\) are: \(\|t\|^2 (1, 1, 0)\).</p>
- <p>Finally, according to (1-3), singular values of essential matrix \(E\) are: \(\|t\|(1, 1, 0)\).</p>
-
- <br>
-
- <h2>References</h2>
- <ol class="bib">
-    <li>Xiaoxing. <a href="/2020/01/20/mat_generated_by_outer_product"><cite>Property of Matrix Generated by Outer Product</cite></a></li>
- </ol>
 </body>
     </div>
 
@@ -298,12 +418,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/01/18/mat_generated_by_outer_product/" rel="prev" title="Property of Matrix Generated by Outer Product">
-      <i class="fa fa-chevron-left"></i> Property of Matrix Generated by Outer Product
+    <a href="/2020/03/01/bspline_in_so3/" rel="prev" title="B-Spline in Space I - Euclidean Space">
+      <i class="fa fa-chevron-left"></i> B-Spline in Space I - Euclidean Space
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/02/29/why_here/" rel="next" title="Why Here">
-      Why Here <i class="fa fa-chevron-right"></i>
+    <a href="/2020/05/06/least_l1_norm_problem/" rel="next" title="Least L1-norm Problem">
+      Least L1-norm Problem <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -371,7 +491,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">1.</span> <span class="nav-text">References</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">1.</span> <span class="nav-text">Motivation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">2.</span> <span class="nav-text">Problem Formulation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">2.1.</span> <span class="nav-text">Parameterization</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">2.2.</span> <span class="nav-text">Cost Function</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">2.3.</span> <span class="nav-text">Jacobian</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">2.4.</span> <span class="nav-text">Update</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">3.</span> <span class="nav-text">Simulation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">4.</span> <span class="nav-text">Conclusion</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">5.</span> <span class="nav-text">References</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -500,9 +620,9 @@
 </script>
 <script>
   var disqus_config = function() {
-    this.page.url = "http://yoursite.com/2020/01/20/essential_mat_sig_val/";
-    this.page.identifier = "2020/01/20/essential_mat_sig_val/";
-    this.page.title = "Singular Values of Essential Matrix";
+    this.page.url = "http://yoursite.com/2020/03/13/essential_mat_by_optimization/";
+    this.page.identifier = "2020/03/13/essential_mat_by_optimization/";
+    this.page.title = "Solve Epipolar Constraint by Optimization over Unit Sphere Manifold";
     };
   NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
     if (window.DISQUS) {

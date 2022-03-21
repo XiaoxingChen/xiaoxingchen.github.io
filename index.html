@@ -149,7 +149,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/01/21/radial_tangential_numerical_inversion/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/03/20/dual_number_auto_derivative_on_so3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -163,7 +163,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/01/21/radial_tangential_numerical_inversion/" class="post-title-link" itemprop="url">Numerical Inversion of Radial Tangential Distortion Model</a>
+            <a href="/2022/03/20/dual_number_auto_derivative_on_so3/" class="post-title-link" itemprop="url">Dual Number and Auto Derivative of Special Orthogonal Group</a>
         </h1>
 
         <div class="post-meta">
@@ -173,14 +173,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2022-01-21 00:00:00" itemprop="dateCreated datePublished" datetime="2022-01-21T00:00:00+08:00">2022-01-21</time>
+              <time title="Created: 2022-03-20 00:00:00" itemprop="dateCreated datePublished" datetime="2022-03-20T00:00:00-07:00">2022-03-20</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-02-26 18:58:05" itemprop="dateModified" datetime="2022-02-26T18:58:05+08:00">2022-02-26</time>
+                <time title="Modified: 2022-03-21 00:19:27" itemprop="dateModified" datetime="2022-03-21T00:19:27-07:00">2022-03-21</time>
               </span>
 
           
@@ -192,8 +192,360 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2022/01/21/radial_tangential_numerical_inversion/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/01/21/radial_tangential_numerical_inversion/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2022/03/20/dual_number_auto_derivative_on_so3/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/20/dual_number_auto_derivative_on_so3/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+<head>
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+    <style>
+        .bib ol {
+            counter-reset: item
+        }
+
+        .bib li {
+            display: block;
+            counter-increment: item;
+        }
+
+        .bib li:before {
+            content: " ["counter(item)"] ";
+        }
+    </style>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+    <h1 id="background">Background</h1>
+    <p>
+        Finding the closed-form Jacobian matrix of a residual function is one of the most time consuming works
+        in solving a nonlinear optimization problem.
+        A work around is to use numerical Jacobian. i.e. manually give a small increment in every
+        variable and find out the increment in residual. However the selection of the increment
+        is sensitive to the data magnitude. An inappropriate increment can lead to fluctuation before convergence.
+    </p>
+    <p>
+        In google <a href="http://ceres-solver.org/" target="_blank" rel="noopener">ceres-solver</a>, an auto derivative method is introduced to
+        liberate developers from complicated Jacobian debugging. This blog introduces the principle behind the auto derivative
+        and explains a <i>Perspective-N-Point</i> problem demo based on auto derivative and nonlinear optimization.
+    </p>
+
+    <h1 id="dual_number_albegra">Dual Number Algebra</h1>
+    <p>
+        The basic idea of auto derivative is to extend the input of a single variable function.
+        Consider function \(y = f(x)\), the input \(x\) is no longer a variable, but an out put
+        of another function with first order slop \( b\varepsilon \). Where \(\varepsilon\) is the basis of the
+        increment, real number \(b\) measures the magnitude of the increment. Therefore, variable \(x\)
+        is expressed as \(x = a + b \varepsilon\).
+    </p>
+    <p>Define \(\varepsilon ^2 = 0\) to drop infinitesimals with order higher than one.</p>
+    <h2>Addition</h2>
+    \[
+        (a + b \varepsilon) + (c + d \varepsilon) = (a + c) + (b + d) \varepsilon
+    \]
+
+    <h2>Multiplication</h2>
+    \[
+        (a + b \varepsilon)(c + d \varepsilon) = ac + (ad + bc) \varepsilon
+    \]
+
+    <h2>Conjugate</h2>
+    <p>Given \(x = a + b \varepsilon\), </p>
+    \[
+        \bar{x} = a - b \varepsilon
+    \]
+    <p>Then, \(\bar{x} x = a^2 - b^2 \varepsilon^2  = a^2\) </p>
+
+    <h2>Division</h2>
+    <p>Dual number division uses conjugate property to eliminate the denominator. </p>
+    \[
+    \begin{align}
+        \frac{a + b \varepsilon}{c + d \varepsilon} &= \frac{(a + b \varepsilon)(c - d \varepsilon)}{(c + d \varepsilon) (c - d \varepsilon)}\\
+        &= \frac{ac + (bc - ad) \varepsilon}{c^2} \\
+    \end{align}
+
+    \]
+    <p>Where \(c \neq 0\).</p>
+
+    \[
+        \frac{a + b \varepsilon}{c + d \varepsilon} = \frac{b}{d}
+    \]
+    <p>Where \(c = 0\) and \(a = 0\).  </p>
+    <p>Otherwise the division is not defined.</p>
+
+    <h2>Derivative</h2>
+    <p>
+        For all functions that can be expanded as Taylor Series at point \(x_0\) :
+    </p>
+    \[
+        \begin{align}
+            f(x) &= f(x_0)
+            + \frac{f^ {\prime} (x_0)}{1!}(x-x_0)
+            + \frac{f^ {\prime \prime} (x_0)}{2!} (x-x_0)^2
+            + \frac{f^ {\prime \prime \prime} (x_0)}{3!} (x-x_0)^3
+            + \cdots \\
+            &= \sum_{\infty }^{n=0} \frac{f^{(n)}(x_0)}{n!} (x-x_0)^n \\
+        \end{align}
+    \]
+    <p>Set \(x = a + b \varepsilon\) and expand the series at \(x_0 = a\),  </p>
+    \[
+        \begin{align}
+            f(a + b \varepsilon) &= f(a)
+            + \frac{f^ {\prime} (a)}{1!} (b\varepsilon)
+            + \frac{f^ {\prime \prime} (a)}{2!} (b\varepsilon) ^2
+            + \frac{f^ {\prime \prime \prime} (a)}{3!} (b\varepsilon) ^3
+            + \cdots \\
+            &= f(a) + f^ {\prime} (a) (b\varepsilon)  \tag{2-5}\\
+
+        \end{align}
+    \]
+
+    <p>i.e.</p>
+    \[
+        f^{\prime }(a) \varepsilon =  \frac{ f(a + b \varepsilon) - f(a) }{b} \tag{2-6}
+    \]
+
+    <h1>Dual Number Elementary Functions</h1>
+    <p>
+        In order to use dual number in C++ project, simply overloading operators like <code>+ - * /</code>
+        is not enough. C++ built in functions such as <code>sin</code>, <code>cos</code>, <code>exp</code>, <code>log</code>
+        don't handle dual number input. The dual number class have to support all these functions.
+    </p>
+    <p>
+        Luckily, most elementary functions of dual numbers can be converted to the combination of C++ built in functions.
+        For example:
+    </p>
+    <p>By applying formula: \(\sin(u + v) = \sin(u) \cos(v) + \cos(u) \sin(v)\) and \(\lim_{x \to 0} \frac{\sin(x)}{x} = 1 \)  </p>
+    \[
+    \begin{align}
+        \sin(a + b \varepsilon) &= \sin(a) \cos(b \varepsilon) + \cos(a) \sin(b \varepsilon) \\
+        &= \sin(a) \cdot 1 + \cos(a) b \varepsilon \\
+        &= \sin(a) + b \cos(a) \varepsilon
+    \end{align}
+    \]
+    <p>Or by applying formula (2-5): \(f(a + b \varepsilon) = f(a) + f'(a) (b \varepsilon)\) </p>
+    \[
+        \sin(a + b \varepsilon) = \sin(a) + b \cos(a) \varepsilon \tag{3-1}
+    \]
+
+    <p>Thus the C++ implementation of the <code>sin</code> function for dual number is:</p>
+    <pre>
+    template &lt;typename DType> DualNumber &lt;DType>
+    sin(const DualNumber &lt; DType>& val)
+    {
+        return {std::sin(val(0)), std::cos(val(0)) * val(1)};
+    }
+    </pre>
+
+    <h2>Mostly Used Elementary Functions</h2>
+    \[
+    \begin{align}
+        \sin(a + b \varepsilon) &= \sin(a) + b \cos(a) \varepsilon \\
+        \arcsin(a + b \varepsilon) &= \arcsin(a) + \frac{b \varepsilon}{\sqrt{1-a^2}} \\
+        \cos(a + b \varepsilon) &= \cos(a) - b \sin(a) \varepsilon \\
+        \arccos(a + b \varepsilon) &= \arccos(a) - \frac{b \varepsilon}{\sqrt{1-a^2}} \\
+        \exp(a + b \varepsilon) &= \exp(a) + b \exp(a) \varepsilon \\
+        \ln(a + b \varepsilon) &= \ln(a) + \frac{a}{b} \varepsilon \\
+        (a + b \varepsilon)^ \alpha &= a^ \alpha + (\alpha b)  a^{\alpha - 1} \varepsilon \\
+    \end{align}
+
+    \]
+
+    <h1>Derivative of 3D Special Orthogonal Group</h1>
+    <p>
+        Consider a rotation axis \(\phi \in \mathbb{R}^{3} \) and \(\| \phi \| = 1 \),
+        a rotation along axis \(\phi\) with angle \(\theta\) can be expressed as \(f(\theta) = \exp (\theta \phi^ \wedge) \).
+        The \((\cdot )^ \wedge \) operation converts a 3D vector into a skew-symmetric matrix.
+    </p>
+    <p>Meanwhile, \(f'(\theta) = \phi^ \wedge \exp(\theta \phi^ \wedge)\) and \(f^{(n)}(\theta) = (\phi^ \wedge)^n \exp(\theta \phi^ \wedge)\) </p>
+    <p>The Taylor Series of \(f(\theta)\) at point \(\theta_0\) is:</p>
+    \[
+    \begin{align}
+        f(\theta) &= f(\theta_0) + \frac{f'(\theta_0)}{1!}(\theta - \theta_0) + \frac{f''(\theta_0)}{2!}(\theta - \theta_0)^2 + \cdots   \\
+        &= ( I + \phi^ \wedge (\theta - \theta_0) + \frac{(\phi^ \wedge)^2}{2!}(\theta - \theta_0)^2 + \cdots  ) f(\theta_0)\\
+        &= \left( \sum_{n=0}^{\infty } \frac{(\phi^ \wedge)^n}{n!} (\theta - \theta_0)^n \right) f(\theta_0)
+    \end{align}
+
+    \]
+
+    <p>Let \(\theta = a + b \varepsilon\) and \(\theta_0 = a\), then  </p>
+    \[
+        f(a + b \varepsilon) = (I + \phi^ \wedge b \varepsilon) f(a)
+    \]
+    \[
+        \frac{f(a + b \varepsilon) - f(a)}{b} = \phi^ \wedge f(a) \varepsilon
+    \]
+
+    <p>The DoF of a 3D rotation is 3, therefore three orthogonal rotation vectors are required to
+        find all derivative of a rotation function. Normally the standard orthogonal basis
+         \([0,0,1]^\top, [0,1,0]^\top, [1,0,0]^\top\) are used as \(\phi\) .
+    </p>
+
+    <h2>Rodrigues Formula</h2>
+    <p>Rodrigues formula is essential the exponential map from \(\mathfrak{so}(3)\) to \(SO(3)\).  </p>
+    <p>Denote \(\varphi = \theta \phi\) </p>
+    <!-- \[
+        \exp(\theta \phi) = I + \sin(\theta) \phi^ \wedge + \cos (\theta) \phi^ \wedge \phi^ \wedge
+    \] -->
+    \[
+        \exp(\varphi) = I + \frac{\sin(\theta)}{\theta}  \varphi^ \wedge + \frac{\cos (\theta)}{\theta^2}  \varphi^ \wedge \varphi^ \wedge
+    \]
+
+    <p>
+        The numerical accuracy decrease when \(\theta \rightarrow 0\).
+        In normal C++ implementation,
+        an <code>if</code> expression
+        is used to eliminate the singularity:
+    </p>
+        \[
+            \| \varphi \| &lt; \epsilon \Rightarrow  \exp(\varphi) = I
+            \tag{4-3}
+        \]
+    <p>
+        Where \(\epsilon\) is the machine accuracy.
+        However the expression is incorrect when dealing with dual number input.
+    </p>
+    <p>Denote </p>
+    \[
+        \varphi =
+        \left[
+        \begin{matrix}
+            a_1 + b_1 \varepsilon \\
+            a_2 + b_2 \varepsilon \\
+            a_3 + b_3 \varepsilon \\
+        \end{matrix}
+         \right]
+    \]
+    <p>
+        Denote \(a = [a_1, a_2, a_3]^\top\). \(\theta = 0 \Rightarrow  \|a\| = 0
+        \Leftrightarrow
+        \varphi ^ \wedge \varphi ^ \wedge = 0 \) but \( \not \Rightarrow  \varphi ^ \wedge = 0\).
+        Therefore, the expression (4-3) should be corrected to
+    </p>
+
+    \[
+            \| \varphi \| &lt; \epsilon \Rightarrow  \exp(\varphi) = I + \varphi^ \wedge
+            \tag{4-4}
+    \]
+
+    <p>
+        <a href="https://github.com/XiaoxingChen/mxm/blob/e004ef892dce35436194b5b7a93c7e522c256fbe/inc/mxm/lie_special_orthogonal.h#L173" target="_blank" rel="noopener">Here</a>
+        is the C++ implementation of the Rodrigues formula that supports dual number calculation.</p>
+
+    <h2>A Demo with Rotation Auto Derivative</h2>
+    <p>Perspective N Point(PnP) problem tends to find the camera pose by minimizing the reprojection error
+        between 2D points. It is a typical nonlinear optimization problem with the state vector
+        constrained on a 6 DoF manifold. The demo use dual number auto derivative to find the Jacobian matrix
+        and the method converged correctly.
+    </p>
+    <p>
+        See <a href="https://github.com/XiaoxingChen/mxm/blob/e004ef892dce35436194b5b7a93c7e522c256fbe/inc/mxm/cv_3d.h#L317" target="_blank" rel="noopener">mxm/cv_3d.h:317</a> for Jacobian matrix
+        calculation and
+        <a href="https://github.com/XiaoxingChen/mxm/blob/e004ef892dce35436194b5b7a93c7e522c256fbe/tests/test_cv_basic.cpp#L537" target="_blank" rel="noopener">tests/test_cv_basic.cpp:537</a>
+        for PnP problem verification pipeline.
+    </p>
+    <h1>Limitations</h1>
+    <p>
+        Consider real number expression \(c = \frac{ab}{b}\). It is easy to find \(c = a\) when \(b \neq 0\)
+        but hard to define the value of \(c\) when \(b = 0\).
+        Similarly for dual number: \(x \neq \sqrt[]{x^2}\) when \(x\) is a purely nonreal dual number, i.e. \(x = b \varepsilon\).
+    </p>
+
+
+    <h1 id="references">References</h1>
+    <ol class="bib">
+        <li>
+            Michael Penn,
+            <cite>
+                <a href="https://youtu.be/ceaNqdHdqtg" target="_blank" rel="noopener">"The strange cousin of the complex numbers - the dual numbers."</a>
+            </cite>
+            YouTube, 2022
+        </li>
+
+
+    </ol>
+</body>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/01/20/radial_tangential_numerical_inversion/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Xiaoxing">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xiaoxing Chen's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/20/radial_tangential_numerical_inversion/" class="post-title-link" itemprop="url">Numerical Inversion of Radial Tangential Distortion Model</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-01-20 08:00:00" itemprop="dateCreated datePublished" datetime="2022-01-20T08:00:00-08:00">2022-01-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-02-26 02:58:05" itemprop="dateModified" datetime="2022-02-26T02:58:05-08:00">2022-02-26</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2022/01/20/radial_tangential_numerical_inversion/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/01/20/radial_tangential_numerical_inversion/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -492,7 +844,7 @@ But the reverse of the process is difficult because the inverse function is in i
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/28/two_reflections_one_rotation/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/27/two_reflections_one_rotation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -506,7 +858,7 @@ But the reverse of the process is difficult because the inverse function is in i
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2021/01/28/two_reflections_one_rotation/" class="post-title-link" itemprop="url">Two Reflections Form A Single Rotation</a>
+            <a href="/2021/01/27/two_reflections_one_rotation/" class="post-title-link" itemprop="url">Two Reflections Form A Single Rotation</a>
         </h1>
 
         <div class="post-meta">
@@ -516,14 +868,14 @@ But the reverse of the process is difficult because the inverse function is in i
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2021-01-28 00:00:00" itemprop="dateCreated datePublished" datetime="2021-01-28T00:00:00+08:00">2021-01-28</time>
+              <time title="Created: 2021-01-27 08:00:00" itemprop="dateCreated datePublished" datetime="2021-01-27T08:00:00-08:00">2021-01-27</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-02-02 12:40:52" itemprop="dateModified" datetime="2022-02-02T12:40:52+08:00">2022-02-02</time>
+                <time title="Modified: 2022-02-01 20:40:52" itemprop="dateModified" datetime="2022-02-01T20:40:52-08:00">2022-02-01</time>
               </span>
 
           
@@ -535,8 +887,8 @@ But the reverse of the process is difficult because the inverse function is in i
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2021/01/28/two_reflections_one_rotation/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/28/two_reflections_one_rotation/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2021/01/27/two_reflections_one_rotation/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/27/two_reflections_one_rotation/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -826,7 +1178,7 @@ But the reverse of the process is difficult because the inverse function is in i
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/07/ray_tracing_4d_01/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/06/ray_tracing_4d_01/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -840,7 +1192,7 @@ But the reverse of the process is difficult because the inverse function is in i
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2021/01/07/ray_tracing_4d_01/" class="post-title-link" itemprop="url">Geometries for N-Dimensional Ray Tracing</a>
+            <a href="/2021/01/06/ray_tracing_4d_01/" class="post-title-link" itemprop="url">Geometries for N-Dimensional Ray Tracing</a>
         </h1>
 
         <div class="post-meta">
@@ -850,14 +1202,14 @@ But the reverse of the process is difficult because the inverse function is in i
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2021-01-07 00:00:00" itemprop="dateCreated datePublished" datetime="2021-01-07T00:00:00+08:00">2021-01-07</time>
+              <time title="Created: 2021-01-06 08:00:00" itemprop="dateCreated datePublished" datetime="2021-01-06T08:00:00-08:00">2021-01-06</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-02-27 10:56:33" itemprop="dateModified" datetime="2022-02-27T10:56:33+08:00">2022-02-27</time>
+                <time title="Modified: 2022-02-26 18:56:33" itemprop="dateModified" datetime="2022-02-26T18:56:33-08:00">2022-02-26</time>
               </span>
 
           
@@ -869,8 +1221,8 @@ But the reverse of the process is difficult because the inverse function is in i
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2021/01/07/ray_tracing_4d_01/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/07/ray_tracing_4d_01/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2021/01/06/ray_tracing_4d_01/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/06/ray_tracing_4d_01/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -1180,7 +1532,7 @@ But the reverse of the process is difficult because the inverse function is in i
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/04/gpu_particle_filter/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/03/gpu_particle_filter/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -1194,7 +1546,7 @@ But the reverse of the process is difficult because the inverse function is in i
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/10/04/gpu_particle_filter/" class="post-title-link" itemprop="url">Particle Filter with GPU Implementation</a>
+            <a href="/2020/10/03/gpu_particle_filter/" class="post-title-link" itemprop="url">Particle Filter with GPU Implementation</a>
         </h1>
 
         <div class="post-meta">
@@ -1204,14 +1556,14 @@ But the reverse of the process is difficult because the inverse function is in i
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-10-04 00:00:00" itemprop="dateCreated datePublished" datetime="2020-10-04T00:00:00+08:00">2020-10-04</time>
+              <time title="Created: 2020-10-03 09:00:00" itemprop="dateCreated datePublished" datetime="2020-10-03T09:00:00-07:00">2020-10-03</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-01-28 22:03:42" itemprop="dateModified" datetime="2021-01-28T22:03:42+08:00">2021-01-28</time>
+                <time title="Modified: 2021-01-28 06:03:42" itemprop="dateModified" datetime="2021-01-28T06:03:42-08:00">2021-01-28</time>
               </span>
 
           
@@ -1223,8 +1575,8 @@ But the reverse of the process is difficult because the inverse function is in i
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2020/10/04/gpu_particle_filter/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/10/04/gpu_particle_filter/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2020/10/03/gpu_particle_filter/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/10/03/gpu_particle_filter/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -1439,7 +1791,7 @@ But the reverse of the process is difficult because the inverse function is in i
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/07/least_l1_norm_problem/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/06/least_l1_norm_problem/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -1453,7 +1805,7 @@ But the reverse of the process is difficult because the inverse function is in i
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/05/07/least_l1_norm_problem/" class="post-title-link" itemprop="url">Least L1-norm Problem</a>
+            <a href="/2020/05/06/least_l1_norm_problem/" class="post-title-link" itemprop="url">Least L1-norm Problem</a>
         </h1>
 
         <div class="post-meta">
@@ -1463,14 +1815,14 @@ But the reverse of the process is difficult because the inverse function is in i
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-05-07 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-07T00:00:00+08:00">2020-05-07</time>
+              <time title="Created: 2020-05-06 09:00:00" itemprop="dateCreated datePublished" datetime="2020-05-06T09:00:00-07:00">2020-05-06</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-10-04 20:22:59" itemprop="dateModified" datetime="2020-10-04T20:22:59+08:00">2020-10-04</time>
+                <time title="Modified: 2020-10-04 05:22:59" itemprop="dateModified" datetime="2020-10-04T05:22:59-07:00">2020-10-04</time>
               </span>
 
           
@@ -1482,8 +1834,8 @@ But the reverse of the process is difficult because the inverse function is in i
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2020/05/07/least_l1_norm_problem/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/05/07/least_l1_norm_problem/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2020/05/06/least_l1_norm_problem/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/05/06/least_l1_norm_problem/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -1639,7 +1991,7 @@ But the reverse of the process is difficult because the inverse function is in i
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/14/essential_mat_by_optimization/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/13/essential_mat_by_optimization/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -1653,7 +2005,7 @@ But the reverse of the process is difficult because the inverse function is in i
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/03/14/essential_mat_by_optimization/" class="post-title-link" itemprop="url">Solve Epipolar Constraint by Optimization over Unit Sphere Manifold</a>
+            <a href="/2020/03/13/essential_mat_by_optimization/" class="post-title-link" itemprop="url">Solve Epipolar Constraint by Optimization over Unit Sphere Manifold</a>
         </h1>
 
         <div class="post-meta">
@@ -1663,14 +2015,14 @@ But the reverse of the process is difficult because the inverse function is in i
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-03-14 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-14T00:00:00+08:00">2020-03-14</time>
+              <time title="Created: 2020-03-13 09:00:00" itemprop="dateCreated datePublished" datetime="2020-03-13T09:00:00-07:00">2020-03-13</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-02 23:21:33" itemprop="dateModified" datetime="2020-07-02T23:21:33+08:00">2020-07-02</time>
+                <time title="Modified: 2020-07-02 08:21:33" itemprop="dateModified" datetime="2020-07-02T08:21:33-07:00">2020-07-02</time>
               </span>
 
           
@@ -1682,8 +2034,8 @@ But the reverse of the process is difficult because the inverse function is in i
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2020/03/14/essential_mat_by_optimization/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/03/14/essential_mat_by_optimization/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2020/03/13/essential_mat_by_optimization/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/03/13/essential_mat_by_optimization/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -1905,7 +2257,7 @@ But the reverse of the process is difficult because the inverse function is in i
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/02/bspline_in_so3/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/01/bspline_in_so3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -1919,7 +2271,7 @@ But the reverse of the process is difficult because the inverse function is in i
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/03/02/bspline_in_so3/" class="post-title-link" itemprop="url">B-Spline in Space I - Euclidean Space</a>
+            <a href="/2020/03/01/bspline_in_so3/" class="post-title-link" itemprop="url">B-Spline in Space I - Euclidean Space</a>
         </h1>
 
         <div class="post-meta">
@@ -1929,14 +2281,14 @@ But the reverse of the process is difficult because the inverse function is in i
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-03-02 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-02T00:00:00+08:00">2020-03-02</time>
+              <time title="Created: 2020-03-01 08:00:00" itemprop="dateCreated datePublished" datetime="2020-03-01T08:00:00-08:00">2020-03-01</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-10-04 20:27:43" itemprop="dateModified" datetime="2020-10-04T20:27:43+08:00">2020-10-04</time>
+                <time title="Modified: 2020-10-04 05:27:43" itemprop="dateModified" datetime="2020-10-04T05:27:43-07:00">2020-10-04</time>
               </span>
 
           
@@ -1948,8 +2300,8 @@ But the reverse of the process is difficult because the inverse function is in i
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2020/03/02/bspline_in_so3/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/03/02/bspline_in_so3/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2020/03/01/bspline_in_so3/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/03/01/bspline_in_so3/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -2177,14 +2529,14 @@ But the reverse of the process is difficult because the inverse function is in i
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-02-29 16:27:00" itemprop="dateCreated datePublished" datetime="2020-02-29T16:27:00+08:00">2020-02-29</time>
+              <time title="Created: 2020-02-29 00:27:00" itemprop="dateCreated datePublished" datetime="2020-02-29T00:27:00-08:00">2020-02-29</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-17 22:03:08" itemprop="dateModified" datetime="2020-03-17T22:03:08+08:00">2020-03-17</time>
+                <time title="Modified: 2020-03-17 07:03:08" itemprop="dateModified" datetime="2020-03-17T07:03:08-07:00">2020-03-17</time>
               </span>
 
           
@@ -2264,14 +2616,14 @@ So far I start to make some of the contents public, here is the new site for the
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-01-20 17:13:14" itemprop="dateCreated datePublished" datetime="2020-01-20T17:13:14+08:00">2020-01-20</time>
+              <time title="Created: 2020-01-20 01:13:14" itemprop="dateCreated datePublished" datetime="2020-01-20T01:13:14-08:00">2020-01-20</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-29 12:22:16" itemprop="dateModified" datetime="2020-03-29T12:22:16+08:00">2020-03-29</time>
+                <time title="Modified: 2020-03-28 21:22:16" itemprop="dateModified" datetime="2020-03-28T21:22:16-07:00">2020-03-28</time>
               </span>
 
           
@@ -2386,200 +2738,6 @@ So far I start to make some of the contents public, here is the new site for the
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/19/mat_generated_by_outer_product/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Xiaoxing">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xiaoxing Chen's Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/19/mat_generated_by_outer_product/" class="post-title-link" itemprop="url">Property of Matrix Generated by Outer Product</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-01-19 00:00:00" itemprop="dateCreated datePublished" datetime="2020-01-19T00:00:00+08:00">2020-01-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-01-28 22:02:51" itemprop="dateModified" datetime="2021-01-28T22:02:51+08:00">2021-01-28</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/01/19/mat_generated_by_outer_product/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/01/19/mat_generated_by_outer_product/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-<head>
-    <script type="text/javascript" async
-            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
-        </script>
-</head>
-<body>
-<p>Given vector \(a\) with length \(m\) and \(b\) with length \(n\), the outer product of them defined as:</p>
-\[
-    a b^\top = C \tag{1-1}
-\]
-<p>While matrix \(C\) has dimension \(m \times n\).</p>
-<p>Here is a brief discussion of the property of matric \(C\)</p>
-
-<h2>Special Case: \(a = b\)</h2>
-<p>Then we have:</p>
-\[
-    A = a a^\top \tag{1-2}
-\]
-
-\[
-    A =
-    \left[
-    \begin{matrix}
-    a_1 a & a_2 a & \cdots & a_n a
-    \end{matrix}
-    \right]
-    =
-    \left[
-    \begin{matrix}
-    a_1 a^\top \\
-    a_2 a^\top \\
-    \vdots \\
-    a_n a^\top
-    \end{matrix}
-    \right]
-    \tag{1-3}
-
-\]
-
-\[
-    A =
-    \left[
-    \begin{matrix}
-    a_1 a_1 & a_1 a_2 & \cdots & a_1 a_n \\
-    a_2 a_1 & a_2 a_2 & \cdots & a_2 a_n \\
-    \vdots & \vdots & \ddots & \vdots \\
-    a_n a_1 & a_n a_2 & \cdots & a_n a_n \\
-    \end{matrix}
-    \right]
-    \tag{1-4}
-\]
-<p>Here are several properties of matrix A:</p>
-<ol>
-    <li>\(det(A) = 0\)</li>
-    <li>\(trace(A) = \|a\|^2\)</li>
-    <li>\(rank(A) = 1\)</li>
-    <li>Eigenvalues of \(A\) are: \([\|a\|^2, 0, \cdots, 0]\)</li>
-</ol>
-<p>
-    According to equation (1-3), all column or row vectors of matrix \(A\) are linear correlated, so its rank is 1.
-    Meanwhile, \(A\) is a symmetrical semi positive definite matrix, \(trace(A) = \Sigma_{i = 1}^n \lambda_i\), \(\lambda\) is the eigenvalue  of \(A\).
-    Because \(rank(A) = 1\), only the first eigenvalue of \(A\) is not zero. Therefore, \(trace(A) = \lambda_1 = \|a\|^2\).
-</p>
-
-
-<h2>General Case</h2>
-\[
-    a b^\top = C \tag{2-1}
-\]
-
-<p>Properties of matrix C:</p>
-<ol>
-    <li>Denote \(k = \text{min}(m,n)\)</li>
-    <li>\(\text{det}(C) = 0\)</li>
-    <li>\(\text{trace}(C) = a[0:k]^\top b[0:k] \)</li>
-    <li>\(\text{rank}(C) = 1\)</li>
-    <li>Singular values of \(C\) are: \([\|a\|\|b\|, 0, \cdots, 0]\)</li>
-</ol>
-
-<h2>Decomposition</h2>
-<p>Given a 1-rank matrix \(A \in \mathbb{R}^{m \times n}\), it can be decomposed to:  </p>
-\[
-    A = u v ^\top
-\]
-\[
-    u = k
-    \left[
-    \begin{matrix}
-        a_{11} \\
-        a_{21} \\
-        \vdots \\
-        a_{m1} \\
-    \end{matrix}
-     \right]
-
-\qquad
-
-    v ^\top = \frac{1}{k a _{11}}
-    \left[
-    \begin{matrix}
-        a_{11} &
-        a_{12} &
-        \cdots &
-        a_{1n}
-    \end{matrix}
-     \right]
-
-    \quad
-    (k \neq 0)
-    \tag{2-2}
-\]
-
-<p>Because of the existence of \(k\), the decomposition is not unique. </p>
-<p>Specially, if \(u = v\), \(u = \frac{1}{\sqrt{a_{11}}}[ \begin{matrix}a_{11} & a_{12}& \cdots& a_{1n} \end{matrix} ] ^\top\).  </p>
-
-</body>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -2650,7 +2808,7 @@ So far I start to make some of the contents public, here is the new site for the
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
