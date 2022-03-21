@@ -180,7 +180,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-03-21 00:19:27" itemprop="dateModified" datetime="2022-03-21T00:19:27-07:00">2022-03-21</time>
+                <time title="Modified: 2022-03-21 14:16:08" itemprop="dateModified" datetime="2022-03-21T14:16:08-07:00">2022-03-21</time>
               </span>
 
           
@@ -240,7 +240,7 @@
         in solving a nonlinear optimization problem.
         A work around is to use numerical Jacobian. i.e. manually give a small increment in every
         variable and find out the increment in residual. However the selection of the increment
-        is sensitive to the data magnitude. An inappropriate increment can lead to fluctuation before convergence.
+        depends on the data magnitude. An inappropriate increment can lead to fluctuation before convergence.
     </p>
     <p>
         In google <a href="http://ceres-solver.org/" target="_blank" rel="noopener">ceres-solver</a>, an auto derivative method is introduced to
@@ -257,39 +257,50 @@
         is expressed as \(x = a + b \varepsilon\).
     </p>
     <p>Define \(\varepsilon ^2 = 0\) to drop infinitesimals with order higher than one.</p>
-    <h2>Addition</h2>
+
+    <h2 id="addition">Addition</h2>
     \[
         (a + b \varepsilon) + (c + d \varepsilon) = (a + c) + (b + d) \varepsilon
     \]
+    <p>Identity of Addition:</p>
+    \[
+        (a + b \varepsilon) + (0 + 0 \varepsilon) = a + b \varepsilon
+    \]
 
-    <h2>Multiplication</h2>
+    <p>For the C++ implementation of dual number addition, see
+        <a href="https://github.com/XiaoxingChen/mxm/blob/e004ef892dce35436194b5b7a93c7e522c256fbe/inc/mxm/linalg_dual_number.h#L93" target="_blank" rel="noopener">
+        mxm/linalg_dual_number.h:93</a>.</p>
+
+    <h2 id="multiplication">Multiplication</h2>
     \[
         (a + b \varepsilon)(c + d \varepsilon) = ac + (ad + bc) \varepsilon
     \]
 
-    <h2>Conjugate</h2>
-    <p>Given \(x = a + b \varepsilon\), </p>
+    <h3>Conjugate</h3>
+    <p>Denote \(x = a + b \varepsilon\), its conjugate \(\bar x\) is denote as: </p>
     \[
         \bar{x} = a - b \varepsilon
     \]
-    <p>Then, \(\bar{x} x = a^2 - b^2 \varepsilon^2  = a^2\) </p>
+    <p>Then, \(\bar{x} x = a^2 - b^2 \varepsilon^2  = a^2\). </p>
 
-    <h2>Division</h2>
-    <p>Dual number division uses conjugate property to eliminate the denominator. </p>
+    <p>Identity of Multiplication:</p>
+    \[
+        (a + b \varepsilon)(1 + 0 \varepsilon) = a + b \varepsilon
+    \]
+
+    <p>Inversion of Multiplication:</p>
     \[
     \begin{align}
-        \frac{a + b \varepsilon}{c + d \varepsilon} &= \frac{(a + b \varepsilon)(c - d \varepsilon)}{(c + d \varepsilon) (c - d \varepsilon)}\\
-        &= \frac{ac + (bc - ad) \varepsilon}{c^2} \\
+        \frac{1}{a + b \varepsilon} &= \frac{a - b \varepsilon}{(a + b \varepsilon) (a - b \varepsilon)}\\
+        &= \frac{a - b \varepsilon}{a^2} \\
     \end{align}
 
     \]
-    <p>Where \(c \neq 0\).</p>
+    <p>Where \(a \neq 0\). Dual number division uses conjugate property to eliminate the denominator.</p>
 
-    \[
-        \frac{a + b \varepsilon}{c + d \varepsilon} = \frac{b}{d}
-    \]
-    <p>Where \(c = 0\) and \(a = 0\).  </p>
-    <p>Otherwise the division is not defined.</p>
+    <p>For the C++ implementation of dual number multiplication, see
+        <a href="https://github.com/XiaoxingChen/mxm/blob/e004ef892dce35436194b5b7a93c7e522c256fbe/inc/mxm/linalg_dual_number.h#L22" target="_blank" rel="noopener">
+        mxm/linalg_dual_number.h:22</a>.</p>
 
     <h2>Derivative</h2>
     <p>
@@ -368,6 +379,9 @@
     \end{align}
 
     \]
+    <p>For the C++ implementation of the elementary functions above, see
+        <a href="https://github.com/XiaoxingChen/mxm/blob/e004ef892dce35436194b5b7a93c7e522c256fbe/inc/mxm/linalg_dual_number.h#L138" target="_blank" rel="noopener">
+        mxm/linalg_dual_number.h:138</a>.</p>
 
     <h1>Derivative of 3D Special Orthogonal Group</h1>
     <p>
@@ -478,6 +492,14 @@
                 <a href="https://youtu.be/ceaNqdHdqtg" target="_blank" rel="noopener">"The strange cousin of the complex numbers - the dual numbers."</a>
             </cite>
             YouTube, 2022
+        </li>
+        <li>
+            Wikipedia,
+            <cite>
+                <a href="https://en.wikipedia.org/wiki/Dual_number" target="_blank" rel="noopener">
+                    "Dual number."</a>
+            </cite>
+
         </li>
 
 
