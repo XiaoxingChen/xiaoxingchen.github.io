@@ -22,17 +22,24 @@
 
   <meta name="description" content=".bib ol { counter-reset: item }             .bib li { display: block ; counter-increment: item; }             .bib li:before { content: &quot; [&quot;counter(item)&quot;] &quot;; }">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Singular Values of Essential Matrix">
-<meta property="og:url" content="http://yoursite.com/2020/01/20/essential_mat_sig_val/index.html">
+<meta property="og:title" content="Determine Intersection of Two Planar Line Segments">
+<meta property="og:url" content="http://yoursite.com/2018/10/13/planar_line_segment_intersection/index.html">
 <meta property="og:site_name" content="Xiaoxing Chen&#39;s Blog">
 <meta property="og:description" content=".bib ol { counter-reset: item }             .bib li { display: block ; counter-increment: item; }             .bib li:before { content: &quot; [&quot;counter(item)&quot;] &quot;; }">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-01-21T01:13:14.000Z">
-<meta property="article:modified_time" content="2022-03-21T21:34:22.506Z">
+<meta property="og:image" content="http://yoursite.com/2018/10/13/planar_line_segment_intersection/loc_vibration.gif">
+<meta property="og:image" content="http://yoursite.com/2018/10/13/planar_line_segment_intersection/intersect.svg">
+<meta property="og:image" content="http://yoursite.com/2018/10/13/planar_line_segment_intersection/touch.svg">
+<meta property="og:image" content="http://yoursite.com/2018/10/13/planar_line_segment_intersection/miss.svg">
+<meta property="og:image" content="http://yoursite.com/2018/10/13/planar_line_segment_intersection/cross_prod_case1.svg">
+<meta property="og:image" content="http://yoursite.com/2018/10/13/planar_line_segment_intersection/cross_prod_case2.svg">
+<meta property="article:published_time" content="2018-10-13T07:00:00.000Z">
+<meta property="article:modified_time" content="2022-03-21T21:34:22.510Z">
 <meta property="article:author" content="Xiaoxing">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2018/10/13/planar_line_segment_intersection/loc_vibration.gif">
 
-<link rel="canonical" href="http://yoursite.com/2020/01/20/essential_mat_sig_val/">
+<link rel="canonical" href="http://yoursite.com/2018/10/13/planar_line_segment_intersection/">
 
 
 <script id="page-configurations">
@@ -44,7 +51,7 @@
   };
 </script>
 
-  <title>Singular Values of Essential Matrix | Xiaoxing Chen's Blog</title>
+  <title>Determine Intersection of Two Planar Line Segments | Xiaoxing Chen's Blog</title>
   
 
 
@@ -153,7 +160,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/20/essential_mat_sig_val/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/13/planar_line_segment_intersection/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -166,7 +173,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Singular Values of Essential Matrix
+          Determine Intersection of Two Planar Line Segments
         </h1>
 
         <div class="post-meta">
@@ -176,7 +183,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-01-20 17:13:14" itemprop="dateCreated datePublished" datetime="2020-01-20T17:13:14-08:00">2020-01-20</time>
+              <time title="Created: 2018-10-13 00:00:00" itemprop="dateCreated datePublished" datetime="2018-10-13T00:00:00-07:00">2018-10-13</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
@@ -195,8 +202,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2020/01/20/essential_mat_sig_val/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/01/20/essential_mat_sig_val/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2018/10/13/planar_line_segment_intersection/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/10/13/planar_line_segment_intersection/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -221,68 +228,120 @@
             .bib li:before { content: " ["counter(item)"] "; }
         </style>
 </head>
-
 <body>
+    <h2>Background</h2>
+    <p>
+        While implementing a 2D LiDAR simulator, the calculation of the LiDAR measurement was a bottleneck for performance improvement.
+        For example, in a particle filter with 1024 particles and each particle represents a 256-line LiDAR,
+        running in a map was represented by line segments. For a map with 16 line segments, the estimator have to calculate intersection 
+        for \(1024 \times 256 \times 16 = 4194304\) times each update. 
+        Therefore, an effective method which determines the intersection of line segments is necessary.
+    </p>
+    <figure>
+        <img src="/2018/10/13/planar_line_segment_intersection/loc_vibration.gif" style="width:80%">
+        <figcaption>
+            Fig.1 - Particle filter localization with LiDAR.
+        </figcaption>
+    </figure>
+    <h2>Statement of Problem</h2>
+    <p>Given two line segments defined by points: \(AB\) and \(CD\), check whether two segments intersect.</p>
 
+    <h2>Intersection of a line and line segment</h2>
+    <p>
+        Given line \(l\), line segment \(AB\) and its correspondent line \(l_{AB}\). The intersection \(K\) of \(l\) and \(l_{AB}\).
+        Then point \(K\) can be expressed as:
+    </p>
+    \[
+        K = A + t \overrightarrow{AB} \tag{3-1}
+    \]
+    <p>Here is the relationship between \(t\) and \(l\), \(AB\): </p>
+    \[
+        \begin{cases}
+        l \ \text{intersects} \  AB, & t \in (0, 1) \\
+        l \ \text{touches} \ AB, & t = 0 \ \text{or} \ t = 1 \\
+        l \ \text{misses} \ AB, & t \in (-\infty, 0) \cup (1, \infty) 
+        \end{cases}
+    \]
+    <p style="float: left; font-size: 9pt; text-align: center; width: 30%; margin-right: 1%; margin-bottom: 0.5em;">
+        <img src="/2018/10/13/planar_line_segment_intersection/intersect.svg" style="width: 100%">Fig. 3-1: Intersect</p>
+    <p style="float: left; font-size: 9pt; text-align: center; width: 30%; margin-right: 1%; margin-bottom: 0.5em;">
+        <img src="/2018/10/13/planar_line_segment_intersection/touch.svg" style="width: 100%">Fig. 3-2: Touch</p>
+    <p style="float: left; font-size: 9pt; text-align: center; width: 30%; margin-right: 1%; margin-bottom: 0.5em;">
+        <img src="/2018/10/13/planar_line_segment_intersection/miss.svg" style="width: 100%">Fig. 3-2: Miss</p>
+    <p style="clear: both;"></p>
+    <p>Therefore, the sufficient and necessary condition of \(l\) intersecting \(AB\) is: </p>
+    \[
+        K = A + t \overrightarrow{AB}, \ t \in (0, 1) \tag{3-2}
+    \]
 
+    <h2>Lemma A. Determine if Two Line Segments Intersect</h2>
+    <p>
+        Given line segments \(AB\), \(CD\) and their correspondent line \(l_{AB}\), \(l_{CD}\).
+        It is obvious if and only if \(l_{AB}\) intersects \(CD\) and \(l_{CD}\) intersects \(AB\), these two line segments intersect.
+    </p>
 
-<p>Essential matrix is not new to anybody being familiar with Epipolar Geometry. Here is the famous epipolar constraint: </p>
-\[
-    x_2^\top E x_1 = 0 
-\]
-<p>
-    Recall that when the essential matrix is obtained by 8-point algorithm, 
-    one has to decompose the result with SVD to make its third singular value 0 and the other 
-    two singular values equal. Here is a short derivation of this property of essential matrix.
-</p>
+    <h3>A Rapid Method</h3>
+    <p>Line segments \(AB\) intersects \(CD\) if and only if:</p>
+    \[
+    (\overrightarrow{AC} \times \overrightarrow{AB}) \cdot (\overrightarrow{AB} \times \overrightarrow{AD}) > 0 
+    \\
+    \text{and}
+    \\
+    (\overrightarrow{CA} \times \overrightarrow{CD}) \cdot (\overrightarrow{CD} \times \overrightarrow{CB}) > 0
+    \tag{4-1}
+    \]
 
-<p>According to the definition of essential matrix: </p>
-\[
- E = \{ S R | S = t^\wedge \in \mathfrak{so}(3), R \in SO(3)\} \tag{1-1}
-\] 
-
-<p>
-    According to the definition of SVD, a singular value \(\sigma\) of a matrix A, 
-    equals to the square root of correspondent eigenvalue \(\lambda\) of matrix \(A^\top A\):
-</p>
-\[
-   \sigma_{A,i} = \sqrt{\lambda_{A^\top A,i}} \tag{1-2}
- \]
-<p>Meanwhile,</p>
- \[
-    E^\top E = R^\top S^\top S R = -R^\top (t^\wedge)^2 R \tag{1-3}
- \]
- <p>According to the property of askew-symmetric matrix:</p>
- \[
-    (t^\wedge)^2 = \|t\|^2 I - t t^\top \tag{1-4}
- \]
- <p>The first term is a scalar matrix with three equal eigenvalues \(\|t\|^2\)</p>
- <p>The second term \(t t^\top\) is a symmetric matrix, which is therefore semi-positive definite.
-    It can be diagonalized<sup><a href="/2020/01/20/mat_generated_by_outer_product">[1]</a></sup>:
- </p>
- \[
-    t t^\top = \|t\|^2 R_t^\top diag(1, 0, 0) R_t \tag{1-5}
- \]
-
- <p>Thus, equation (1-3) becomes:</p>
- \[
-    E^\top E = \|t\|^2 R^\top R_t^\top ( I - diag(1, 0, 0)) R_t R 
+    <h3>Proof:</h3>
+    <p>According to formula (3-2)</p>
+    \[
+        m \overrightarrow{AB} = \overrightarrow{AK} 
+         = \overrightarrow{AC} + t \overrightarrow{CD} 
+         = \overrightarrow{AD} + (1-t) \overrightarrow{DC} 
+         \tag{4-2}
+    \]
+    <p>\(m\) is random none-zero constant. Then we have:</p>
+    \[
+        \overrightarrow{AB} 
+        = \frac{1}{m}(\overrightarrow{AC} + t \overrightarrow{CD})
+        \tag{4-3}
+    \]
+    \[
+        \overrightarrow{AB} 
+        = \frac{1}{m}(\overrightarrow{AD} + t \overrightarrow{DC})
+        \tag{4-4}
+    \]
+    <p>Then the first term of (4-1) becomes:</p>
+    \[
+        \frac{t(1-t)}{m^2} (\overrightarrow{AC} \times \overrightarrow{CD}) \cdot (\overrightarrow{DC} \times \overrightarrow{AD}) > 0
+        \tag{4-5}
+    \]
+    <p>For any triangle \(ACD\)：</p>
+    \[(
+        \overrightarrow{AC} \times \overrightarrow{CD}) \cdot (\overrightarrow{DC} \times \overrightarrow{AD}) =
+        |AC||CD|\sin \alpha \cdot |DC||AD| \sin \beta
+        \tag{4-6}
+    \]
     
- \]
- \[
-    = \|t\|^2 (R_t R )^\top diag(1, 1, 0) (R_t R) 
-    \tag{1-6}
- \]
-
- <p>Therefore, eigenvalues of \(E^\top E\) are: \(\|t\|^2 (1, 1, 0)\).</p>
- <p>Finally, according to (1-3), singular values of essential matrix \(E\) are: \(\|t\|(1, 1, 0)\).</p>
-
- <br>
-
- <h2>References</h2>
- <ol class="bib">
-    <li>Xiaoxing. <a href="/2020/01/20/mat_generated_by_outer_product"><cite>Property of Matrix Generated by Outer Product</cite></a></li>
- </ol>
+    <p>There are two cases listed in Fig. 4-1 and Fig. 4-2. No matter in which case, \(\sin \alpha \sin \beta > 0\).</p>
+        <p style="float: left; font-size: 12pt; text-align: center; width: 45%; margin-right: 1%; margin-bottom: 0.5em;">
+            <img src="/2018/10/13/planar_line_segment_intersection/cross_prod_case1.svg" style="width: 100%">
+            Fig. 4-1: \(\alpha \in (0, \pi)\), \(\beta \in (0, \pi)\), therefore, \(\sin \alpha \sin \beta > 0\).</p>
+        <p style="float: left; font-size: 12pt; text-align: center; width: 45%; margin-right: 1%; margin-bottom: 0.5em;">
+            <img src="/2018/10/13/planar_line_segment_intersection/cross_prod_case2.svg" style="width: 100%">
+            Fig. 4-2: \(\alpha \in (\pi, 2\pi)\), \(\beta \in (\pi, 2 \pi)\), \(\sin \alpha \sin \beta > 0\) as well.</p>
+        <p style="clear: both;"></p>
+    <p>Becasue \(m^2 > 0\), formula (4-5) becomes:</p>
+    \[
+        t(1-t) > 0
+    \]
+    \[
+     0 < t < 1 
+     \tag{4-7}
+    \]
+    <p>
+        Therefore, the first term of formula (3-1) means \(l_{AB}\) intersects \(CD\). Similarly, the second term means \(l_{CD}\) intersects \(AB\).
+        According to Lemma A., \(AB\) intersects \(CD\).
+    </t>
 </body>
     </div>
 
@@ -297,13 +356,10 @@
 
         
     <div class="post-nav">
+      <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/2020/01/19/mat_generated_by_outer_product/" rel="prev" title="Property of Matrix Generated by Outer Product">
-      <i class="fa fa-chevron-left"></i> Property of Matrix Generated by Outer Product
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/02/29/why_here/" rel="next" title="Why Here">
-      Why Here <i class="fa fa-chevron-right"></i>
+    <a href="/2019/10/22/linear_combination_in_so3/" rel="next" title="Linear Combination in SO(3)">
+      Linear Combination in SO(3) <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -371,7 +427,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">1.</span> <span class="nav-text">References</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">1.</span> <span class="nav-text">Background</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">2.</span> <span class="nav-text">Statement of Problem</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">3.</span> <span class="nav-text">Intersection of a line and line segment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">4.</span> <span class="nav-text">Lemma A. Determine if Two Line Segments Intersect</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#null"><span class="nav-number">4.1.</span> <span class="nav-text">A Rapid Method</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#null"><span class="nav-number">4.2.</span> <span class="nav-text">Proof:</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -500,9 +556,9 @@
 </script>
 <script>
   var disqus_config = function() {
-    this.page.url = "http://yoursite.com/2020/01/20/essential_mat_sig_val/";
-    this.page.identifier = "2020/01/20/essential_mat_sig_val/";
-    this.page.title = "Singular Values of Essential Matrix";
+    this.page.url = "http://yoursite.com/2018/10/13/planar_line_segment_intersection/";
+    this.page.identifier = "2018/10/13/planar_line_segment_intersection/";
+    this.page.title = "Determine Intersection of Two Planar Line Segments";
     };
   NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
     if (window.DISQUS) {

@@ -20,15 +20,19 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Xiaoxing Chen&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/archives/2022/01/index.html">
+  <meta name="description" content=".bib ol {             counter-reset: item         }          .bib li {             display: block;             counter-increment: item;         }          .bib li:before {">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Numerical Accuracy of Inverse Rodrigues Implementation">
+<meta property="og:url" content="http://yoursite.com/2020/03/12/numerial_accuracy_of_inverse_rodrigues/index.html">
 <meta property="og:site_name" content="Xiaoxing Chen&#39;s Blog">
+<meta property="og:description" content=".bib ol {             counter-reset: item         }          .bib li {             display: block;             counter-increment: item;         }          .bib li:before {">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-03-12T07:00:00.000Z">
+<meta property="article:modified_time" content="2022-03-21T21:34:22.510Z">
 <meta property="article:author" content="Xiaoxing">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/archives/2022/01/">
+<link rel="canonical" href="http://yoursite.com/2020/03/12/numerial_accuracy_of_inverse_rodrigues/">
 
 
 <script id="page-configurations">
@@ -36,11 +40,11 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false
+    isPost : true
   };
 </script>
 
-  <title>Archive | Xiaoxing Chen's Blog</title>
+  <title>Numerical Accuracy of Inverse Rodrigues Implementation | Xiaoxing Chen's Blog</title><meta name="robots" content="noindex">
   
 
 
@@ -144,53 +148,180 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/12/numerial_accuracy_of_inverse_rodrigues/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Xiaoxing">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xiaoxing Chen's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Numerical Accuracy of Inverse Rodrigues Implementation
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-03-12 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-12T00:00:00-07:00">2020-03-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-03-21 14:34:22" itemprop="dateModified" datetime="2022-03-21T14:34:22-07:00">2022-03-21</time>
+              </span>
+
+          
   
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <span class="collection-header">Um..! 13 posts in total. Keep on posting.</span>
-      </div>
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/03/12/numerial_accuracy_of_inverse_rodrigues/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/03/12/numerial_accuracy_of_inverse_rodrigues/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <h1 class="collection-header">2022</h1>
+        <head>
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+    <style>
+        .bib ol {
+            counter-reset: item
+        }
+
+        .bib li {
+            display: block;
+            counter-increment: item;
+        }
+
+        .bib li:before {
+            content: " ["counter(item)"] ";
+        }
+    </style>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+    <h2>Background</h2>
+    <p>The famous Rodrigues Formula describes the transform between rotation matrix and rotation vector. 
+        It is also the exponential map from \(\mathfrak{so}(3)\) to \(SO(3)\).
+    </p>
+    \[
+        R = cos\theta I + (1 - cos\theta) \omega \omega^\top + sin\theta \omega^\wedge
+        \tag{1-1}
+    \]
+    <p>
+        The transform rotation matrix back to rotation vector can be obtained by expanding matrix \(R\) in formulate (1-1).
+        Defining \(v_\theta = 1 - cos\theta\),\(c_\theta = cos\theta\), and \(s_\theta = sin\theta\)
+    </p>
+    \[
+        R = 
+        \left[
+        \begin{matrix}
+
+        \end{matrix}
+        \right]
+        \tag{1-2}
+    \]
+    <p>Therefore</p>
+    \[
+        \theta = \text{cos}^{-1} 
+        \left(
+            \frac{\text{trace}(R)}{2}
+        \right) 
+        \tag{1-3}
+    \]
+
+    \[
+        \omega = \frac{1}{2 \text{sin}\theta}
+        \left[\begin{matrix}
+        r_{32} - r_{23} \\ r_{13} - r_{31} \\ r_{21} - r_{12}
+        \end{matrix}\right]
+        \tag{1-4}
+    \]
+
+    <p>Here are several problems need to be considered in real engineering problem.
+        For example, when \(\text{sin}\theta \rightarrow 0\), \(\omega\) goes to singularity.
+        And the matrix \(R\) may not be strictly unit orthogonal. 
+        Therefore, we take the code of <b>opencv</b> as example.
+        <a href="https://github.com/opencv/opencv/blob/master/modules/calib3d/src/calibration.cpp#L362" target="_blank" rel="noopener">
+            opencv/modules/calib3d/src/calibration.cpp
+        </a>
+    </p>
+    
+    <h3>1.  Singular Value Decomposition</h3>
+    <p>Use SVD to make matrix \(R\) strictly unit orthogonal.</p>
+    <pre><code class="language-cpp">
+        Matx33d U, Vt;
+
+        SVD::compute(R, W, U, Vt);
+        R = U*Vt;
+    <code></pre>
+</body><!-- flag of hidden posts -->
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2022-01-21T00:00:00-08:00"
-              content="2022-01-21">
-          01-21
-        </time>
-      </div>
+      <footer class="post-footer">
 
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2022/01/21/radial_tangential_numerical_inversion/" itemprop="url">
-            <span itemprop="name">Numerical Inversion of Radial Tangential Distortion Model</span>
-          </a>
-      </h2>
+        
 
-    </header>
+
+        
+      </footer>
+    
   </article>
+  
+  
+  
 
-
-    </div>
   </div>
-  
-  
-  
-
-  
-
 
 
           </div>
           
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -237,6 +368,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">1.</span> <span class="nav-text">Background</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#null"><span class="nav-number">1.1.</span> <span class="nav-text">1.  Singular Value Decomposition</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -362,6 +494,26 @@
   }
   // defer loading until the whole page loading is completed
   window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://yoursite.com/2020/03/12/numerial_accuracy_of_inverse_rodrigues/";
+    this.page.identifier = "2020/03/12/numerial_accuracy_of_inverse_rodrigues/";
+    this.page.title = "Numerical Accuracy of Inverse Rodrigues Implementation";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://xiaoxingchen.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
 </script>
 
 </body>
