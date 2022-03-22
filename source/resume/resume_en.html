@@ -11,7 +11,7 @@
     <section id="main">
       <header id="title">
         <h1>Xiaoxing Chen</h1>
-        <span class="subtitle">陈笑行 Software Engineer at Arm</span>
+        <span class="subtitle">陈笑行 AR & Robotics</span>
       </header>
       <section class="main-block">
         <h2>
@@ -19,7 +19,28 @@
         </h2>
         <section class="blocks">
           <div class="date">
-            <span>present</span><span>Apr. 2019</span>
+            <span>2022</span><span>2021</span>
+          </div>
+          <div class="decorator">
+          </div>
+          <div class="details">
+            <header>
+              <h3>Software Engineer</h3>
+              <span class="place">ByteDance Ltd.</span>
+              <span class="location">Shanghai, China</span>
+            </header>
+            <div>
+              <ul>
+                <li>Key contributor of <i>AR China Year</i> Effect.</li>
+                <li>VR Panoramic picture/video editing and rendering pipeline.</li>
+                <li>Visual Positioning System(VPS) solution infrastructure development.</li>
+              </ul>
+              </div>
+          </div>
+        </section>
+        <section class="blocks">
+          <div class="date">
+            <span>2021</span><span>2019</span>
           </div>
           <div class="decorator">
           </div>
@@ -72,7 +93,7 @@
             <div>
               <ul>
                 <li>Focused on the solution that modifies traditional forklift into LiDAR SLAM based autonomous SLAM forklift.</li>
-                <li>Led to the establishment of <i>Shanghai Jiao Tong University - Seer Robotics <a href="https://www.si.sjtu.edu.cn/zh-CN/article/view/0a2c1d99-0f56-b056-315a-6ffd5436b70b/499c01d1-61a7-ca13-1673-4a4d77206eff">Joint Lab</a></i>.</li>
+                <li>Led to the establishment of <i><a href="https://www.sohu.com/a/205671502_660587">Shanghai Jiao Tong University - Seer Robotics Joint Lab</a></i>.</li>
                 <li>Expanded the startup from 8 partners to 70 people.</li>
               </ul>
               </div>
@@ -83,6 +104,34 @@
         <h2>
           <i class="fa fa-folder-open"></i> Selected Projects
         </h2>
+        <section class="blocks">
+          <div class="date">
+            <span>2021</span><span>2021</span>
+          </div>
+          <div class="decorator">
+          </div>
+          <div class="details">
+            <header>
+              <h3>Chinese New Year Special Project: <i>AR China Year</i> Effect</h3>
+              <span class="place">Intelligent Creation - Effects - Graphics and Image Engineering</span>
+            </header>
+            <div>
+              Effect Grade: S Level. Peak data: 4 million posts and 188 million views per day.
+              Patents: 3. PR Report: <a href="https://juejin.cn/post/7058936874890428429">The Secret Behind Douyin's Popular Effect</a>(Chinese).
+              Typical user posts:
+                    <a href="https://www.douyin.com/video/7057362105573461286">video 1</a>,
+                    <a href="https://www.douyin.com/video/7056993348023831843">video 2</a>,
+                    <a href="https://www.douyin.com/video/7058457603554282789">video 3</a>.
+              <ul>
+                <li>Implemented a semantic object(building facades) pose estimator based on building facade detector and building normal estimator.</li>
+                <li>Created a semantic keyframe sliding window for traditional SLAM solution.</li>
+                <li>Implemented a user imperceivable scene initializer, which attaches AR objects
+                  before SLAM initialization.</li>
+              </ul>
+
+            </div>
+          </div>
+        </section>
         <section class="blocks">
           <div class="date">
             <span>2021</span><span>2020</span>
@@ -96,7 +145,10 @@
             </header>
             <div>
               Accelerating the ray-triangle intersection detection by applying spatial indexing data structure(e.g. BVH) on 3D geometries.
-              Support both CPU,GPU build and update.
+              Support both CPU,GPU build and update. Partnered with Tencent and MediaTek. Presented at
+              <a href="https://community.arm.com/arm-community-blogs/b/graphics-gaming-and-vr-blog/posts/developing-ray-tracing-content-for-mobile-games?utm_source=linkedin&utm_medium=social&utm_campaign=2021_client-developer%2fecosystem_mk22_arm_na_na_awa&utm_content=blog">
+              GDC 2021</a>.
+
               <ul>
                 <li>Built ray query library from research team's prototype benchmark.
                   Performance: 1M ray/frame, 75% shadow, 180k triangles, 14.0FPS on Mali-G77.
@@ -136,80 +188,12 @@
             </div>
           </div>
         </section>
-        <section class="blocks">
-          <div class="date">
-            <span>2018</span>
-          </div>
-          <div class="decorator">
-          </div>
-          <div class="details">
-            <header>
-              <h3>SLAM Prototype for Road Model Construction</h3>
-              <span class="place">BMW</span>
-            </header>
-            <div>
-              <ul>
-                <li>Did the lane tracking refinement on lane detection data from Mobileye. </li>
-                <li>Constructed road model (offline SLAM) by fusing GPS, lane detection and odometry. </li>
-                <li>Developed a module for interpolating undetected lane marking.</li>
-                <li>Decrease the road model error(lateral) to ±1.5m by introducing road curb information into pose graph.</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-        <div style="page-break-before:always">&nbsp;</div>
+        <!-- <div style="page-break-before:always">&nbsp;</div> -->
         <br>
         <br>
         <br>
         <br>
-        <section class="blocks">
-          <div class="date">
-            <span>2018</span>
-          </div>
-          <div class="decorator">
-          </div>
-          <div class="details">
-            <header>
-              <h3>LiDAR/Camera Relative Pose Calibration</h3>
-              <span class="place">BMW</span>
-            </header>
-            <div>
-              <ul>
-                <li>Implemented calibration board plane detection in point cloud and fitted with RANSAC.</li>
-                <li>Designed cost function, derived jacobian and implemented none linear optimization module.</li>
-                <li>Verified the result by reprojecting LiDAR point cloud back to camera image.</li>
-              </ul>
-            </div>
-          </div>
-        </section>
 
-        <section class="blocks">
-          <div class="date">
-            <span>2017</span>
-          </div>
-          <div class="decorator">
-          </div>
-          <div class="details">
-            <header>
-              <h3>LiDAR Based Driverless Forklift Project</h3>
-              <span class="place">Seer Robotics</span>
-            </header>
-            <div>
-              <ul>
-                <li>Designed and finished the general chassis controller.
-                  The controller supports chassis kinematics and inverse kinematics with vehicle steering model, differential wheeled model
-                  and mecanum model. The controller served as a core product in the startup.
-                </li>
-                <li>Implemented gyro-accelerometer complementary filter with yaw angle accuracy: ±0.002 rad,
-                  which finally replaced the third-party solution. Integrated the filter into IMU-Odometry EKF,
-                  Absolute error of the localization system(with LiDAR): ±10mm.
-                </li>
-                <li>Implemented cross-bus(Ethernet, CAN, ModBus) network time synchronize(NTP like) solution.</li>
-                <li>Built a On-The-Air firmware update framework for all micro-controllers on robots.</li>
-              </ul>
-            </div>
-          </div>
-        </section>
       </section>
       <!-- <div style="page-break-before:always">&nbsp;</div>
         <br>
@@ -220,6 +204,23 @@
         <h2>
           <i class="fa fa-graduation-cap"></i> Education
         </h2>
+        <section class="blocks">
+          <div class="date">
+            <span>2023</span><span>2022</span>
+          </div>
+          <div class="decorator">
+          </div>
+          <div class="details">
+            <header>
+              <h3>M.S. Computer Science</h3>
+              <span class="place">University of California, Davis</span>
+              <span class="location">California, United States</span>
+            </header>
+            <div>
+              <b>Courseworks</b>: Design and Analysis of Programming Languages
+            </div>
+          </div>
+        </section>
         <section class="blocks">
           <div class="date">
             <span>2019</span><span>2016</span>
@@ -234,9 +235,7 @@
             </header>
             <div>
               Founder of SJTU RoboCup Team(Small Size League)<br>
-              <a href="https://www.robocup2017.org/eng/leagues_football.html">RoboCup2017</a> Nagoya, Japan - Small Size League, Champion<br>
-              SJTU Ivy Scholarship (2018-2019)<br>
-              SJTU <i>The Power of Paradigm</i> Outstanding Student Award (2017-2018)
+              RoboCup2017 Nagoya, Japan - Small Size League, <a href="https://www.si.sjtu.edu.cn/zh-CN/article/view/0a2c1d99-0f56-b056-315a-6ffd5436b70b/499c01d1-61a7-ca13-1673-4a4d77206eff">Champion</a>
             </div>
           </div>
         </section>
@@ -253,7 +252,7 @@
               <span class="location">Hangzhou, China</span>
             </header>
             <div>
-              <b>Courseworks</b>: Probability and Mathematical Statistics, Digital Electronic Circuits, Principle of Automatic Control, Motor Control.
+              <b>Courseworks</b>: Probability and Mathematical Statistics, Digital Electronic Circuits, Principle of Automatic Control.
                 <!-- ,Pneumatic Control, Electro-hydraulic Servo/proportional Control -->
                 <br>
               <b>Competitions</b>: <br>
@@ -274,7 +273,7 @@
           <li><i class="fa fa-globe"></i> <a href="https://XiaoxingChen.github.io">XiaoxingChen.github.io</a></li>
           <li><i class="fa fa-linkedin"></i> <a href="https://www.linkedin.com/in/xiaoxing-chen-8b96ba10a/">Xiaoxing Chen</a></li>
           <li><i class="fa fa-envelope"></i> <a href="mailto:siuhangchanxx@gmail.com">siuhangchanxx@gmail.com</a></li>
-          <li><i class="fa fa-phone"></i> (86) - 16601707256</li>
+          <li><i class="fa fa-phone"></i> +1(530)-219-8597</li>
         </ul>
       </div>
       <div class="side-block" id="skills">
@@ -287,6 +286,7 @@
         </ul>
         <ul>
           <li><b>Vulkan</b>: basic</li>
+          <li><b>lua</b>: basic</li>
           <li><b>OpenCL</b>: basic</li>
         </ul>
 
@@ -311,7 +311,7 @@
           Language
         </h1>
         <ul>
-          <li><b>English</b>: TOEFL 102</li>
+          <li><b>English</b>:</li>
           <li>Professional working proficiency</li>
         </ul>
         <ul>
