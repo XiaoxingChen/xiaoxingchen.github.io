@@ -102,6 +102,7 @@ li{
 
 .main-block{
   margin-top: 0.1in;
+  page-break-inside: avoid;
 }
 
 #main h2{
@@ -258,6 +259,7 @@ li{
   /* use padding to work around the fact that margin doesn't affect floated
      neighboring elements */
   padding: 0.05in 0 0.07in 0;
+  /* page-break-inside: avoid; */
 }
 
 .details .place{
