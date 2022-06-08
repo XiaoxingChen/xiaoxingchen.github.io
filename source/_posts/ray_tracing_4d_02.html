@@ -1,0 +1,112 @@
+---
+title: Ray Tracing on 4-Dimensional Scene
+date: 2021-03-01
+mathjax: true
+hidden: false
+tags:
+---
+
+<head>
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+    <style>
+        .bib ol {
+            counter-reset: item
+        }
+
+        .bib li {
+            display: block;
+            counter-increment: item;
+        }
+
+        .bib li:before {
+            content: " ["counter(item)"] ";
+        }
+    </style>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+
+
+
+<h1>N-1 Dimensional Objects in N Dimensional World</h1>
+<p>In this chapter we are going to explore the perspective of a 4D creature when he looks down to our 3D world.</p>
+<p>N Dimensional Objects have 0 thickness in the (N+1)th dimension.
+    When calculating the intersection between N+1 Ray and N-Simplex,
+    then equation is under constrained.
+</p>
+<p>
+    One solution is to remesh to geometry with N+1 Simplex.
+    For example a 3D ray is hard to cannot intersect with edges of a rectangle.
+    But after triangulate the rectangle to two triangles, the intersection will be possible.
+    Likewise, to intersect a 3D triangle mesh with a 4D ray, tetrahedralization is required.
+</p>
+
+<h2>Estimate the Number of Simplices</h2>
+<ul>
+    <li>Surface of a regular triangle with edge length \(a\):  \(\frac{\sqrt{3}}{4}a^2\)  </li>
+    <li>Volume of a regular tetrahedron<sup>[1]</sup> with edge length \(a\):  \(\frac{\sqrt{2}}{12}a^3\)  </li>
+</ul>
+<p>For a sphere with radial \(r\), one need \(N_2\) triangle to triangulate the surface.  </p>
+\[
+    \begin{align}
+        N_2 &= \frac{S_{sphere}}{S_{triangle}} \\
+        &= \frac{4 \pi r^2}{ \frac{\sqrt{3}}{4}a^2 } \\
+        & \leq O \left(  \left( \frac{r}{a} \right)^2  \right)
+    \end{align}
+\]
+<p>But \(N_3\) tetrahedrons to tetrahedralizate the volume:  </p>
+
+\[
+    \begin{align}
+        N_3 &= \frac{V_{sphere}}{V_{tetrahedron}} \\
+        &= \frac{ \frac{3}{4} \pi r^3}{ \frac{\sqrt{2}}{12}a^3 } \\
+        & \leq O \left(  \left( \frac{r}{a} \right)^3  \right)
+    \end{align}
+\]
+
+<p>The estimation gives an upper bound because the sphere is the geometry with smallest surface area-volum-ratio.
+    But it still shows the computational complexity which changes from \(O(n^2)\) to \(O(n^3)\) when using a
+    tretraheron to mesh the geometry instead of triangle.   </p>
+
+<h1>Prism: A Better Solution</h1>
+<img src="/2021/03/01/ray_tracing_4d_02/prism.svg" alt="">
+
+<h2>Convex Geometry in N-1 D Subspace</h2>
+
+<p>As shown in the figure above, we decompose the N-Ray to two rays.
+    A (N-1) D ray for the subspace and a 1-D ray for axis direction of the prism.
+    When the geometry in (N-1) D subspace is convex, each ray produces a time interval in intersection denote as \(T_s, T_h\).
+    The actual intersection time interval can be calculated as \(T = T_s \cap T_h\).
+</p>
+
+<h2>General Geometry in N-1 D Subspace</h2>
+<img src="/2021/03/01/ray_tracing_4d_02/concave_intersection.svg" alt="">
+<p>For concave geometry case, the intersection of N-1 D subspace generates more than one time interval. </p>
+
+<h2>Dimensional Escalation</h2>
+<p>Now consider a 4D scene. A 3D geometry is viewed by a 4D camera.</p>
+
+<p style="float: left; font-size: 9pt; text-align: center; width: 40%; margin-right: 1%; margin-bottom: 0.5em;">
+    <img src="https://user-images.githubusercontent.com/16934019/109266421-0495cc00-7843-11eb-80d5-ec138e513b9a.png" style="width: 100%">Fig.2-1 Geometry in 3D Subspace</p>
+<p style="float: left; font-size: 9pt; text-align: center; width: 40%; margin-right: 1%; margin-bottom: 0.5em;">
+    <img src="https://user-images.githubusercontent.com/16934019/109257943-3a7f8400-7834-11eb-8431-3572d9114378.gif" style="width: 100%">Fig.2-2: Image from 4D Camera</p>
+<p style="clear: both;"></p>
+
+<h1>Reference</h1>
+<ol class="bib">
+    <li id="ref1">
+        mathworld.wolfram.com, <a href="https://mathworld.wolfram.com/RegularTetrahedron.html">Regular Tetrahedron</a>
+    </li>
+
+</ol>
+
+</body>
