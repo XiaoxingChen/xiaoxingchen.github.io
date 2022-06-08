@@ -20,19 +20,15 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content=".bib ol { counter-reset: item }             .bib li { display: block ; counter-increment: item; }             .bib li:before { content: &quot; [&quot;counter(item)&quot;] &quot;; }">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Singular Values of Essential Matrix">
-<meta property="og:url" content="http://yoursite.com/2020/01/20/essential_mat_sig_val/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Xiaoxing Chen&#39;s Blog">
+<meta property="og:url" content="http://yoursite.com/archives/2021/03/index.html">
 <meta property="og:site_name" content="Xiaoxing Chen&#39;s Blog">
-<meta property="og:description" content=".bib ol { counter-reset: item }             .bib li { display: block ; counter-increment: item; }             .bib li:before { content: &quot; [&quot;counter(item)&quot;] &quot;; }">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-01-21T01:13:14.000Z">
-<meta property="article:modified_time" content="2022-03-21T21:34:22.506Z">
 <meta property="article:author" content="Xiaoxing">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2020/01/20/essential_mat_sig_val/">
+<link rel="canonical" href="http://yoursite.com/archives/2021/03/">
 
 
 <script id="page-configurations">
@@ -40,11 +36,11 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : true
+    isPost : false
   };
 </script>
 
-  <title>Singular Values of Essential Matrix | Xiaoxing Chen's Blog</title>
+  <title>Archive | Xiaoxing Chen's Blog</title>
   
 
 
@@ -148,183 +144,53 @@
           <div class="content">
             
 
-  <div class="posts-expand">
-      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/20/essential_mat_sig_val/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Xiaoxing">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xiaoxing Chen's Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          Singular Values of Essential Matrix
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-01-20 17:13:14" itemprop="dateCreated datePublished" datetime="2020-01-20T17:13:14-08:00">2020-01-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-03-21 14:34:22" itemprop="dateModified" datetime="2022-03-21T14:34:22-07:00">2022-03-21</time>
-              </span>
-
-          
   
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/01/20/essential_mat_sig_val/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/01/20/essential_mat_sig_val/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+  <div class="post-block">
+    <div class="posts-collapse">
+      <div class="collection-title">
+        <span class="collection-header">Um..! 14 posts in total. Keep on posting.</span>
+      </div>
 
       
-        <head>
-    <script type="text/javascript" async
-            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
-        </script>
-        <style>
-            .bib ol { counter-reset: item }
-            .bib li { display: block ; counter-increment: item; }
-            .bib li:before { content: " ["counter(item)"] "; }
-        </style>
-</head>
-
-<body>
-
-
-
-<p>Essential matrix is not new to anybody being familiar with Epipolar Geometry. Here is the famous epipolar constraint: </p>
-\[
-    x_2^\top E x_1 = 0 
-\]
-<p>
-    Recall that when the essential matrix is obtained by 8-point algorithm, 
-    one has to decompose the result with SVD to make its third singular value 0 and the other 
-    two singular values equal. Here is a short derivation of this property of essential matrix.
-</p>
-
-<p>According to the definition of essential matrix: </p>
-\[
- E = \{ S R | S = t^\wedge \in \mathfrak{so}(3), R \in SO(3)\} \tag{1-1}
-\] 
-
-<p>
-    According to the definition of SVD, a singular value \(\sigma\) of a matrix A, 
-    equals to the square root of correspondent eigenvalue \(\lambda\) of matrix \(A^\top A\):
-</p>
-\[
-   \sigma_{A,i} = \sqrt{\lambda_{A^\top A,i}} \tag{1-2}
- \]
-<p>Meanwhile,</p>
- \[
-    E^\top E = R^\top S^\top S R = -R^\top (t^\wedge)^2 R \tag{1-3}
- \]
- <p>According to the property of askew-symmetric matrix:</p>
- \[
-    (t^\wedge)^2 = \|t\|^2 I - t t^\top \tag{1-4}
- \]
- <p>The first term is a scalar matrix with three equal eigenvalues \(\|t\|^2\)</p>
- <p>The second term \(t t^\top\) is a symmetric matrix, which is therefore semi-positive definite.
-    It can be diagonalized<sup><a href="/2020/01/20/mat_generated_by_outer_product">[1]</a></sup>:
- </p>
- \[
-    t t^\top = \|t\|^2 R_t^\top diag(1, 0, 0) R_t \tag{1-5}
- \]
-
- <p>Thus, equation (1-3) becomes:</p>
- \[
-    E^\top E = \|t\|^2 R^\top R_t^\top ( I - diag(1, 0, 0)) R_t R 
-    
- \]
- \[
-    = \|t\|^2 (R_t R )^\top diag(1, 1, 0) (R_t R) 
-    \tag{1-6}
- \]
-
- <p>Therefore, eigenvalues of \(E^\top E\) are: \(\|t\|^2 (1, 1, 0)\).</p>
- <p>Finally, according to (1-3), singular values of essential matrix \(E\) are: \(\|t\|(1, 1, 0)\).</p>
-
- <br>
-
- <h2>References</h2>
- <ol class="bib">
-    <li>Xiaoxing. <a href="/2020/01/20/mat_generated_by_outer_product"><cite>Property of Matrix Generated by Outer Product</cite></a></li>
- </ol>
-</body>
+    <div class="collection-year">
+      <h1 class="collection-header">2021</h1>
     </div>
 
-    
-    
-    
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
 
-      <footer class="post-footer">
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2021-03-01T00:00:00-08:00"
+              content="2021-03-01">
+          03-01
+        </time>
+      </div>
 
-        
+      <h2 class="post-title">
+          <a class="post-title-link" href="/2021/03/01/ray_tracing_4d_02/" itemprop="url">
+            <span itemprop="name">Ray Tracing on 4-Dimensional Scene</span>
+          </a>
+      </h2>
 
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2020/01/19/mat_generated_by_outer_product/" rel="prev" title="Property of Matrix Generated by Outer Product">
-      <i class="fa fa-chevron-left"></i> Property of Matrix Generated by Outer Product
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/02/29/why_here/" rel="next" title="Why Here">
-      Why Here <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
+    </header>
   </article>
+
+
+    </div>
+  </div>
   
   
   
 
-  </div>
+  
+
 
 
           </div>
           
-    
-  <div class="comments">
-    <div id="disqus_thread">
-      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-    </div>
-  </div>
-  
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -371,7 +237,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">1.</span> <span class="nav-text">References</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -497,26 +362,6 @@
   }
   // defer loading until the whole page loading is completed
   window.addEventListener('load', loadCount, false);
-</script>
-<script>
-  var disqus_config = function() {
-    this.page.url = "http://yoursite.com/2020/01/20/essential_mat_sig_val/";
-    this.page.identifier = "2020/01/20/essential_mat_sig_val/";
-    this.page.title = "Singular Values of Essential Matrix";
-    };
-  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
-    if (window.DISQUS) {
-      DISQUS.reset({
-        reload: true,
-        config: disqus_config
-      });
-    } else {
-      var d = document, s = d.createElement('script');
-      s.src = 'https://xiaoxingchen.disqus.com/embed.js';
-      s.setAttribute('data-timestamp', '' + +new Date());
-      (d.head || d.body).appendChild(s);
-    }
-  });
 </script>
 
 </body>

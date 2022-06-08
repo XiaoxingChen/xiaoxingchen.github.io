@@ -20,19 +20,24 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content=".bib ol { counter-reset: item }             .bib li { display: block ; counter-increment: item; }             .bib li:before { content: &quot; [&quot;counter(item)&quot;] &quot;; }">
+  <meta name="description" content=".bib ol {             counter-reset: item         }          .bib li {             display: block;             counter-increment: item;         }          .bib li:before {">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Singular Values of Essential Matrix">
-<meta property="og:url" content="http://yoursite.com/2020/01/20/essential_mat_sig_val/index.html">
+<meta property="og:title" content="Ray Tracing on 4-Dimensional Scene">
+<meta property="og:url" content="http://yoursite.com/2021/03/01/ray_tracing_4d_02/index.html">
 <meta property="og:site_name" content="Xiaoxing Chen&#39;s Blog">
-<meta property="og:description" content=".bib ol { counter-reset: item }             .bib li { display: block ; counter-increment: item; }             .bib li:before { content: &quot; [&quot;counter(item)&quot;] &quot;; }">
+<meta property="og:description" content=".bib ol {             counter-reset: item         }          .bib li {             display: block;             counter-increment: item;         }          .bib li:before {">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-01-21T01:13:14.000Z">
-<meta property="article:modified_time" content="2022-03-21T21:34:22.506Z">
+<meta property="og:image" content="http://yoursite.com/2021/03/01/ray_tracing_4d_02/prism.svg">
+<meta property="og:image" content="http://yoursite.com/2021/03/01/ray_tracing_4d_02/concave_intersection.svg">
+<meta property="og:image" content="https://user-images.githubusercontent.com/16934019/109266421-0495cc00-7843-11eb-80d5-ec138e513b9a.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/16934019/109257943-3a7f8400-7834-11eb-8431-3572d9114378.gif">
+<meta property="article:published_time" content="2021-03-01T08:00:00.000Z">
+<meta property="article:modified_time" content="2022-06-08T20:41:11.697Z">
 <meta property="article:author" content="Xiaoxing">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/03/01/ray_tracing_4d_02/prism.svg">
 
-<link rel="canonical" href="http://yoursite.com/2020/01/20/essential_mat_sig_val/">
+<link rel="canonical" href="http://yoursite.com/2021/03/01/ray_tracing_4d_02/">
 
 
 <script id="page-configurations">
@@ -44,7 +49,7 @@
   };
 </script>
 
-  <title>Singular Values of Essential Matrix | Xiaoxing Chen's Blog</title>
+  <title>Ray Tracing on 4-Dimensional Scene | Xiaoxing Chen's Blog</title>
   
 
 
@@ -153,7 +158,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/20/essential_mat_sig_val/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/01/ray_tracing_4d_02/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -166,7 +171,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Singular Values of Essential Matrix
+          Ray Tracing on 4-Dimensional Scene
         </h1>
 
         <div class="post-meta">
@@ -176,14 +181,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-01-20 17:13:14" itemprop="dateCreated datePublished" datetime="2020-01-20T17:13:14-08:00">2020-01-20</time>
+              <time title="Created: 2021-03-01 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-01T00:00:00-08:00">2021-03-01</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-03-21 14:34:22" itemprop="dateModified" datetime="2022-03-21T14:34:22-07:00">2022-03-21</time>
+                <time title="Modified: 2022-06-08 13:41:11" itemprop="dateModified" datetime="2022-06-08T13:41:11-07:00">2022-06-08</time>
               </span>
 
           
@@ -195,8 +200,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2020/01/20/essential_mat_sig_val/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/01/20/essential_mat_sig_val/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2021/03/01/ray_tracing_4d_02/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/01/ray_tracing_4d_02/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -211,78 +216,110 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <head>
+        
+<head>
     <script type="text/javascript" async
-            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
         </script>
-        <style>
-            .bib ol { counter-reset: item }
-            .bib li { display: block ; counter-increment: item; }
-            .bib li:before { content: " ["counter(item)"] "; }
-        </style>
+    <style>
+        .bib ol {
+            counter-reset: item
+        }
+
+        .bib li {
+            display: block;
+            counter-increment: item;
+        }
+
+        .bib li:before {
+            content: " ["counter(item)"] ";
+        }
+    </style>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    <script>hljs.initHighlightingOnLoad();</script>
 </head>
 
 <body>
 
 
 
-<p>Essential matrix is not new to anybody being familiar with Epipolar Geometry. Here is the famous epipolar constraint: </p>
+<h1>N-1 Dimensional Objects in N Dimensional World</h1>
+<p>In this chapter we are going to explore the perspective of a 4D creature when he looks down to our 3D world.</p>
+<p>N Dimensional Objects have 0 thickness in the (N+1)th dimension.
+    When calculating the intersection between N+1 Ray and N-Simplex,
+    then equation is under constrained.
+</p>
+<p>
+    One solution is to remesh to geometry with N+1 Simplex.
+    For example a 3D ray is hard to cannot intersect with edges of a rectangle.
+    But after triangulate the rectangle to two triangles, the intersection will be possible.
+    Likewise, to intersect a 3D triangle mesh with a 4D ray, tetrahedralization is required.
+</p>
+
+<h2>Estimate the Number of Simplices</h2>
+<ul>
+    <li>Surface of a regular triangle with edge length \(a\):  \(\frac{\sqrt{3}}{4}a^2\)  </li>
+    <li>Volume of a regular tetrahedron<sup>[1]</sup> with edge length \(a\):  \(\frac{\sqrt{2}}{12}a^3\)  </li>
+</ul>
+<p>For a sphere with radial \(r\), one need \(N_2\) triangle to triangulate the surface.  </p>
 \[
-    x_2^\top E x_1 = 0 
+    \begin{align}
+        N_2 &= \frac{S_{sphere}}{S_{triangle}} \\
+        &= \frac{4 \pi r^2}{ \frac{\sqrt{3}}{4}a^2 } \\
+        & \leq O \left(  \left( \frac{r}{a} \right)^2  \right)
+    \end{align}
 \]
-<p>
-    Recall that when the essential matrix is obtained by 8-point algorithm, 
-    one has to decompose the result with SVD to make its third singular value 0 and the other 
-    two singular values equal. Here is a short derivation of this property of essential matrix.
+<p>But \(N_3\) tetrahedrons to tetrahedralizate the volume:  </p>
+
+\[
+    \begin{align}
+        N_3 &= \frac{V_{sphere}}{V_{tetrahedron}} \\
+        &= \frac{ \frac{3}{4} \pi r^3}{ \frac{\sqrt{2}}{12}a^3 } \\
+        & \leq O \left(  \left( \frac{r}{a} \right)^3  \right)
+    \end{align}
+\]
+
+<p>The estimation gives an upper bound because the sphere is the geometry with smallest surface area-volum-ratio.
+    But it still shows the computational complexity which changes from \(O(n^2)\) to \(O(n^3)\) when using a
+    tretraheron to mesh the geometry instead of triangle.   </p>
+
+<h1>Prism: A Better Solution</h1>
+<img src="/2021/03/01/ray_tracing_4d_02/prism.svg" alt="">
+
+<h2>Convex Geometry in N-1 D Subspace</h2>
+
+<p>As shown in the figure above, we decompose the N-Ray to two rays.
+    A (N-1) D ray for the subspace and a 1-D ray for axis direction of the prism.
+    When the geometry in (N-1) D subspace is convex, each ray produces a time interval in intersection denote as \(T_s, T_h\).
+    The actual intersection time interval can be calculated as \(T = T_s \cap T_h\).
 </p>
 
-<p>According to the definition of essential matrix: </p>
-\[
- E = \{ S R | S = t^\wedge \in \mathfrak{so}(3), R \in SO(3)\} \tag{1-1}
-\] 
+<h2>General Geometry in N-1 D Subspace</h2>
+<img src="/2021/03/01/ray_tracing_4d_02/concave_intersection.svg" alt="">
+<p>For concave geometry case, the intersection of N-1 D subspace generates more than one time interval. </p>
 
-<p>
-    According to the definition of SVD, a singular value \(\sigma\) of a matrix A, 
-    equals to the square root of correspondent eigenvalue \(\lambda\) of matrix \(A^\top A\):
-</p>
-\[
-   \sigma_{A,i} = \sqrt{\lambda_{A^\top A,i}} \tag{1-2}
- \]
-<p>Meanwhile,</p>
- \[
-    E^\top E = R^\top S^\top S R = -R^\top (t^\wedge)^2 R \tag{1-3}
- \]
- <p>According to the property of askew-symmetric matrix:</p>
- \[
-    (t^\wedge)^2 = \|t\|^2 I - t t^\top \tag{1-4}
- \]
- <p>The first term is a scalar matrix with three equal eigenvalues \(\|t\|^2\)</p>
- <p>The second term \(t t^\top\) is a symmetric matrix, which is therefore semi-positive definite.
-    It can be diagonalized<sup><a href="/2020/01/20/mat_generated_by_outer_product">[1]</a></sup>:
- </p>
- \[
-    t t^\top = \|t\|^2 R_t^\top diag(1, 0, 0) R_t \tag{1-5}
- \]
+<h2>Dimensional Escalation</h2>
+<p>Now consider a 4D scene. A 3D geometry is viewed by a 4D camera.</p>
 
- <p>Thus, equation (1-3) becomes:</p>
- \[
-    E^\top E = \|t\|^2 R^\top R_t^\top ( I - diag(1, 0, 0)) R_t R 
-    
- \]
- \[
-    = \|t\|^2 (R_t R )^\top diag(1, 1, 0) (R_t R) 
-    \tag{1-6}
- \]
+<p style="float: left; font-size: 9pt; text-align: center; width: 40%; margin-right: 1%; margin-bottom: 0.5em;">
+    <img src="https://user-images.githubusercontent.com/16934019/109266421-0495cc00-7843-11eb-80d5-ec138e513b9a.png" style="width: 100%">Fig.2-1 Geometry in 3D Subspace</p>
+<p style="float: left; font-size: 9pt; text-align: center; width: 40%; margin-right: 1%; margin-bottom: 0.5em;">
+    <img src="https://user-images.githubusercontent.com/16934019/109257943-3a7f8400-7834-11eb-8431-3572d9114378.gif" style="width: 100%">Fig.2-2: Image from 4D Camera</p>
+<p style="clear: both;"></p>
 
- <p>Therefore, eigenvalues of \(E^\top E\) are: \(\|t\|^2 (1, 1, 0)\).</p>
- <p>Finally, according to (1-3), singular values of essential matrix \(E\) are: \(\|t\|(1, 1, 0)\).</p>
+<h1>Reference</h1>
+<ol class="bib">
+    <li id="ref1">
+        mathworld.wolfram.com, <a href="https://mathworld.wolfram.com/RegularTetrahedron.html" target="_blank" rel="noopener">Regular Tetrahedron</a>
+    </li>
 
- <br>
+</ol>
 
- <h2>References</h2>
- <ol class="bib">
-    <li>Xiaoxing. <a href="/2020/01/20/mat_generated_by_outer_product"><cite>Property of Matrix Generated by Outer Product</cite></a></li>
- </ol>
 </body>
     </div>
 
@@ -298,12 +335,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/01/19/mat_generated_by_outer_product/" rel="prev" title="Property of Matrix Generated by Outer Product">
-      <i class="fa fa-chevron-left"></i> Property of Matrix Generated by Outer Product
+    <a href="/2021/01/28/two_reflections_one_rotation/" rel="prev" title="Two Reflections Form A Single Rotation">
+      <i class="fa fa-chevron-left"></i> Two Reflections Form A Single Rotation
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/02/29/why_here/" rel="next" title="Why Here">
-      Why Here <i class="fa fa-chevron-right"></i>
+    <a href="/2022/01/21/radial_tangential_numerical_inversion/" rel="next" title="Numerical Inversion of Radial Tangential Distortion Model">
+      Numerical Inversion of Radial Tangential Distortion Model <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -371,7 +408,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">1.</span> <span class="nav-text">References</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">1.</span> <span class="nav-text">N-1 Dimensional Objects in N Dimensional World</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">1.1.</span> <span class="nav-text">Estimate the Number of Simplices</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">2.</span> <span class="nav-text">Prism: A Better Solution</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">2.1.</span> <span class="nav-text">Convex Geometry in N-1 D Subspace</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">2.2.</span> <span class="nav-text">General Geometry in N-1 D Subspace</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">2.3.</span> <span class="nav-text">Dimensional Escalation</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">3.</span> <span class="nav-text">Reference</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -500,9 +537,9 @@
 </script>
 <script>
   var disqus_config = function() {
-    this.page.url = "http://yoursite.com/2020/01/20/essential_mat_sig_val/";
-    this.page.identifier = "2020/01/20/essential_mat_sig_val/";
-    this.page.title = "Singular Values of Essential Matrix";
+    this.page.url = "http://yoursite.com/2021/03/01/ray_tracing_4d_02/";
+    this.page.identifier = "2021/03/01/ray_tracing_4d_02/";
+    this.page.title = "Ray Tracing on 4-Dimensional Scene";
     };
   NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
     if (window.DISQUS) {
