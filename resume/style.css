@@ -10,8 +10,8 @@
 :root{
   --page-width: 8.5in;
   --page-number: 1.0;
-  --page-height: 11in;
-  --main-width: 6.4in;
+  --page-height: 10.9in;
+  --main-width: 6.5in;
   --sidebar-width: calc(var(--page-width) - var(--main-width));
   --decorator-horizontal-margin: 0.2in;
 
@@ -25,7 +25,7 @@
   --decorator-border: 1px solid #ccc;
 
   --row-blocks-padding-top: 5pt;
-  --date-block-width: 0.6in;
+  --date-block-width: 0.7in;
 
   --main-blocks-title-icon-offset-left: -19pt;
 }
