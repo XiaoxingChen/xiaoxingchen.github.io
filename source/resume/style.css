@@ -9,7 +9,7 @@
 
 :root{
   --page-width: 8.5in;
-  --page-number: 1.4;
+  --page-number: 1.0;
   --page-height: 11in;
   --main-width: 6.4in;
   --sidebar-width: calc(var(--page-width) - var(--main-width));
@@ -49,7 +49,7 @@ h1, h2, h3{
 }
 
 li{
-  list-style-type: none;
+  /* list-style-type: none; */
 }
 
 #main{
@@ -63,7 +63,7 @@ li{
   float: right;
   position: relative; /* for disclaimer */
   width: var(--sidebar-width);
-  height: calc(var(--page-height) * var(--page-number));;
+  height: 100%;
   padding: 0.6in var(--sidebar-horizontal-padding);
   background-color: #f2f2f2;
   font-size: 8.5pt;
@@ -302,7 +302,7 @@ li{
 #main li::before{
   position: relative;
   margin-left: -4.25pt;
-  content: '• ';
+  /* content: '• '; */
 }
 
 .details .concise ul{
