@@ -1,6 +1,7 @@
 @page{
-  size: letter portrait;
+  /* size: letter portrait; */
   margin: 0;
+  margin-top: -0.05in;
 }
 
 *{
@@ -10,7 +11,7 @@
 :root{
   --page-width: 8.5in;
   --page-number: 1.0;
-  --page-height: 10.9in;
+  --page-height: 11.in;
   --main-width: 6.5in;
   --sidebar-width: calc(var(--page-width) - var(--main-width));
   --decorator-horizontal-margin: 0.2in;
@@ -63,7 +64,7 @@ li{
   float: right;
   position: relative; /* for disclaimer */
   width: var(--sidebar-width);
-  height: 100%;
+  height: 12in;
   padding: 0.6in var(--sidebar-horizontal-padding);
   background-color: #f2f2f2;
   font-size: 8.5pt;
@@ -330,7 +331,7 @@ li{
 }
 
 .side-block{
-  margin-top: 0.5in;
+  margin-top: 1.0in;
 }
 
 #contact ul{
