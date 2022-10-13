@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <!-- <link rel="stylesheet" type="text/css" href="dep/normalize.css/normalize.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="dep/Font-Awesome/css/font-awesome.css" /> -->
+    <link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <title>xiaoxing_chen_resume_cv</title>
+  </head>
+  <body lang="en">
+    <section id="main">
+      <header id="title">
+        <h1>Xiaoxing Chen</h1>
+        <span class="subtitle">
+          陈笑行 <br>
+          3 years of experience in 3D & AR <br>
+          <!-- looking for positions with H1B sponsorship <br> -->
+        </span>
+      </header>
+      <section class="main-block concise">
+        <h2>
+          <i class="fa fa-suitcase"></i> Experiences
+        </h2>
+        <section class="blocks">
+          <div class="date">
+            <span>Mar. 2022</span><span>Apr. 2021</span><span>1 year</span>
+          </div>
+          <div class="decorator">
+          </div>
+          <div class="details">
+            <header>
+              <h3>ByteDance Ltd.</h3>
+              <span class="place">Software Engineer</span>
+              <span class="location">Shanghai, China</span>
+            </header>
+            <div>
+              <ul>
+                <li>Responsible for the pipeline-level designing, prototyping, and development of TikTok video effects.</li>
+                <li>
+                  Key contributor of <i>AR China Year</i> Effect. Peak data: 4 million posts and 188 million views per day.
+                  Patents: 3. PR Report: <a href="https://juejin.cn/post/7058936874890428429">The Secret Behind Douyin's Popular Effect</a>(Chinese).
+                  Typical user posts:
+                        <a href="https://www.douyin.com/video/7057362105573461286">video 1</a>,
+                        <a href="https://www.douyin.com/video/7056993348023831843">video 2</a>,
+                        <a href="https://www.douyin.com/video/7058457603554282789">video 3</a>.
+                </li>
+                <ul style="padding-left: 0.12in;">
+                  <li>Responsible for algorithm limits evaluation.
+                    Defined the key features and estimated final performance before all algorithm nodes are ready.
+                  </li>
+                  <li>Developed the semantic object(building facades) pose estimator in the effect.</li>
+                  <li>Created a semantic keyframe sliding window node for the traditional SLAM solution.</li>
+                  <li>Optimized the corner case performance by designing a user imperceivable scene initializer,
+                    which attaches AR objects before SLAM initialization.</li>
+                </ul>
+                <li>Key contributor of VR Panoramic editing/rendering solution.</li>
+                <li>Worked on the Visual Positioning System(VPS) infrastructure.</li>
+              </ul>
+              <span><b style="font-size: larger;">Skills</b>: C++, AR/VR, Pose Estimation, SLAM, GPU, Lua</span>
+              </div>
+          </div>
+        </section>
+        <section class="blocks">
+          <div class="date">
+            <span>Apr. 2021</span><span>Mar. 2019</span><span>2 years</span>
+          </div>
+          <div class="decorator">
+          </div>
+          <div class="details">
+            <header>
+              <h3>Arm Technology (China) Co., Ltd.</h3>
+              <span class="place">Software Engineer</span>
+              <span class="location">Shanghai, China</span>
+            </header>
+            <div>
+              <ul>
+                <li>Implemented a deeply optimized ray tracing software solution on Arm Mali GPU. Partnered with Tencent and MediaTek. Presented at
+                  <a href="https://community.arm.com/arm-community-blogs/b/graphics-gaming-and-vr-blog/posts/developing-ray-tracing-content-for-mobile-games?utm_source=linkedin&utm_medium=social&utm_campaign=2021_client-developer%2fecosystem_mk22_arm_na_na_awa&utm_content=blog">
+                  GDC 2021</a>.
+                  Performance: 1M ray/frame, 75% shadow, 180k triangles, 14.0FPS on Mali-G77.</li>
+                <ul style="padding-left: 0.12in;">
+                  <li>Enabled BVH tree GPU/CPU build/update/traversal.</li>
+                  <li>Compliant with Vulkan Ray Query spec, leveraged the Vulkan Layer concept which made the layer transparent to developers (Android/Linux/Windows).</li>
+                  <li>Supported gaming team to implement ray query demo in <a href="https://github.com/KhronosGroup/Vulkan-Samples">Vulkan-Samples Project</a>.</li>
+                </ul>
+                <li>
+                  Worked on the development of Monocular Visual-Inertial SLAM for Arm Platform AR Solution.
+                  Final RMSE: 0.21% with loop closure, 0.25% without loop closure, 640x480 on Huawei P20.
+                </li>
+                <ul style="padding-left: 0.12in;">
+                <li>Designed a cross verification-based method for IMU/Camera evaluation.</li>
+                <li>Responsible for rolling shutter camera calibration.</li>
+                <li>Enabled object detection and image feature extraction on Arm platform by <a href="https://github.com/ARM-software/armnn">ArmNN</a> (Arm's inference engine). Performance: 7.0FPS on Huawei P20.</li>
+                <li>Created cloud-based feature vector database with K-nearest neighbors search engine for visual search.</li></li>
+                </ul>
+              </ul>
+              <span><b style="font-size: larger;">Skills</b>: AR/VR, Ray Tracing, C++, python, Arm, GPU, OpenCV, Tensorflow Lite, Ceres Solver</span>
+              </div>
+          </div>
+        </section>
+        <section class="blocks">
+          <div class="date">
+            <span>Apr. 2018</span> <span>Dec. 2018</span> <span>8 months</span>
+          </div>
+          <div class="decorator">
+          </div>
+          <div class="details">
+            <header>
+              <h3>BMW Autonomous Driving Lab.</h3>
+              <span class="place">R&D Intern</span>
+              <span class="location">Shanghai, China</span>
+            </header>
+            <div>
+              <ul>
+                <li>Implemented a road model (OpenDRIVE format) generator based on lane detector and real-time localization with G2O.</li>
+                <li>Setup LiDAR/camera extrinsic calibration pipeline.</li>
+                <li>Built a driving strategy 3D simulation plugin with ROS RViz</li>
+              </ul>
+              <span><b style="font-size: larger;">Skills</b>: C++, python, Linux, PCL, G2O, Ceres Solver</span>
+            </div>
+          </div>
+        </section>
+      </section>
+      <section class="main-block concise">
+        <h2>
+          <i class="fa fa-graduation-cap"></i> Education
+        </h2>
+        <section class="blocks">
+          <div class="date">
+            <span>Now</span><span>Mar. 2022</span>
+          </div>
+          <div class="decorator">
+          </div>
+          <div class="details">
+            <header>
+              <h3>University of California, Davis</h3>
+              <span class="place">M.S. Computer Science</span>
+              <span class="location">California, United States</span>
+            </header>
+            <div>
+              <b>Courseworks</b>: Design& Analysis of Programming Languages, Operating System, Design & Analysis of Algorithms, Computer Networks
+            </div>
+            <span><b>Skills</b>: C/C++, RISC-V, Docker, 2D Graphics</span>
+          </div>
+        </section>
+        <section class="blocks">
+          <div class="date">
+            <span>2019</span><span>2016</span>
+          </div>
+          <div class="decorator">
+          </div>
+          <div class="details">
+            <header>
+              <h3>Shanghai Jiao Tong University</h3>
+              <span class="place">M.S. Electronic Science and Technology</span>
+              <span class="location">Shanghai, China</span>
+            </header>
+            <div>
+              Founder of SJTU RoboCup Team(Small Size League)<br>
+              RoboCup2017 Nagoya, Japan - Small Size League, <a href="https://www.si.sjtu.edu.cn/zh-CN/article/view/0a2c1d99-0f56-b056-315a-6ffd5436b70b/499c01d1-61a7-ca13-1673-4a4d77206eff">Champion</a> <br>
+              Led to the establishment of <i><a href="https://www.sohu.com/a/205671502_660587">Shanghai Jiao Tong University - Seer Robotics Joint Lab </a></i> <br>
+              <span><b>Skills</b>: C++, RTOS, ROS</span>
+            </div>
+          </div>
+        </section>
+        <section class="blocks">
+          <div class="date">
+            <span>2016</span><span>2012</span>
+          </div>
+          <div class="decorator">
+          </div>
+          <div class="details">
+            <header>
+              <h3>Zhejiang University</h3>
+              <span class="place">B.E. in Mechatronics</span>
+              <span class="location">Hangzhou, China</span>
+            </header>
+            <div>
+              <b>Courseworks</b>: Probability and Mathematical Statistics, Digital Electronic Circuits, Principle of Automatic Control.
+                <!-- ,Pneumatic Control, Electro-hydraulic Servo/proportional Control -->
+                <br>
+              <b>Competitions</b>: <br>
+              RoboCup Japan Open 2015 (Fukui) - Small Size League, Champion<br>
+              <a href="https://result.robocup2015.org/show/item?id=67">RoboCup2015</a> Hefei, China - Small Size League, 3rd <br>
+              RoboCup Iran Open 2016 (Tehran) - Small Size League, 3rd <br>
+            </div>
+          </div>
+        </section>
+      </section>
+    </section>
+    <aside id="sidebar">
+      <div class="side-block" id="contact">
+        <h1>
+          Contact Info
+        </h1>
+        <ul>
+          <li><i class="fa fa-envelope"></i> <a href="mailto:shawnchen.career@proton.me">shawnchen.career@proton.me</a></li>
+          <li><i class="fa fa-phone"></i> +1(530) 204-8996</li>
+          <li><i class="fa fa-globe"></i> <a href="https://XiaoxingChen.github.io">xiaoxingchen.github.io</a></li>
+          <li><i class="fa fa-linkedin"></i> <a href="https://www.linkedin.com/in/xiaoxing-chen-8b96ba10a/">LinkedIn: Xiaoxing Chen</a></li>
+          <li><i class="fa fa-github"></i> <a href="https://github.com/XiaoxingChen">GitHub: XiaoxingChen</a></li>
+          <li><i class="fa fa-map-marker"></i> <a href="https://www.google.com/maps/place/Davis,+CA/@38.5431978,-121.721789,16z/data=!4m5!3m4!1s0x808529999495543f:0xc3013f1b6ee28fff!8m2!3d38.5449065!4d-121.7405167">Davis, California</a></li>
+
+        </ul>
+      </div>
+      <div class="side-block" id="skills">
+        <h1>
+          Skills
+        </h1>
+        <ul>
+          <li><b>Modern C++</b>: 3+ years</li>
+          <li><b>python</b>: 3+ years</li>
+        </ul>
+        <ul>
+          <li><b>Linux</b>: 2+ years</li>
+          <li><b>CMake</b>: experienced</li>
+          <li><b>git</b>: experienced</li>
+        </ul>
+        <ul>
+          <li><b>Vulkan</b>: basic</li>
+          <li><b>glsl</b>: basic</li>
+          <li><b>lua</b>: basic</li>
+          <li><b>OpenCL</b>: basic</li>
+        </ul>
+
+        <ul>
+          <li><b>gdb</b></li>
+          <li><b>ROS</b></li>
+        </ul>
+
+        <ul>
+          <li><b>Regular Expression</b></li>
+          <li><b>Gitlab CI</b></li>
+        </ul>
+
+        <ul>
+          <li><b>SLAM/VIO</b></li>
+          <li><b>3D Geometry</b></li>
+        </ul>
+
+        <h1>
+          Language
+        </h1>
+        <ul>
+          <li><b>English</b>:</li>
+          <li>Professional working proficiency</li>
+        </ul>
+        <ul>
+          <li><b>Chinese</b>: </li>
+          <li>Native proficiency</li>
+        </ul>
+        <ul>
+          <li><b>German</b>: </li>
+          <li>Elementary proficiency</li>
+        </ul>
+      </div>
+      <div class="side-block" id="disclaimer">
+        <!-- This r&eacute;sum&eacute; was wholly typeset with HTML/CSS &mdash; see <code>git.io/vVSYL</code> -->
+      </div>
+    </aside>
+  </body>
+</html>
