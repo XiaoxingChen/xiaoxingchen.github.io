@@ -6,7 +6,7 @@
     <!-- <link rel="stylesheet" type="text/css" href="dep/Font-Awesome/css/font-awesome.css" /> -->
     <link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="style.css" />
-    <title>xiaoxing_chen_resume_ad</title>
+    <title>xiaoxing_chen_resume_nv</title>
   </head>
   <body lang="en">
     <section id="main">
@@ -14,7 +14,7 @@
         <h1>Xiaoxing Chen</h1>
         <span class="subtitle">
           陈笑行 <br>
-          3 years of experience in C++ & Robotics <br>
+          3 years of experience in C++ & embedded system<br>
           <!-- looking for positions with H1B sponsorship <br> -->
         </span>
       </header>
@@ -24,7 +24,7 @@
         </h2>
         <section class="blocks">
           <div class="date">
-            <span>Mar. 2022</span><span>May. 2021</span><span>1 year</span>
+            <span>Mar. 2022</span><span>May. 2021</span><span>nearly 1 year</span>
           </div>
           <div class="decorator">
           </div>
@@ -36,7 +36,7 @@
             </header>
             <div>
               <ul>
-                <li>Responsible for the pipeline-level designing, prototyping, and development of TikTok AR effects.</li>
+                <li>Responsible for the pipeline-level design of effects and development of TikTok AR platform.</li>
                 <li>
                   Key contributor of <i>AR China Year</i> Effect. Peak data: 4 million posts and 188 million views per day.
                   Patents: 3. PR Report: <a href="https://juejin.cn/post/7058936874890428429">The Secret Behind Douyin's Popular Effect</a>(Chinese).
@@ -49,15 +49,15 @@
                   <li>Responsible for algorithm limits evaluation.
                     Defined the key features and estimated final performance before all algorithm nodes are ready.
                   </li>
-                  <li>Developed the semantic object(building facades) pose estimator in the effect.</li>
-                  <li>Created a semantic keyframe sliding window node for the traditional SLAM solution.</li>
-                  <li>Optimized the corner case performance by designing a user imperceivable scene initializer,
-                    which attaches AR objects before SLAM initialization.</li>
+                  <li>Trimmed effect features for different levels of user devices to match FPS requirement.</li>
+                  <!-- <li>Created a semantic keyframe sliding window node for the traditional SLAM solution.</li> -->
+                  <!-- <li>Optimized the corner case performance by designing a user imperceivable scene initializer,
+                    which attaches AR objects before SLAM initialization.</li> -->
                 </ul>
                 <li>Key contributor of VR Panoramic editing/rendering solution.</li>
-                <li>Worked on the Visual Positioning System(VPS) infrastructure.</li>
+                <li>Worked on the Visual Positioning System(VPS) infrastructure (latency optimization, navigation).</li>
               </ul>
-              <span><b style="font-size: larger;">Skills</b>: C++, python, SLAM, 3D Vision, GPU, Lua</span>
+              <span><b style="font-size: larger;">Skills</b>: C++, python, GPU, Lua</span>
               </div>
           </div>
         </section>
@@ -80,8 +80,8 @@
                   GDC 2021</a>.
                   Performance: 1M ray/frame, 75% shadow, 180k triangles, 14.0FPS on Mali-G77.</li>
                 <ul style="padding-left: 0.12in;">
+                  <li>Modified Android DDK to hijack GPU driver calls and inserted features as a layer after loader trampoline.</li>
                   <li>Enabled BVH tree GPU/CPU build/update/traversal.</li>
-                  <li>Compliant with Vulkan Ray Query spec, leveraged the Vulkan Layer concept which made the layer transparent to developers (Android/Linux/Windows).</li>
                   <li>Supported gaming team to implement ray query demo in <a href="https://github.com/KhronosGroup/Vulkan-Samples">Vulkan-Samples Project</a>.</li>
                 </ul>
                 <li>
@@ -89,13 +89,11 @@
                   Final RMSE: 0.21% with loop closure, 0.25% without loop closure, 640x480 on Huawei P20.
                 </li>
                 <ul style="padding-left: 0.12in;">
-                <li>Designed a cross verification-based method for IMU/Camera evaluation.</li>
-                <li>Responsible for rolling shutter camera calibration.</li>
-                <li>Enabled object detection and image feature extraction on Arm platform by <a href="https://github.com/ARM-software/armnn">ArmNN</a> (Arm's inference engine). Performance: 7.0FPS on Huawei P20.</li>
-                <li>Created cloud-based feature vector database with K-nearest neighbors search engine for visual search.</li></li>
+                <li>Implemented a multi-phone dataset collecting toolset. Supports automatic time synchronization, extrinsic calibration and sensor cross validation.</li>
+                <li>Located and fixed rolling shutter camera performance gap by exploiting the toolset above.</li>
                 </ul>
               </ul>
-              <span><b style="font-size: larger;">Skills</b>: C++, python, Arm, Linux, 3D Vision, OpenCV, GPU, Vulkan, Collison Detection</span>
+              <span><b style="font-size: larger;">Skills</b>: C++, python, Arm, Linux, Android, GPU, Vulkan</span>
               </div>
           </div>
         </section>
@@ -113,11 +111,11 @@
             </header>
             <div>
               <ul>
-                <li>Implemented a road model (OpenDRIVE format) generator based on lane detector and real-time localization with G2O.</li>
+                <li>Implemented an offline road model generator that converts ROS dataset to OpenDRIVE format road model.</li>
                 <li>Setup LiDAR/camera extrinsic calibration pipeline.</li>
-                <li>Built a driving strategy 3D simulation plugin with ROS RViz</li>
+                <li>Built a 3D ROS RViz plugin for driving strategy simulation</li>
               </ul>
-              <span><b style="font-size: larger;">Skills</b>: C++, python, Linux, ADAS, SLAM, G2O, OpenCV, PCL, ROS</span>
+              <span><b style="font-size: larger;">Skills</b>: C++, python, Linux, ADAS, ROS</span>
             </div>
           </div>
         </section>
@@ -139,6 +137,8 @@
               <span class="location">California, United States</span>
             </header>
             <div>
+              Designed and implemented a RISC-V RTOS <a href="https://github.com/XiaoxingChen/flitos">kernel</a>. The kernel includes basic scheduler, synchronization objects (mutex and condition variable),
+              communication objects (pipe). Set up docker-qemu-github action for test automation. <br>
               <b>Courseworks</b>: Operating System, Design & Analysis of Algorithms, Computer Networks, Distributed System, Programming Languages
             </div>
             <span><b>Skills</b>: C/C++, RISC-V, docker, qemu, RTOS</span>
@@ -158,10 +158,14 @@
             </header>
             <div>
               Worked on 2D LiDAR SLAM based driverless forklift solution<br>
-              Founder of SJTU RoboCup Team(Small Size League)<br>
-              RoboCup2017 Nagoya, Japan - Small Size League, <a href="https://www.si.sjtu.edu.cn/zh-CN/article/view/0a2c1d99-0f56-b056-315a-6ffd5436b70b/499c01d1-61a7-ca13-1673-4a4d77206eff">Champion</a> <br>
+              <ul>
+                <li>Designed and implemented cross-bus (CAN, RS485, EtherNet) OTA framework(bootloader+application) for ECUs and onboard PC.</li>
+                <li>Implemented an onboard network/bus time synchronization solution.</li>
+                <li>Made a toolset for ECU log analyzing and diagnosis.</li>
+              </ul>
+              <!-- RoboCup2017 Nagoya, Japan - Small Size League, <a href="https://www.si.sjtu.edu.cn/zh-CN/article/view/0a2c1d99-0f56-b056-315a-6ffd5436b70b/499c01d1-61a7-ca13-1673-4a4d77206eff">Champion</a> <br> -->
               Led to the establishment of <i><a href="https://www.sohu.com/a/205671502_660587">Shanghai Jiao Tong University - Seer Robotics Joint Lab </a></i> <br>
-              <span><b>Skills</b>: C++, RTOS, ROS, PCL, OpenCV, SLAM, CANopen</span>
+              <span><b>Skills</b>: C++, RTOS, ROS, CANopen</span>
             </div>
           </div>
         </section>
